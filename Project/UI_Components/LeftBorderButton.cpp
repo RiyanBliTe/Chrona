@@ -13,57 +13,11 @@ CenterButton::CenterButton(QWidget *parent)
     , _hasImage(false)
     , _isHiden(false)
     , _isPinned(true)
-    , _on_enter_color("#76B39D")
-    , _on_idle_color("#36393F")
-    , _on_press_color("#589E85")
-    , _selectedColor (_on_idle_color)
+    , _selectedColor(Settings::GetInstance()._on_left_panel_idle_color)
     , _imagePath("")
 {
     SetMemory();
     SetupModules();
-}
-
-CenterButton::CenterButton(const CenterButton& other)
-    : QAbstractButton()
-    , _resizeAnimation(nullptr)
-    , _animationOFFSET(other._animationOFFSET)
-    , _pressShift(other._pressShift)
-    , _isFocused(other._isFocused)
-    , _hasImage(other._hasImage)
-    , _isHiden(other._isHiden)
-    , _isPinned(false)
-    , _on_enter_color(other._on_enter_color)
-    , _on_idle_color(other._on_idle_color)
-    , _on_press_color(other._on_press_color)
-    , _selectedColor (other._selectedColor)
-    , _imagePath(other._imagePath)
-
-{
-    if (this->_resizeAnimation != nullptr)
-        delete this->_resizeAnimation;
-    SetMemory();
-    SetupModules();
-}
-
-CenterButton& CenterButton::operator=(const CenterButton& other)
-{
-    this->_resizeAnimation = nullptr;
-    this->_animationOFFSET = other._animationOFFSET;
-    this->_pressShift = other._pressShift;
-    this->_isFocused = other._isFocused;
-    this->_hasImage = other._hasImage;
-    this->_isHiden = other._isHiden;
-    this->_isPinned = other._isPinned;
-    this->_on_enter_color = other._on_enter_color;
-    this->_on_idle_color = other._on_idle_color;
-    this->_on_press_color = other._on_press_color;
-    this->_selectedColor = other._selectedColor;
-    this->_imagePath = other._imagePath;
-    if (this->_resizeAnimation != nullptr)
-        delete this->_resizeAnimation;
-    SetMemory();
-    SetupModules();
-    return *this;
 }
 
 CenterButton::~CenterButton()
@@ -124,12 +78,12 @@ void CenterButton::SetFocused(bool value)
     this->_isFocused = value;
     if (value)
     {
-        this->_selectedColor = this->_on_enter_color;
+        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
         this->SetAnimationOFFSET(8);
     }
     else
     {
-        this->_selectedColor = this->_on_idle_color;
+        this->_selectedColor = Settings::GetInstance()._on_left_panel_idle_color;
         this->SetAnimationOFFSET(0);
     }
     update();
@@ -157,7 +111,7 @@ void CenterButton::enterEvent(QEnterEvent *event)
 
     if (!this->IsFocused())
     {
-        this->_selectedColor = this->_on_enter_color;
+        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
         emit this->entered();
         this->_resizeAnimation->setDuration(90);
         if (this->_resizeAnimation->state() != QPropertyAnimation::Running)
@@ -180,7 +134,7 @@ void CenterButton::leaveEvent(QEvent *event)
         {
             this->_resizeAnimation->stop();
         }
-        this->_selectedColor = this->_on_idle_color;
+        this->_selectedColor = Settings::GetInstance()._on_left_panel_idle_color;
         emit this->leaved();
         this->_resizeAnimation->setDuration(90);
         if (this->_resizeAnimation->state() != QPropertyAnimation::Running)
@@ -199,7 +153,7 @@ void CenterButton::mousePressEvent(QMouseEvent *event)
 
     QAbstractButton::mousePressEvent(event);
 
-    this->_selectedColor = this->_on_press_color;
+    this->_selectedColor = Settings::GetInstance()._on_left_panel_press_color;
     this->_pressShift = 1;
     update();
 }
@@ -211,7 +165,7 @@ void CenterButton::mouseReleaseEvent(QMouseEvent *event)
     QAbstractButton::mouseReleaseEvent(event);
 
     if (this->IsFocused())
-        this->_selectedColor = this->_on_enter_color;
+        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
     this->_pressShift = 0;
     update();
 }
@@ -253,7 +207,6 @@ BorderRoundedRectungle::BorderRoundedRectungle(QWidget *parent)
     : QWidget(parent)
     , _widthAnimation(nullptr)
     , _heightAnimation(nullptr)
-    , _color("#ffffff")
     , _needDraw(true)
     , _animClock(false)
     , _isFocused(false)
@@ -263,46 +216,6 @@ BorderRoundedRectungle::BorderRoundedRectungle(QWidget *parent)
 {
     SetMemory();
     SetupModules();
-}
-
-BorderRoundedRectungle::BorderRoundedRectungle(const BorderRoundedRectungle& other)
-    : QWidget()
-    , _widthAnimation(nullptr)
-    , _heightAnimation(nullptr)
-    , _color(other._color)
-    , _needDraw(other._needDraw)
-    , _animClock(other._animClock)
-    , _isFocused(other._isFocused)
-    , _isHiden(other._isHiden)
-    , _widthOFFSET(other._widthOFFSET)
-    , _heightOFFSET(other._heightOFFSET)
-{
-    if (this->_widthAnimation != nullptr)
-        delete this->_widthAnimation;
-    if (this->_heightAnimation != nullptr)
-        delete this->_heightAnimation;
-    SetMemory();
-    SetupModules();
-}
-
-BorderRoundedRectungle& BorderRoundedRectungle::operator=(const BorderRoundedRectungle& other)
-{
-    this->_widthAnimation = nullptr;
-    this->_heightAnimation = nullptr;
-    this->_color = other._color;
-    this->_needDraw = other._needDraw;
-    this->_animClock = other._animClock;
-    this->_isFocused = other._isFocused;
-    this->_isHiden = other._isHiden;
-    this->_widthOFFSET = other._widthOFFSET;
-    this->_heightOFFSET = other._heightOFFSET;
-    if (this->_widthAnimation  != nullptr)
-        delete this->_widthAnimation;
-    if (this->_heightAnimation  != nullptr)
-        delete this->_heightAnimation;
-    SetMemory();
-    SetupModules();
-    return *this;
 }
 
 BorderRoundedRectungle::~BorderRoundedRectungle()
@@ -447,8 +360,8 @@ void BorderRoundedRectungle::paintEvent(QPaintEvent *event)
     {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setPen(QPen(QColor(this->_color), 0.1));
-        painter.setBrush(QColor(this->_color));
+        painter.setPen(QPen(QColor(Settings::GetInstance()._on_left_panel_border_color), 0.1));
+        painter.setBrush(QColor(Settings::GetInstance()._on_left_panel_border_color));
         painter.drawRoundedRect(QRectF(0,
                                        this->height() / 2 - this->LEFT_PANEL_HEIGHT_MIN / 2 - this->_heightOFFSET,
                                        4 - this->_widthOFFSET,
@@ -477,36 +390,6 @@ LeftBorderButton::LeftBorderButton(QWidget *parent)
     this->setFixedSize(QSize(this->WIDTH, this->HEIGHT));
     SetMemory();
     SetupModules();
-}
-
-LeftBorderButton::LeftBorderButton(const LeftBorderButton& other)
-    : QWidget()
-    , _mainLayout(nullptr)
-    , _leftPanel(nullptr)
-    , _rightPanel(nullptr)
-    , _rightPanelButton(nullptr)
-    , _leftPanelRect(nullptr)
-{
-    this->setFixedSize(QSize(other.width(), other.height()));
-    this->_rightPanelButton = new CenterButton(*other._rightPanelButton);
-    this->_leftPanelRect = new BorderRoundedRectungle(*other._leftPanelRect);
-    SetMemory();
-    SetupModules();
-}
-
-LeftBorderButton& LeftBorderButton::operator=(const LeftBorderButton& other)
-{
-    this->_mainLayout = nullptr;
-    this->_leftPanel = nullptr;
-    this->_rightPanel = nullptr;
-    this->_rightPanelButton = nullptr;
-    this->_leftPanelRect = nullptr;
-    this->setFixedSize(QSize(other.width(), other.height()));
-    this->_rightPanelButton = new CenterButton(*other._rightPanelButton);
-    this->_leftPanelRect = new BorderRoundedRectungle(*other._leftPanelRect);
-    SetMemory();
-    SetupModules();
-    return *this;
 }
 
 LeftBorderButton::~LeftBorderButton()

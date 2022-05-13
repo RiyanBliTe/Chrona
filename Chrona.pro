@@ -11,23 +11,23 @@ CONFIG += c++17
 SOURCES += \
     Project/UI_Components/BlockSwitchButton.cpp \
     Project/UI_Components/LeftBorderButton.cpp \
+    Project/UI_Components/TaskButton.cpp \
     Project/UI_Components/ToogleButton.cpp \
     Project/UI_Components/TopMenuButton.cpp \
     Project/main.cpp \
-    Project/MainWindow.cpp \
-    Project/UI_Components/TasksMenuItem.cpp
+    Project/MainWindow.cpp
 
 HEADERS += \
+    Project/Settings.h \
     Project/UI_Components/BlockSwitchButton.h \
     Project/UI_Components/LeftBorderButton.h \
     Project/MainWindow.h \
-    Project/UI_Components/TasksMenuItem.h \
+    Project/UI_Components/TaskButton.h \
     Project/UI_Components/ToogleButton.h \
     Project/UI_Components/TopMenuButton.h
 
 FORMS += \
-    Project/MainWindow.ui \
-    Project/UI_Components/TasksMenuItem.ui
+    Project/MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

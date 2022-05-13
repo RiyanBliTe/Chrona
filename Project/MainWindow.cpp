@@ -5,12 +5,15 @@
 #include <QNetworkInterface>
 #include <QHostInfo>
 
+#include "Settings.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     SetMemory();
     SetupModules();
+    Settings::GetInstance();
 }
 
 MainWindow::~MainWindow()
@@ -62,25 +65,6 @@ void MainWindow::SetupModules()
         connect(this->_machinesList[i], &LeftBorderButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
     }
 
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList[0]->SetFocused(true);
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList.push_back(new TasksMenuItem());
-    this->_tasksList[0]->SetState(TasksMenuItem::FAILED);
-    this->_tasksList[1]->SetState(TasksMenuItem::FINISHED);
-    this->_tasksList[2]->SetState(TasksMenuItem::RUNNING);
-    this->_tasksList[3]->SetState(TasksMenuItem::FAILED);
-
-    for (int i = 0; i < this->_tasksList.size(); i++)
-    {
-        this->ui->Widget_TasksList->layout()->addWidget(this->_tasksList[i]);
-        connect(this->_tasksList[i], &TasksMenuItem::focusChanged, this, &MainWindow::taskButtonChangedFocus);
-    }
-
     this->_topButtons.push_back(new TopMenuButton());
     this->_topButtons.push_back(new TopMenuButton());
     this->_topButtons.push_back(new TopMenuButton());
@@ -92,22 +76,22 @@ void MainWindow::SetupModules()
     }
 
     this->ui->Widget_ToogleButton->layout()->addWidget(new ToogleButton());
+
+    this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList.push_back(new TaskButton());
+    for (int i = 0; i < this->_taskButtonsList.size(); i++)
+    {
+        this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
+    }
 }
 
 void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
 {
     for (auto it = this->_machinesList.begin(); it != this->_machinesList.end(); it++)
-    {
-        if (*it != button)
-        {
-            (*it)->SetFocused(false);
-        }
-    }
-}
-
-void MainWindow::taskButtonChangedFocus(TasksMenuItem *button)
-{
-    for (auto it = this->_tasksList.begin(); it != this->_tasksList.end(); it++)
     {
         if (*it != button)
         {

@@ -5,9 +5,9 @@
 #include <QVector>
 
 #include "UI_Components/LeftBorderButton.h"
-#include "UI_Components/TasksMenuItem.h"
 #include "UI_Components/TopMenuButton.h"
 #include "UI_Components/ToogleButton.h"
+#include "UI_Components/TaskButton.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,7 +23,6 @@ public:
 
 private slots:
     void machineButtonChangedFocus(LeftBorderButton*);
-    void taskButtonChangedFocus(TasksMenuItem*);
 
 private:
     void SetMemory();
@@ -36,7 +35,7 @@ private:
     LeftBorderButton *_AddNewMachineButton;
 
     QVector<LeftBorderButton*> _machinesList;
-    QVector<TasksMenuItem*> _tasksList;
+    QVector<TaskButton*> _taskButtonsList;
     QVector<TopMenuButton*> _topButtons;
 };
 #endif // MAINWINDOW_H

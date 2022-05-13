@@ -8,6 +8,8 @@
 #include <QHBoxLayout>
 #include <QPropertyAnimation>
 
+#include "../Settings.h"
+
 class QPropertyAnimation;
 
 // *************************************************************
@@ -66,10 +68,6 @@ private:
     bool _isHiden;
     bool _isPinned;
 
-    QString _on_enter_color;
-    QString _on_idle_color;
-    QString _on_press_color;
-
     QString _selectedColor;
 
     QString _imagePath;
@@ -87,10 +85,7 @@ class BorderRoundedRectungle : public QWidget
     Q_PROPERTY(int _heightOFFSET READ GetHeightOFFSET WRITE SetHeightOFFSET)
 public:
     BorderRoundedRectungle(QWidget *parent = nullptr);
-    BorderRoundedRectungle(const BorderRoundedRectungle&);
     ~BorderRoundedRectungle();
-
-    BorderRoundedRectungle& operator=(const BorderRoundedRectungle&);
 
     void StartEnteredAnimation();
     void StartLeavedAnimation();
@@ -123,8 +118,6 @@ private:
     QPropertyAnimation *_widthAnimation;
     QPropertyAnimation *_heightAnimation;
 
-    QString _color;
-
     bool _needDraw;
     bool _animClock;
     bool _isFocused;
@@ -146,10 +139,7 @@ class LeftBorderButton : public QWidget
 
 public:
     LeftBorderButton(QWidget *parent = nullptr);
-    LeftBorderButton(const LeftBorderButton&);
     ~LeftBorderButton();
-
-    LeftBorderButton& operator=(const LeftBorderButton&);
 
     void SetFocused(bool);
     bool IsFocused();
