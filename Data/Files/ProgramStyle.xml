@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Style>
+    <DarkStyle>
+        <LeftPanel BackgroundColor="#111111">
+            <LeftPanelButton SpawnerColor="#FFFFFF" IdleButtonColor="#36393F" EnterButtonColor="#76B39D" PressedButtonColor="#589E85"/>
+        </LeftPanel>
+        <CenterPanel BackgroundColor="#151617">
+            <LineEdit IdleBackgroundColor="#2F3032" IdleTextColor="#797979" IdleBorderColor="#2F3032" FocusBackgroundColor="#0E0E0F" FocusTextColor="#E6E6E6" FocusBorderColor="#353638" EnterBorderColor="#3E3F42"/>
+            <TaskButton EnterBackgroundColor="#1E2021" PressedBackgroundColor="#303435" TextColor="#FFFFFF" CloseButtonEnterBackgroundColor="#151617" CloseButtonPressedBackgroundColor="#76B39D"/>
+        </CenterPanel>
+        <TopPanel>
+            <MenuButton IdleBackgroundColor="" EnterBackgroundColor="" PressedBackgroundColor="" TextColor=""/>
+            <ToogleButton BackgroundColor="" ToogleColor=""/>
+            <NotificationsButton EnterColor="" PressedColor=""/>
+        </TopPanel>
+    </DarkStyle>
+    <BrightStyle>
+    </BrightStyle>
+</Style>

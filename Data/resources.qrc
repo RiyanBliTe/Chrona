@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/icons_svg">
+        <file>Images/icons_svg/icon_search.svg</file>
+        <file>Images/icons_svg/icon_settings.svg</file>
+        <file>Images/icons_svg/icon_logo.svg</file>
+        <file>Images/icons_svg/icon_add_machine.svg</file>
+        <file>Images/icons_svg/icon_machine.svg</file>
+        <file>Images/icons_svg/icon_task_error.svg</file>
+        <file>Images/icons_svg/icon_task_finished.svg</file>
+        <file>Images/icons_svg/icon_task_idle.svg</file>
+        <file>Images/icons_svg/icon_task_close.svg</file>
+        <file>Images/icons_svg/icon_task_running.svg</file>
+        <file>Images/icons_svg/icon_tasks_notification.svg</file>
+        <file>Images/icons_svg/icon_moon.svg</file>
+        <file>Images/icons_svg/icon_sun.svg</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>
