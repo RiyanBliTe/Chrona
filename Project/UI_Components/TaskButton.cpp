@@ -7,8 +7,12 @@ TaskButton::TaskButton(QWidget *parent)
     , _textColor(Settings::GetInstance()._on_center_panel_task_button_text_color)
     , _buttonText("Button")
     , _buttonStatus(TaskStatus::IDLE)
+    , _buttonStyle(TaskButtonStyle::TASK)
+    , _isPress(false)
+    , _isMouseInCloseButton(false)
 {
     setFixedHeight(40);
+    setMouseTracking(true);
 }
 
 void TaskButton::SetStatus(TaskStatus value)
@@ -19,6 +23,16 @@ void TaskButton::SetStatus(TaskStatus value)
 TaskButton::TaskStatus TaskButton::GetStatus()
 {
     return this->_buttonStatus;
+}
+
+void TaskButton::SetStyle(TaskButton::TaskButtonStyle value)
+{
+    this->_buttonStyle = value;
+}
+
+TaskButton::TaskButtonStyle TaskButton::GetStyle()
+{
+    return this->_buttonStyle;
 }
 
 void TaskButton::SetText(QString &value)
@@ -51,7 +65,16 @@ void TaskButton::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_press_color;
+        if (this->_isMouseInCloseButton)
+        {
+            emit this->closeClicked();
+        }
+        else
+        {
+            this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_press_color;
+            this->_isPress = true;
+            emit this->clicked();
+        }
         update();
     }
 }
@@ -61,8 +84,27 @@ void TaskButton::mouseReleaseEvent(QMouseEvent* event)
     if (event->button() == Qt::LeftButton)
     {
         this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_enter_color;
+        this->_isPress = false;
         update();
     }
+}
+
+void TaskButton::mouseMoveEvent(QMouseEvent *event)
+{
+    int x = event->position().x();
+    int y = event->position().y();
+    if (x >= width() - 24 && x <= width() - 10 &&
+            y >= height() - 27 + static_cast<int>(this->_isPress) && y <= height() - 13 + static_cast<int>(this->_isPress))
+    {
+        this->_isMouseInCloseButton = true;
+        this->_mainButtonColor = Settings::GetInstance()._on_center_panel_task_button_close_button_enter_color;
+    }
+    else
+    {
+        this->_isMouseInCloseButton = false;
+        this->_mainButtonColor = Settings::GetInstance()._on_center_panel_task_button_close_button_idle_color;
+    }
+    update();
 }
 
 void TaskButton::paintEvent(QPaintEvent* event)
@@ -76,47 +118,52 @@ void TaskButton::paintEvent(QPaintEvent* event)
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor(this->_mainBackgroundColor));
     painter.drawRoundedRect(QRectF(0,
-                                   0,
+                                   0 + static_cast<int>(this->_isPress),
                                    width(),
-                                   height()),
+                                   height() - 1),
                             4, 4);
 
-    // draw status idicator
-    switch (this->GetStatus())
+    if (GetStyle() == TaskButtonStyle::TASK)
     {
-    case TaskButton::TaskStatus::IDLE:
-        painter.setBrush(QColor("#7C7C7C"));
-        break;
-    case TaskButton::TaskStatus::RUNNING:
-        painter.setBrush(QColor("#FBBE20"));
-        break;
-    case TaskButton::TaskStatus::SUCCESS:
-        painter.setBrush(QColor("#189C3D"));
-        break;
-    case TaskButton::TaskStatus::FAILED:
-        painter.setBrush(QColor("#E11E1E"));
-        break;
+        // draw status idicator
+        switch (this->GetStatus())
+        {
+        case TaskButton::TaskStatus::IDLE:
+            painter.setBrush(QColor("#7C7C7C"));
+            break;
+        case TaskButton::TaskStatus::RUNNING:
+            painter.setBrush(QColor("#FBBE20"));
+            break;
+        case TaskButton::TaskStatus::SUCCESS:
+            painter.setBrush(QColor("#189C3D"));
+            break;
+        case TaskButton::TaskStatus::FAILED:
+            painter.setBrush(QColor("#E11E1E"));
+            break;
+        }
+        painter.drawEllipse(QRect(10,
+                                  16 + static_cast<int>(this->_isPress),
+                                  8,
+                                  8));
+
+        // draw text
+        painter.setPen(QPen(QColor(this->_textColor), 1));
+        painter.drawText(QPoint(32,
+                                height() / 2 + 5 + static_cast<int>(this->_isPress)),
+                         this->GetText());
+
+        // draw close button
+        painter.setPen(QPen(QColor(QColor(this->_mainButtonColor)), 2));
+        painter.drawLine(QPointF(static_cast<qreal>(width()) - 21.5, static_cast<qreal>(height()) - 24.5 + static_cast<int>(this->_isPress)),
+                         QPointF(static_cast<qreal>(width()) - 12.5, static_cast<qreal>(height()) - 15.5 + static_cast<int>(this->_isPress)));
+        painter.drawLine(QPointF(static_cast<qreal>(width()) - 12.5, static_cast<qreal>(height()) - 24.5 + static_cast<int>(this->_isPress)),
+                         QPointF(static_cast<qreal>(width()) - 21.5, static_cast<qreal>(height()) - 15.5 + static_cast<int>(this->_isPress)));
     }
-    painter.drawEllipse(QRect(10, 16, 8, 8));
+    else
+    {
+        painter.setPen(QPen(QColor(Settings::GetInstance()._on_center_panel_task_button_close_button_enter_color), 2));
+        painter.drawLine(QPointF(static_cast<qreal>(width() / 2) - 35, static_cast<qreal>(height() / 2) - 7.5),
+                         QPointF(static_cast<qreal>(width() / 2) - 20, static_cast<qreal>(height() / 2) - 7.5));
+    }
 
-    // draw text
-    painter.setPen(QPen(QColor(this->_textColor), 1));
-    painter.drawText(QPoint(32, height() / 2 + 6), this->GetText());
-
-    // draw close button
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(this->_mainButtonColor));
-    painter.drawRoundedRect(QRectF(width() - 24,
-                                  height() - 27,
-                                  14,
-                                  14),
-                            4, 4);
-
-    // draw close button image
-    QImage image(":/icons_svg/Images/icons_svg/icon_task_close.svg");
-    painter.drawImage(QRectF(width() - 17 - image.width() / 2,
-                             height() - 20 - image.height() / 2,
-                             image.width(),
-                             image.height()),
-                       image);
 }

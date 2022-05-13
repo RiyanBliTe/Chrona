@@ -2,10 +2,7 @@
 
 TopMenuButton::TopMenuButton(QWidget *parent)
     : QWidget{parent}
-    , _on_idle_event_color("#151617")
-    , _on_enter_event_color("#1E2021")
-    , _on_press_event_color("#589E85")
-    , _mainColor(_on_idle_event_color)
+    , _mainColor(Settings::GetInstance()._top_panel_menubutton_idle_color)
     , _buttonText("Button")
     , _isPressed(false)
 {
@@ -22,7 +19,7 @@ void TopMenuButton::enterEvent(QEnterEvent *event)
 {
     (void)event;
 
-    this->_mainColor = this->_on_enter_event_color;
+    this->_mainColor = Settings::GetInstance()._top_panel_menubutton_enter_color;
     update();
 }
 
@@ -30,7 +27,7 @@ void TopMenuButton::leaveEvent(QEvent *event)
 {
     (void)event;
 
-    this->_mainColor = this->_on_idle_event_color;
+    this->_mainColor = Settings::GetInstance()._top_panel_menubutton_idle_color;
     update();
 }
 
@@ -38,7 +35,7 @@ void TopMenuButton::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        this->_mainColor = this->_on_press_event_color;
+        this->_mainColor = Settings::GetInstance()._top_panel_menubutton_press_color;
         this->_isPressed = true;
         update();
     }
@@ -48,7 +45,7 @@ void TopMenuButton::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        this->_mainColor = this->_on_enter_event_color;
+        this->_mainColor = Settings::GetInstance()._top_panel_menubutton_enter_color;
         this->_isPressed = false;
         update();
         emit this->clicked();
@@ -69,9 +66,9 @@ void TopMenuButton::paintEvent(QPaintEvent *event)
                                    !this->_isPressed ? 0 : 1,
                                    width(),
                                    height() - 1),
-                            8, 8);
+                            4, 4);
 
     // draw text
-    painter.setPen(QPen(QColor("#fff"), 1));
+    painter.setPen(QPen(QColor(Settings::GetInstance()._top_panel_menubutton_text_color), 1));
     painter.drawText(width() / 2 - this->_buttonText.size() / 2 * 6, height() / 2 + 4 + (!this->_isPressed ? 0 : 1), this->_buttonText);
 }

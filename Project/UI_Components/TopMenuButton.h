@@ -8,6 +8,8 @@
 #include <QEvent>
 #include <QPainter>
 
+#include "../Settings.h"
+
 class TopMenuButton : public QWidget
 {
     Q_OBJECT
@@ -29,10 +31,6 @@ signals:
     void clicked();
 
 private:
-    QString _on_idle_event_color;
-    QString _on_enter_event_color;
-    QString _on_press_event_color;
-
     QString _mainColor;
 
     QString _buttonText;

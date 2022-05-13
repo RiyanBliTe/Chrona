@@ -30,6 +30,13 @@ void MainWindow::SetMemory()
 void MainWindow::SetupModules()
 {
     ui->setupUi(this);
+
+    this->ui->Frame_LeftPanel->setStyleSheet("#Frame_LeftPanel { background-color: " + Settings::GetInstance()._left_panel_background_color + "; }");
+    this->ui->Frame_CenterPanel->setStyleSheet("#Frame_CenterPanel { background-color: " + Settings::GetInstance()._center_panel_background_center_color + "; }");
+    this->ui->Frame_CenterBottom->setStyleSheet("background-color: " + Settings::GetInstance()._center_panel_background_bottom_color + ";");
+    this->ui->Frame_RightPanel->setStyleSheet("#Frame_RightPanel { background-color: " + Settings::GetInstance()._right_panel_background_color + "; }");
+    this->ui->Widget_TaskControl->setStyleSheet("background-color: " + Settings::GetInstance()._right_panel_background_color + ";");
+
     ui->Label_SelectedMachineName->setText(QSysInfo::machineHostName());
 
     QString ipString = "";
@@ -87,6 +94,10 @@ void MainWindow::SetupModules()
     {
         this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
     }
+
+    TaskButton *btn = new TaskButton();
+    btn->SetStyle(TaskButton::TaskButtonStyle::ADDTASK);
+    this->ui->Widget_AddTask->layout()->addWidget(btn);
 }
 
 void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
