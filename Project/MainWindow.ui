@@ -363,20 +363,76 @@ QLineEdit:focus {
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
-           <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
+           <widget class="QWidget" name="widget_3" native="true">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true">QPushButton {
+	background-image: url(:/icons_svg/Images/icons_svg/icon_task_add_dark.svg);
+	background-position: center;
+    background-repeat: no-repeat;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	text-align: left;
+}</string>
             </property>
-            <property name="text">
-             <string>Tasks</string>
-            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
+               </property>
+               <property name="text">
+                <string>Tasks</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="minimumSize">
+                <size>
+                 <width>15</width>
+                 <height>15</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>15</width>
+                 <height>15</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton:hover 
+{ 
+	background-image: url(:/icons_svg/Images/icons_svg/icon_task_add_bright.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+}</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="autoRepeat">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -385,24 +441,6 @@ QLineEdit:focus {
              <property name="spacing">
               <number>5</number>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="Widget_AddTask" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_12">
              <property name="leftMargin">
               <number>0</number>
              </property>

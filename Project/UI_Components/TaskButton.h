@@ -17,12 +17,6 @@ public:
     TaskButton(QWidget *parent = nullptr);
 
 public:
-    enum class TaskButtonStyle
-    {
-        TASK,
-        ADDTASK
-    };
-
     enum class TaskStatus
     {
         IDLE,
@@ -33,9 +27,6 @@ public:
 
     void SetStatus(TaskStatus);
     TaskStatus GetStatus();
-
-    void SetStyle(TaskButtonStyle);
-    TaskButtonStyle GetStyle();
 
     void SetText(QString&);
     QString& GetText();
@@ -59,7 +50,6 @@ private:
     QString _buttonText;
 
     TaskStatus _buttonStatus;
-    TaskButtonStyle _buttonStyle;
 
     bool _isPress;
     bool _isMouseInCloseButton;

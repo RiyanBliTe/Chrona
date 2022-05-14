@@ -90,14 +90,16 @@ void MainWindow::SetupModules()
     this->_taskButtonsList.push_back(new TaskButton());
     this->_taskButtonsList.push_back(new TaskButton());
     this->_taskButtonsList.push_back(new TaskButton());
+    this->_taskButtonsList[0]->SetStatus(TaskButton::TaskStatus::FAILED);
+    this->_taskButtonsList[1]->SetStatus(TaskButton::TaskStatus::IDLE);
+    this->_taskButtonsList[2]->SetStatus(TaskButton::TaskStatus::RUNNING);
+    this->_taskButtonsList[3]->SetStatus(TaskButton::TaskStatus::SUCCESS);
+    this->_taskButtonsList[4]->SetStatus(TaskButton::TaskStatus::SUCCESS);
+    this->_taskButtonsList[5]->SetStatus(TaskButton::TaskStatus::FAILED);
     for (int i = 0; i < this->_taskButtonsList.size(); i++)
     {
         this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
     }
-
-    TaskButton *btn = new TaskButton();
-    btn->SetStyle(TaskButton::TaskButtonStyle::ADDTASK);
-    this->ui->Widget_AddTask->layout()->addWidget(btn);
 }
 
 void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
