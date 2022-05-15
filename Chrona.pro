@@ -9,31 +9,36 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Project/UI_Components/Abstraction/Popup.cpp \
+    Project/UI_Components/Popups/AddMachinePopup.cpp \
+    Project/UI_Components/Popups/Popup.cpp \
     Project/UI_Components/BlockSwitchButton.cpp \
     Project/UI_Components/LeftBorderButton.cpp \
-    Project/UI_Components/PopupContainer.cpp \
+    Project/UI_Components/Popups/PopupModule.cpp \
     Project/UI_Components/Popups/SettingsPopup.cpp \
     Project/UI_Components/TaskButton.cpp \
     Project/UI_Components/ToogleButton.cpp \
     Project/UI_Components/TopMenuButton.cpp \
+    Project/WelcomeWindow.cpp \
     Project/main.cpp \
     Project/MainWindow.cpp
 
 HEADERS += \
     Project/Settings.h \
-    Project/UI_Components/Abstraction/Popup.h \
+    Project/UI_Components/Popups/AddMachinePopup.h \
+    Project/UI_Components/Popups/Popup.h \
     Project/UI_Components/BlockSwitchButton.h \
     Project/UI_Components/LeftBorderButton.h \
     Project/MainWindow.h \
-    Project/UI_Components/PopupContainer.h \
+    Project/UI_Components/Popups/PopupModule.h \
     Project/UI_Components/Popups/SettingsPopup.h \
     Project/UI_Components/TaskButton.h \
     Project/UI_Components/ToogleButton.h \
-    Project/UI_Components/TopMenuButton.h
+    Project/UI_Components/TopMenuButton.h \
+    Project/WelcomeWindow.h
 
 FORMS += \
-    Project/MainWindow.ui
+    Project/MainWindow.ui \
+    Project/WelcomeWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

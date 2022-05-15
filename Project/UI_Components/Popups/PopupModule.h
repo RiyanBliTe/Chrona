@@ -9,23 +9,25 @@
 #include <QShowEvent>
 #include <QHideEvent>
 
-#include "Abstraction/Popup.h"
-#include "Popups/SettingsPopup.h"
+#include "Popup.h"
+#include "SettingsPopup.h"
+#include "AddMachinePopup.h"
 
 class QPropertyAnimation;
 
-class PopupContainer : public QWidget
+class PopupModule : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(int _shadowOFFSET READ GetShadowOFFSET WRITE SetShadowOFFSET)
 public:
-    PopupContainer(QWidget *parent = nullptr);
+    PopupModule(QWidget *parent = nullptr);
+    ~PopupModule();
 
 public:
     enum class PopupType
     {
-        NONE,
-        SETTINGS
+        SETTINGS,
+        ADDMACHINE
     };
 
     void PushPopup(PopupType);
@@ -35,6 +37,7 @@ public:
 
 private slots:
     void shadowAnimationFinished();
+    void refreshStatus();
 
 protected:
     virtual void paintEvent(QPaintEvent*) override;

@@ -4,6 +4,8 @@
 #include <QHostAddress>
 #include <QNetworkInterface>
 #include <QHostInfo>
+#include <QFile>
+#include <QDomDocument>
 
 #include "Settings.h"
 
@@ -25,12 +27,21 @@ void MainWindow::SetMemory()
 {
     this->_SettingsButton = new LeftBorderButton();
     this->_AddNewMachineButton = new LeftBorderButton();
-    this->_PopupContainer = new PopupContainer(this);
+    this->_PopupModule = new PopupModule(this);
 }
 
 void MainWindow::SetupModules()
 {
     ui->setupUi(this);
+
+    QFile styleFile(":/files/Files/ProgramStyle.xml");
+    QDomDocument document;
+    if(styleFile.open(QIODevice::ReadOnly))
+    {
+        document.setContent(&styleFile);
+        Settings::GetInstance().ParseXmlDocument(document);
+        styleFile.close();
+    }
 
     this->ui->Frame_LeftPanel->setStyleSheet("#Frame_LeftPanel { background-color: " + Settings::GetInstance()._left_panel_background_color + "; }");
     this->ui->Frame_CenterPanel->setStyleSheet("#Frame_CenterPanel { background-color: " + Settings::GetInstance()._center_panel_background_center_color + "; }");
@@ -102,10 +113,9 @@ void MainWindow::SetupModules()
         this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
     }
 
-    //this->_SettingsMenu->setGeometry(0, 0, width(), height());
-    //this->_SettingsMenu->raise();
-    this->_PopupContainer->hide();
+    this->_PopupModule->hide();
     connect(this->_SettingsButton, &LeftBorderButton::clicked, this, &MainWindow::settingsButtonClicked);
+    connect(this->_AddNewMachineButton, &LeftBorderButton::clicked, this, &MainWindow::addMachineButtonClicked);
 }
 
 void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
@@ -121,15 +131,23 @@ void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
 
 void MainWindow::settingsButtonClicked()
 {
-    this->_PopupContainer->setGeometry(0, 0, width(), height());
-    this->_PopupContainer->raise();
-    this->_PopupContainer->PushPopup(PopupContainer::PopupType::SETTINGS);
-    this->_PopupContainer->show();
+    this->_PopupModule->setGeometry(0, 0, width(), height());
+    this->_PopupModule->raise();
+    this->_PopupModule->PushPopup(PopupModule::PopupType::SETTINGS);
+    this->_PopupModule->show();
+}
+
+void MainWindow::addMachineButtonClicked()
+{
+    this->_PopupModule->setGeometry(0, 0, width(), height());
+    this->_PopupModule->raise();
+    this->_PopupModule->PushPopup(PopupModule::PopupType::ADDMACHINE);
+    this->_PopupModule->show();
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
-    this->_PopupContainer->setGeometry(0, 0, width(), height());
-    this->_PopupContainer->Update();
+    this->_PopupModule->setGeometry(0, 0, width(), height());
+    this->_PopupModule->Update();
 }

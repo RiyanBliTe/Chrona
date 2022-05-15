@@ -5,3 +5,8 @@ SettingsPopup::SettingsPopup(QWidget *parent)
 {
     setFixedSize(600, 640);
 }
+
+SettingsPopup::~SettingsPopup()
+{
+
+}

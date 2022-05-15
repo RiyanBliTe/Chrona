@@ -9,7 +9,7 @@
 #include "UI_Components/TopMenuButton.h"
 #include "UI_Components/ToogleButton.h"
 #include "UI_Components/TaskButton.h"
-#include "UI_Components/PopupContainer.h"
+#include "UI_Components/Popups/PopupModule.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +29,7 @@ protected:
 private slots:
     void machineButtonChangedFocus(LeftBorderButton*);
     void settingsButtonClicked();
+    void addMachineButtonClicked();
 
 private:
     void SetMemory();
@@ -40,7 +41,7 @@ private:
     LeftBorderButton *_SettingsButton;
     LeftBorderButton *_AddNewMachineButton;
 
-    PopupContainer *_PopupContainer;
+    PopupModule *_PopupModule;
 
     QVector<LeftBorderButton*> _machinesList;
     QVector<TaskButton*> _taskButtonsList;

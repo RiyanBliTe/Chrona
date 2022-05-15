@@ -1,6 +1,6 @@
-#include "PopupContainer.h"
+#include "PopupModule.h"
 
-PopupContainer::PopupContainer(QWidget *parent)
+PopupModule::PopupModule(QWidget *parent)
     : QWidget{parent}
     , _shadowAnimation(nullptr)
     , _shadowOFFSET(0)
@@ -10,49 +10,66 @@ PopupContainer::PopupContainer(QWidget *parent)
     SetupModules();
 }
 
-void PopupContainer::SetMemory()
+PopupModule::~PopupModule()
+{
+    while (!this->_popupStack.empty())
+    {
+        Popup *popup = this->_popupStack.pop();
+        if (popup != nullptr)
+            delete popup;
+    }
+}
+
+void PopupModule::SetMemory()
 {
     if (this->_shadowAnimation == nullptr)
         this->_shadowAnimation = new QPropertyAnimation(this);
 }
 
-void PopupContainer::SetupModules()
+void PopupModule::SetupModules()
 {
     this->_shadowAnimation->setTargetObject(this);
     this->_shadowAnimation->setDuration(180);
     this->_shadowAnimation->setPropertyName("_shadowOFFSET");
-    connect(this->_shadowAnimation, &QPropertyAnimation::finished, this, &PopupContainer::shadowAnimationFinished);
+    connect(this->_shadowAnimation, &QPropertyAnimation::finished, this, &PopupModule::shadowAnimationFinished);
 }
 
-void PopupContainer::PushPopup(PopupType value)
+void PopupModule::PushPopup(PopupType value)
 {
     Popup* popup = nullptr;
     switch (value)
     {
-    case PopupContainer::PopupType::SETTINGS:
-
+    case PopupModule::PopupType::SETTINGS:
         popup = new SettingsPopup(this);
+        break;
+
+    case PopupModule::PopupType::ADDMACHINE:
+        popup = new AddMachinePopup(this);
+        break;
+    }
+
+    if (popup != nullptr)
+    {
         popup->setGeometry(width() / 2 - popup->width() / 2,
                            height() / 2 - popup->height() / 2,
                            popup->width(),
                            popup->height());
         popup->raise();
         popup->show();
+        connect(popup, &Popup::popupClosed, this, &PopupModule::refreshStatus);
         this->_popupStack.push(popup);
-
-        break;
-    case PopupContainer::PopupType::NONE:
-        break;
     }
 }
 
-void PopupContainer::PopPopup()
+void PopupModule::PopPopup()
 {
     this->_popupStack.top()->hide();
-    this->_popupStack.pop();
+    Popup *popup = this->_popupStack.pop();
+    if (popup != nullptr)
+        delete popup;
 }
 
-void PopupContainer::Update()
+void PopupModule::Update()
 {
     for (auto it = this->_popupStack.begin(); it != this->_popupStack.end(); it++)
     {
@@ -63,18 +80,18 @@ void PopupContainer::Update()
     }
 }
 
-void PopupContainer::SetShadowOFFSET(int value)
+void PopupModule::SetShadowOFFSET(int value)
 {
     this->_shadowOFFSET = value;
     update();
 }
 
-int PopupContainer::GetShadowOFFSET()
+int PopupModule::GetShadowOFFSET()
 {
     return this->_shadowOFFSET;
 }
 
-void PopupContainer::shadowAnimationFinished()
+void PopupModule::shadowAnimationFinished()
 {
     if (this->_shadowOFFSET == 0)
     {
@@ -82,7 +99,15 @@ void PopupContainer::shadowAnimationFinished()
     }
 }
 
-void PopupContainer::mousePressEvent(QMouseEvent *event)
+void PopupModule::refreshStatus()
+{
+    if (this->_popupStack.empty())
+    {
+        this->StartHideAnimation();
+    }
+}
+
+void PopupModule::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
@@ -93,7 +118,9 @@ void PopupContainer::mousePressEvent(QMouseEvent *event)
               event->pos().y() <= height() / 2 - popup->height() / 2 + popup->height()))
         {
             popup->hide();
-            this->_popupStack.pop();
+            Popup *popup = this->_popupStack.pop();
+            if (popup != nullptr)
+                delete popup;
 
             if (this->_popupStack.empty())
             {
@@ -103,7 +130,7 @@ void PopupContainer::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void PopupContainer::showEvent(QShowEvent *event)
+void PopupModule::showEvent(QShowEvent *event)
 {
     (void)event;
 
@@ -116,7 +143,7 @@ void PopupContainer::showEvent(QShowEvent *event)
     this->_shadowAnimation->start();
 }
 
-void PopupContainer::StartHideAnimation()
+void PopupModule::StartHideAnimation()
 {
     if (this->_shadowAnimation->state() == QPropertyAnimation::Running)
     {
@@ -127,7 +154,7 @@ void PopupContainer::StartHideAnimation()
     this->_shadowAnimation->start();
 }
 
-void PopupContainer::paintEvent(QPaintEvent *event)
+void PopupModule::paintEvent(QPaintEvent *event)
 {
     (void)event;
 

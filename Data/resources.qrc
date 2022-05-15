@@ -12,5 +12,10 @@
         <file>Images/icons_svg/icon_task_add_bright.svg</file>
         <file>Images/icons_svg/icon_task_add_dark.svg</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/files">
+        <file>Files/ProgramStyle.xml</file>
+    </qresource>
+    <qresource prefix="/icons_png">
+        <file>Images/welcome_logo.png</file>
+    </qresource>
 </RCC>

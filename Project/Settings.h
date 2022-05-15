@@ -2,6 +2,10 @@
 #define SETTINGS_H
 
 #include <QString>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDebug>
+#include <QVector>
 
 class Settings final
 {
@@ -39,6 +43,30 @@ private:
     Settings& operator=(const Settings&) = delete;
 
 public:
+    void ParseXmlDocument(QDomDocument &value)
+    {
+        auto root = value.documentElement();
+        if (root.tagName() == "Style")
+        {
+            QDomElement style = root.firstChild().toElement();
+            while (!style.isNull())
+            {
+                if (!style.tagName().isEmpty())
+                {
+                    this->_styles.push_back(style.tagName());
+                }
+
+                style = style.nextSibling().toElement();
+            }
+        }
+    }
+
+    QVector<QString> &GetStyles()
+    {
+        return this->_styles;
+    }
+
+public:
     // Left Panel
     QString _left_panel_background_color;
     QString _on_left_panel_enter_color;
@@ -65,6 +93,9 @@ public:
     QString _top_panel_menubutton_idle_color;
     QString _top_panel_menubutton_press_color;
     QString _top_panel_menubutton_text_color;
+
+private:
+    QVector<QString> _styles;
 };
 
 #endif // SETTINGS_H

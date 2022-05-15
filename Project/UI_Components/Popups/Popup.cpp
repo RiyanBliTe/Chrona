@@ -13,6 +13,17 @@ Popup::Popup(QWidget *parent)
     SetupModules();
 }
 
+Popup::~Popup()
+{
+    if (this->_widthAnimation != nullptr)
+        delete this->_widthAnimation;
+    if (this->_heightAnimation != nullptr)
+        delete this->_heightAnimation;
+    if (this->_opacityAnimation != nullptr)
+        delete this->_opacityAnimation;
+    emit this->popupClosed();
+}
+
 void Popup::SetMemory()
 {
     if (this->_widthAnimation == nullptr)
@@ -38,24 +49,24 @@ void Popup::SetupModules()
     this->_opacityAnimation->setPropertyName("_opacityOFFSET");
 }
 
-void Popup::SetWidthOFFSET(int value)
+void Popup::SetWidthOFFSET(double value)
 {
     this->_widthOFFSET = value;
     update();
 }
 
-int Popup::GetWidthOFFSET()
+double Popup::GetWidthOFFSET()
 {
     return this->_widthOFFSET;
 }
 
-void Popup::SetHeightOFFSET(int value)
+void Popup::SetHeightOFFSET(double value)
 {
     this->_heightOFFSET = value;
     update();
 }
 
-int Popup::GetHeightOFFSET()
+double Popup::GetHeightOFFSET()
 {
     return this->_widthOFFSET;
 }
@@ -79,7 +90,7 @@ void Popup::showEvent(QShowEvent *event)
     {
         this->_widthAnimation->stop();
     }
-    this->_widthAnimation->setStartValue(width() / 2);
+    this->_widthAnimation->setStartValue(width() / 1.5);
     this->_widthAnimation->setEndValue(width());
     this->_widthAnimation->start();
 
@@ -87,7 +98,7 @@ void Popup::showEvent(QShowEvent *event)
     {
         this->_heightAnimation->stop();
     }
-    this->_heightAnimation->setStartValue(height() / 2);
+    this->_heightAnimation->setStartValue(height() / 1.5);
     this->_heightAnimation->setEndValue(height());
     this->_heightAnimation->start();
 
