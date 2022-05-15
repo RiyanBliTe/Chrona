@@ -34,7 +34,7 @@ QString& TaskButton::GetText()
     return this->_buttonText;
 }
 
-void TaskButton::enterEvent(QEnterEvent* event)
+void TaskButton::enterEvent(QEvent* event)
 {
     (void)event;
 
@@ -80,8 +80,8 @@ void TaskButton::mouseReleaseEvent(QMouseEvent* event)
 
 void TaskButton::mouseMoveEvent(QMouseEvent *event)
 {
-    int x = event->position().x();
-    int y = event->position().y();
+    int x = event->pos().x();
+    int y = event->pos().y();
     if (x >= width() - 24 && x <= width() - 10 &&
             y >= height() - 27 + static_cast<int>(this->_isPress) && y <= height() - 13 + static_cast<int>(this->_isPress))
     {

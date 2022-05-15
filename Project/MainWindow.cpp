@@ -25,6 +25,7 @@ void MainWindow::SetMemory()
 {
     this->_SettingsButton = new LeftBorderButton();
     this->_AddNewMachineButton = new LeftBorderButton();
+    //this->_SettingsMenu = new SettingsMenu(this);
 }
 
 void MainWindow::SetupModules()
@@ -100,6 +101,11 @@ void MainWindow::SetupModules()
     {
         this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
     }
+
+    //this->_SettingsMenu->setGeometry(0, 0, width(), height());
+    //this->_SettingsMenu->raise();
+    //this->_SettingsMenu->hide();
+    connect(this->_SettingsButton, &LeftBorderButton::clicked, this, &MainWindow::settingsButtonClicked);
 }
 
 void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
@@ -111,4 +117,16 @@ void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
             (*it)->SetFocused(false);
         }
     }
+}
+
+void MainWindow::settingsButtonClicked()
+{
+    //this->_SettingsMenu->setGeometry(0, 0, width(), height());
+    //this->_SettingsMenu->raise();
+    //this->_SettingsMenu->show();
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
 }

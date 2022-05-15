@@ -105,7 +105,7 @@ QSize CenterButton::sizeHint() const
     return QSize(this->ICON_SIZE, this->ICON_SIZE);
 }
 
-void CenterButton::enterEvent(QEnterEvent *event)
+void CenterButton::enterEvent(QEvent *event)
 {
     (void)event;
 
@@ -497,5 +497,6 @@ void LeftBorderButton::PanelButtonPressed()
     {
         this->SetFocused(true);
         emit focusChanged(this);
+        emit clicked();
     }
 }

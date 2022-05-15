@@ -21,10 +21,7 @@ class CenterButton : public QAbstractButton
     Q_PROPERTY(int _animationOFFSET READ GetAnimationOFFSET WRITE SetAnimationOFFSET)
 public:
     CenterButton(QWidget *parent = nullptr);
-    CenterButton(const CenterButton&);
     ~CenterButton();
-
-    CenterButton& operator=(const CenterButton&);
 
     virtual QSize sizeHint() const override;
 
@@ -41,7 +38,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *event) override;
-    virtual void enterEvent(QEnterEvent *event) override;
+    virtual void enterEvent(QEvent *event) override;
     virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
@@ -157,6 +154,7 @@ private slots:
 
 signals:
     void focusChanged(LeftBorderButton*);
+    void clicked();
 
 private:
     QHBoxLayout *_mainLayout;

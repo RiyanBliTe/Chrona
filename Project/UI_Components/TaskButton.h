@@ -2,7 +2,6 @@
 #define TASKBUTTON_H
 
 #include <QWidget>
-#include <QEnterEvent>
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPaintEvent>
@@ -32,7 +31,7 @@ public:
     QString& GetText();
 
 protected:
-    virtual void enterEvent(QEnterEvent*) override;
+    virtual void enterEvent(QEvent*) override;
     virtual void leaveEvent(QEvent*) override;
     virtual void mousePressEvent(QMouseEvent*) override;
     virtual void mouseReleaseEvent(QMouseEvent*) override;

@@ -15,7 +15,7 @@ void TopMenuButton::SetText(QString value)
     setFixedWidth(this->_buttonText.size() / 2 * 6 + 40);
 }
 
-void TopMenuButton::enterEvent(QEnterEvent *event)
+void TopMenuButton::enterEvent(QEvent *event)
 {
     (void)event;
 
