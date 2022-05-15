@@ -25,7 +25,7 @@ void MainWindow::SetMemory()
 {
     this->_SettingsButton = new LeftBorderButton();
     this->_AddNewMachineButton = new LeftBorderButton();
-    //this->_SettingsMenu = new SettingsMenu(this);
+    this->_PopupContainer = new PopupContainer(this);
 }
 
 void MainWindow::SetupModules()
@@ -104,7 +104,7 @@ void MainWindow::SetupModules()
 
     //this->_SettingsMenu->setGeometry(0, 0, width(), height());
     //this->_SettingsMenu->raise();
-    //this->_SettingsMenu->hide();
+    this->_PopupContainer->hide();
     connect(this->_SettingsButton, &LeftBorderButton::clicked, this, &MainWindow::settingsButtonClicked);
 }
 
@@ -121,12 +121,15 @@ void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
 
 void MainWindow::settingsButtonClicked()
 {
-    //this->_SettingsMenu->setGeometry(0, 0, width(), height());
-    //this->_SettingsMenu->raise();
-    //this->_SettingsMenu->show();
+    this->_PopupContainer->setGeometry(0, 0, width(), height());
+    this->_PopupContainer->raise();
+    this->_PopupContainer->PushPopup(PopupContainer::PopupType::SETTINGS);
+    this->_PopupContainer->show();
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
+    this->_PopupContainer->setGeometry(0, 0, width(), height());
+    this->_PopupContainer->Update();
 }

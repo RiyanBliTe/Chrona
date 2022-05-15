@@ -9,7 +9,7 @@
 #include "UI_Components/TopMenuButton.h"
 #include "UI_Components/ToogleButton.h"
 #include "UI_Components/TaskButton.h"
-//#include "UI_Components/SettingsMenu.h"
+#include "UI_Components/PopupContainer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,7 +40,7 @@ private:
     LeftBorderButton *_SettingsButton;
     LeftBorderButton *_AddNewMachineButton;
 
-    //SettingsMenu *_SettingsMenu;
+    PopupContainer *_PopupContainer;
 
     QVector<LeftBorderButton*> _machinesList;
     QVector<TaskButton*> _taskButtonsList;
