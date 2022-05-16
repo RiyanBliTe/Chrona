@@ -3,12 +3,26 @@
 
 #include "Popup.h"
 
+#include <QLineEdit>
+
 class AddMachinePopup : public Popup
 {
     Q_OBJECT
 public:
     AddMachinePopup(QWidget *parent = nullptr);
-    ~AddMachinePopup();
+    virtual ~AddMachinePopup();
+
+private slots:
+    void connectButtonPressed();
+
+private:
+    void SetMemory();
+    void SetupModules();
+
+private:
+    QLineEdit *_machineName;
+    QLineEdit *_machineIP;
+    QPushButton *_connectButton;
 };
 
 #endif // ADDMACHINEPOPUP_H

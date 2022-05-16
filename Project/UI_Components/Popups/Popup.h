@@ -29,6 +29,7 @@ public:
 signals:
     void popupClosed();
     void closeButtonPressed();
+    void connectedSucces(QString, QString);
 
 protected:
     virtual void paintEvent(QPaintEvent*) override;
@@ -36,6 +37,8 @@ protected:
 
 private slots:
     void openAnimationFinished();
+
+protected slots:
     void closePopup();
 
 private:

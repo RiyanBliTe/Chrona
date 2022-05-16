@@ -142,6 +142,11 @@ void MainWindow::addMachineButtonClicked()
     this->_PopupModule->setGeometry(0, 0, width(), height());
     this->_PopupModule->raise();
     this->_PopupModule->PushPopup(PopupModule::PopupType::ADDMACHINE);
+    Popup *popup = this->_PopupModule->TopPopup();
+    if (popup != nullptr)
+    {
+        connect(popup, &AddMachinePopup::connectedSucces, this, &MainWindow::AddMachineTriger);
+    }
     this->_PopupModule->show();
 }
 
@@ -150,4 +155,13 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
     this->_PopupModule->setGeometry(0, 0, width(), height());
     this->_PopupModule->Update();
+}
+
+void MainWindow::AddMachineTriger(QString machine_name, QString machine_ip)
+{
+    LeftBorderButton *but = new LeftBorderButton();
+    this->_machinesList.push_back(but);
+    but->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
+    this->ui->Widget_MachinesList->layout()->addWidget(but);
+    connect(but, &LeftBorderButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
 }

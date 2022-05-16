@@ -70,6 +70,15 @@ void PopupModule::PopPopup()
         delete popup;
 }
 
+Popup* PopupModule::TopPopup()
+{
+    if (!this->_popupStack.empty())
+    {
+        return this->_popupStack.top();
+    }
+    return nullptr;
+}
+
 void PopupModule::Update()
 {
     for (auto it = this->_popupStack.begin(); it != this->_popupStack.end(); it++)

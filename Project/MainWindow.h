@@ -30,6 +30,7 @@ private slots:
     void machineButtonChangedFocus(LeftBorderButton*);
     void settingsButtonClicked();
     void addMachineButtonClicked();
+    void AddMachineTriger(QString, QString);
 
 private:
     void SetMemory();

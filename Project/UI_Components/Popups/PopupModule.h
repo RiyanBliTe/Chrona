@@ -32,6 +32,7 @@ public:
 
     void PushPopup(PopupType);
     void PopPopup();
+    Popup* TopPopup();
 
     void Update();
 
