@@ -11,11 +11,18 @@
         <file>Images/icons_svg/icon_sun.svg</file>
         <file>Images/icons_svg/icon_task_add_bright.svg</file>
         <file>Images/icons_svg/icon_task_add_dark.svg</file>
+        <file>Images/icons_svg/icon_close_bright.svg</file>
+        <file>Images/icons_svg/icon_close_dark.svg</file>
     </qresource>
     <qresource prefix="/files">
         <file>Files/ProgramStyle.xml</file>
     </qresource>
     <qresource prefix="/icons_png">
         <file>Images/welcome_logo.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>Fonts/Sen/Sen-Bold.ttf</file>
+        <file>Fonts/Sen/Sen-ExtraBold.ttf</file>
+        <file>Fonts/Sen/Sen-Regular.ttf</file>
     </qresource>
 </RCC>

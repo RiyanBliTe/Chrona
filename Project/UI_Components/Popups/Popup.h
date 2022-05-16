@@ -6,6 +6,13 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPropertyAnimation>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QSpacerItem>
+
+#include "../../Settings.h"
 
 class QPropertyAnimation;
 
@@ -21,10 +28,15 @@ public:
 
 signals:
     void popupClosed();
+    void closeButtonPressed();
 
 protected:
     virtual void paintEvent(QPaintEvent*) override;
     virtual void showEvent(QShowEvent*) override;
+
+private slots:
+    void openAnimationFinished();
+    void closePopup();
 
 private:
     void SetWidthOFFSET(double);
@@ -39,13 +51,26 @@ private:
     void SetMemory();
     void SetupModules();
 
+protected:
+    void SetTitleText(QString);
+
 private:
+    // animation
     QPropertyAnimation *_widthAnimation;
     QPropertyAnimation *_heightAnimation;
     QPropertyAnimation *_opacityAnimation;
     double _widthOFFSET;
     double _heightOFFSET;
     int _opacityOFFSET;
+
+    // content
+    QWidget *_topPanel;
+    QPushButton *_closeButton;
+    QLabel *_titleLabel;
+    QWidget *_separator;
+
+protected:
+    QWidget *_centerWidget;
 };
 
 #endif // POPUP_H

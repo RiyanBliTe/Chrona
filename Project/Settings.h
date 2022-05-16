@@ -6,6 +6,7 @@
 #include <QDomElement>
 #include <QDebug>
 #include <QVector>
+#include <QFontDatabase>
 
 class Settings final
 {
@@ -37,12 +38,45 @@ private:
         , _top_panel_menubutton_idle_color("#36393F")
         , _top_panel_menubutton_press_color("#454950")
         , _top_panel_menubutton_text_color("#B9BBBE")
+        , _sen_regular_id(-1)
+        , _sen_bold_id(-1)
+        , _sen_extrabold_id(-1)
     {};
     ~Settings(){};
     Settings(const Settings&) = delete;
     Settings& operator=(const Settings&) = delete;
 
 public:
+    enum class Fonts
+    {
+        SEN_REGULAR,
+        SEN_BOLD,
+        SEN_EXTRABOLD
+    };
+
+    QString GetApplicationFont(Fonts value)
+    {
+        switch (value)
+        {
+        case Settings::Fonts::SEN_REGULAR:
+            return QFontDatabase::applicationFontFamilies(_sen_regular_id).at(0);
+            break;
+        case Settings::Fonts::SEN_BOLD:
+            return QFontDatabase::applicationFontFamilies(_sen_bold_id).at(0);
+            break;
+        case Settings::Fonts::SEN_EXTRABOLD:
+            return QFontDatabase::applicationFontFamilies(_sen_extrabold_id).at(0);
+            break;
+        }
+    }
+
+    void SetSenFontIds(int id_regular, int id_bold, int id_extrabold)
+    {
+        this->_sen_regular_id = id_regular;
+        this->_sen_bold_id = id_bold;
+        this->_sen_extrabold_id = id_extrabold;
+    }
+
     void ParseXmlDocument(QDomDocument &value)
     {
         auto root = value.documentElement();
@@ -96,6 +130,10 @@ public:
 
 private:
     QVector<QString> _styles;
+
+    int _sen_regular_id;
+    int _sen_bold_id;
+    int _sen_extrabold_id;
 };
 
 #endif // SETTINGS_H

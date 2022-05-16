@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     Project/UI_Components/Popups/AddMachinePopup.cpp \
     Project/UI_Components/Popups/Popup.cpp \
-    Project/UI_Components/BlockSwitchButton.cpp \
     Project/UI_Components/LeftBorderButton.cpp \
     Project/UI_Components/Popups/PopupModule.cpp \
     Project/UI_Components/Popups/SettingsPopup.cpp \
@@ -26,7 +25,6 @@ HEADERS += \
     Project/Settings.h \
     Project/UI_Components/Popups/AddMachinePopup.h \
     Project/UI_Components/Popups/Popup.h \
-    Project/UI_Components/BlockSwitchButton.h \
     Project/UI_Components/LeftBorderButton.h \
     Project/MainWindow.h \
     Project/UI_Components/Popups/PopupModule.h \

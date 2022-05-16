@@ -57,6 +57,7 @@ void PopupModule::PushPopup(PopupType value)
         popup->raise();
         popup->show();
         connect(popup, &Popup::popupClosed, this, &PopupModule::refreshStatus);
+        connect(popup, &Popup::closeButtonPressed, this, &PopupModule::popupClosedByButton);
         this->_popupStack.push(popup);
     }
 }
@@ -105,6 +106,12 @@ void PopupModule::refreshStatus()
     {
         this->StartHideAnimation();
     }
+}
+
+void PopupModule::popupClosedByButton()
+{
+    this->PopPopup();
+    this->refreshStatus();
 }
 
 void PopupModule::mousePressEvent(QMouseEvent *event)
@@ -165,7 +172,7 @@ void PopupModule::paintEvent(QPaintEvent *event)
     if (this->_needBackground)
     {
         painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(10, 12, 16, this->_shadowOFFSET));
+        painter.setBrush(QColor(0, 0, 0, this->_shadowOFFSET));
         painter.drawRect(QRect(0, 0, width(), height()));
     }
 }

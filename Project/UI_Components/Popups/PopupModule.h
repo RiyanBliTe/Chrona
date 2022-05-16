@@ -38,6 +38,7 @@ public:
 private slots:
     void shadowAnimationFinished();
     void refreshStatus();
+    void popupClosedByButton();
 
 protected:
     virtual void paintEvent(QPaintEvent*) override;

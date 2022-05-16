@@ -15,7 +15,7 @@ WelcomeWindow::WelcomeWindow(QWidget *parent) :
 
     this->_timer = new QTimer(this);
     connect(this->_timer, &QTimer::timeout, this, &WelcomeWindow::timerOUT);
-    this->_timer->start(3000);
+    this->_timer->start(1000);
 }
 
 WelcomeWindow::~WelcomeWindow()

@@ -9,8 +9,7 @@
             <TaskButton EnterBackgroundColor="#1E2021" PressedBackgroundColor="#303435" TextColor="#FFFFFF" CloseButtonEnterBackgroundColor="#151617" CloseButtonPressedBackgroundColor="#76B39D"/>
         </CenterPanel>
         <TopPanel>
-            <MenuButton IdleBackgroundColor="" EnterBackgroundColor="" PressedBackgroundColor="" TextColor=""/>
-            <ToogleButton BackgroundColor="" ToogleColor=""/>
+            <MenuButton IdleBackgroundColor="#36393F" EnterBackgroundColor="#40444B" PressedBackgroundColor="#454950" TextColor="#B9BBBE"/>
             <NotificationsButton EnterColor="" PressedColor=""/>
         </TopPanel>
     </DarkStyle>
