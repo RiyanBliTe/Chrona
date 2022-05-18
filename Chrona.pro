@@ -9,9 +9,15 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Project/Computer.cpp \
+    Project/ComputersManager.cpp \
+    Project/ConnectionManager.cpp \
+    Project/SaveManager.cpp \
+    Project/Task.cpp \
+    Project/TasksManager.cpp \
+    Project/UI_Components/ComputerButton.cpp \
     Project/UI_Components/Popups/AddMachinePopup.cpp \
     Project/UI_Components/Popups/Popup.cpp \
-    Project/UI_Components/LeftBorderButton.cpp \
     Project/UI_Components/Popups/PopupModule.cpp \
     Project/UI_Components/Popups/SettingsPopup.cpp \
     Project/UI_Components/TaskButton.cpp \
@@ -22,10 +28,16 @@ SOURCES += \
     Project/MainWindow.cpp
 
 HEADERS += \
+    Project/Computer.h \
+    Project/ComputersManager.h \
+    Project/ConnectionManager.h \
+    Project/SaveManager.h \
     Project/Settings.h \
+    Project/Task.h \
+    Project/TasksManager.h \
+    Project/UI_Components/ComputerButton.h \
     Project/UI_Components/Popups/AddMachinePopup.h \
     Project/UI_Components/Popups/Popup.h \
-    Project/UI_Components/LeftBorderButton.h \
     Project/MainWindow.h \
     Project/UI_Components/Popups/PopupModule.h \
     Project/UI_Components/Popups/SettingsPopup.h \

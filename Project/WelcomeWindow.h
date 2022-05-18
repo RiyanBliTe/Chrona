@@ -13,14 +13,18 @@ class WelcomeWindow : public QWidget
 {
     Q_OBJECT
 
-public:
-    explicit WelcomeWindow(QWidget *parent = nullptr);
+private:
+    WelcomeWindow(QWidget *parent = nullptr);
+    WelcomeWindow(const WelcomeWindow&) = delete;
+    WelcomeWindow& operator=(const WelcomeWindow&) = delete;
     ~WelcomeWindow();
 
 private slots:
     void timerOUT();
 
 public:
+    static WelcomeWindow& Instance();
+
     void SetMainWindow(MainWindow*);
 
 private:
@@ -29,5 +33,7 @@ private:
     QTimer *_timer;
     MainWindow *_mainWindow;
 };
+
+#define WELCOME_WINDOW WelcomeWindow::Instance()
 
 #endif // WELCOMEWINDOW_H

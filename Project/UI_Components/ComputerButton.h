@@ -1,5 +1,5 @@
-#ifndef LEFTBORDERBUTTON_H
-#define LEFTBORDERBUTTON_H
+#ifndef COMPUTERBUTTON_H
+#define COMPUTERBUTTON_H
 
 #include <QWidget>
 #include <QPainter>
@@ -9,6 +9,7 @@
 #include <QPropertyAnimation>
 
 #include "../Settings.h"
+#include "../Computer.h"
 
 class QPropertyAnimation;
 
@@ -130,18 +131,25 @@ private:
 // *************************************************************
 // Left Border Button class
 // *************************************************************
-class LeftBorderButton : public QWidget
+class ComputerButton : public QWidget
 {
     Q_OBJECT
 
 public:
-    LeftBorderButton(QWidget *parent = nullptr);
-    ~LeftBorderButton();
+    ComputerButton(QWidget *parent = nullptr);
+    ~ComputerButton();
 
     void SetFocused(bool);
     bool IsFocused();
     void SetLeftPanelEnabled(bool);
     void SetImage(QString);
+
+    void SetComputerName(QString);
+    void SetComputerIP(QString);
+    void SetComputerPointer(Computer*);
+    QString GetComputerName();
+    QString GetComputerIP();
+    Computer* GetComputerPointer();
 
 private:
     void SetMemory();
@@ -153,7 +161,7 @@ private slots:
     void PanelButtonPressed();
 
 signals:
-    void focusChanged(LeftBorderButton*);
+    void focusChanged(ComputerButton*);
     void clicked();
 
 private:
@@ -164,8 +172,12 @@ private:
     CenterButton *_rightPanelButton;
     BorderRoundedRectungle *_leftPanelRect;
 
+    QString _computerName;
+    QString _computerIP;
+    Computer *_computer;
+
     static const int WIDTH = 72;
     static const int HEIGHT = 50;
 };
 
-#endif // LEFTBORDERBUTTON_H
+#endif // COMPUTERBUTTON_H

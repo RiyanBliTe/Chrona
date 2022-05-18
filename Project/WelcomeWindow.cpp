@@ -2,6 +2,7 @@
 #include "ui_WelcomeWindow.h"
 
 #include <thread>
+#include "SaveManager.h"
 
 WelcomeWindow::WelcomeWindow(QWidget *parent) :
     QWidget(parent),
@@ -13,6 +14,8 @@ WelcomeWindow::WelcomeWindow(QWidget *parent) :
     setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
+    SAVE_MANAGER.Initialize();
+
     this->_timer = new QTimer(this);
     connect(this->_timer, &QTimer::timeout, this, &WelcomeWindow::timerOUT);
     this->_timer->start(1000);
@@ -21,6 +24,12 @@ WelcomeWindow::WelcomeWindow(QWidget *parent) :
 WelcomeWindow::~WelcomeWindow()
 {
     delete ui;
+}
+
+WelcomeWindow& WelcomeWindow::Instance()
+{
+    static WelcomeWindow instance;
+    return instance;
 }
 
 void WelcomeWindow::timerOUT()

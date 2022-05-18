@@ -127,21 +127,28 @@ void PopupModule::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        Popup* popup = this->_popupStack.top();
-        if (!(event->pos().x() >= width() / 2 - popup->width() / 2 &&
-              event->pos().x() <= width() / 2 - popup->width() / 2 + popup->width() &&
-              event->pos().y() >= height() / 2 - popup->height() / 2 &&
-              event->pos().y() <= height() / 2 - popup->height() / 2 + popup->height()))
+        if (!this->_popupStack.empty())
         {
-            popup->hide();
-            Popup *popup = this->_popupStack.pop();
-            if (popup != nullptr)
-                delete popup;
-
-            if (this->_popupStack.empty())
+            Popup* popup = this->_popupStack.top();
+            if (!(event->pos().x() >= width() / 2 - popup->width() / 2 &&
+                  event->pos().x() <= width() / 2 - popup->width() / 2 + popup->width() &&
+                  event->pos().y() >= height() / 2 - popup->height() / 2 &&
+                  event->pos().y() <= height() / 2 - popup->height() / 2 + popup->height()))
             {
-                this->StartHideAnimation();
+                popup->hide();
+                Popup *popup = this->_popupStack.pop();
+                if (popup != nullptr)
+                    delete popup;
+
+                if (this->_popupStack.empty())
+                {
+                    this->StartHideAnimation();
+                }
             }
+        }
+        else
+        {
+            this->StartHideAnimation();
         }
     }
 }

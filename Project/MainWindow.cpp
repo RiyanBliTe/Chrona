@@ -1,11 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "ComputersManager.h"
 
-#include <QHostAddress>
-#include <QNetworkInterface>
-#include <QHostInfo>
 #include <QFile>
-#include <QDomDocument>
 
 #include "Settings.h"
 
@@ -23,10 +20,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+MainWindow& MainWindow::Instance()
+{
+    static MainWindow instance;
+    return instance;
+}
+
 void MainWindow::SetMemory()
 {
-    this->_SettingsButton = new LeftBorderButton();
-    this->_AddNewMachineButton = new LeftBorderButton();
+    this->_SettingsButton = new ComputerButton();
+    this->_AddNewMachineButton = new ComputerButton();
     this->_PopupModule = new PopupModule(this);
 }
 
@@ -34,55 +37,37 @@ void MainWindow::SetupModules()
 {
     ui->setupUi(this);
 
-    QFile styleFile(":/files/Files/ProgramStyle.xml");
-    QDomDocument document;
-    if(styleFile.open(QIODevice::ReadOnly))
-    {
-        document.setContent(&styleFile);
-        Settings::GetInstance().ParseXmlDocument(document);
-        styleFile.close();
-    }
-
     this->ui->Frame_LeftPanel->setStyleSheet("#Frame_LeftPanel { background-color: " + Settings::GetInstance()._left_panel_background_color + "; }");
     this->ui->Frame_CenterPanel->setStyleSheet("#Frame_CenterPanel { background-color: " + Settings::GetInstance()._center_panel_background_center_color + "; }");
+    this->ui->scrollAreaWidgetContents->setStyleSheet("#scrollAreaWidgetContents { background-color: " + Settings::GetInstance()._center_panel_background_center_color + "; }");
     this->ui->Frame_CenterBottom->setStyleSheet("background-color: " + Settings::GetInstance()._center_panel_background_bottom_color + ";");
     this->ui->Frame_RightPanel->setStyleSheet("#Frame_RightPanel { background-color: " + Settings::GetInstance()._right_panel_background_color + "; }");
     this->ui->Widget_TaskControl->setStyleSheet("background-color: " + Settings::GetInstance()._right_panel_background_color + ";");
+    this->ui->Widget_ScrollArea->setStyleSheet("#Widget_ScrollArea { background-color: " + Settings::GetInstance()._left_panel_background_color + "; }");
 
-    ui->Label_SelectedMachineName->setText(QSysInfo::machineHostName());
-
-    QString ipString = "";
-    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
-    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != localhost)
-        {
-             ipString = address.toString();
-             break;
-        }
-    }
-    ui->Label_SelectedMachineIP->setText(ipString);
 
     this->_AddNewMachineButton->SetLeftPanelEnabled(false);
     this->_AddNewMachineButton->SetImage(":/icons_svg/Images/icons_svg/icon_add_machine.svg");
-    this->ui->Widget_AddNewMachine->layout()->addWidget(this->_AddNewMachineButton);
 
     this->_SettingsButton->SetLeftPanelEnabled(false);
     this->_SettingsButton->SetImage(":/icons_svg/Images/icons_svg/icon_settings.svg");
     this->ui->Widget_Settings->layout()->addWidget(this->_SettingsButton);
 
-    this->_machinesList.push_back(new LeftBorderButton()); // [0] this PC
+    /*this->_machinesList.push_back(new ComputerButton()); // [0] this PC
     this->_machinesList[0]->SetFocused(true);
-    this->_machinesList.push_back(new LeftBorderButton());
-    this->_machinesList.push_back(new LeftBorderButton());
-    this->_machinesList.push_back(new LeftBorderButton());
-    this->_machinesList.push_back(new LeftBorderButton());
+    this->_machinesList.push_back(new ComputerButton());
+    this->_machinesList.push_back(new ComputerButton());
+    this->_machinesList.push_back(new ComputerButton());
+    this->_machinesList.push_back(new ComputerButton());
 
     for (int i = 0; i < this->_machinesList.size(); i++)
     {
         this->_machinesList[i]->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
         this->ui->Widget_MachinesList->layout()->addWidget(this->_machinesList[i]);
-        connect(this->_machinesList[i], &LeftBorderButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
-    }
+        connect(this->_machinesList[i], &ComputerButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
+    }*/
+
+    this->ui->Widget_AddNewMachine->layout()->addWidget(this->_AddNewMachineButton);
 
     this->_topButtons.push_back(new TopMenuButton());
     this->_topButtons.push_back(new TopMenuButton());
@@ -114,11 +99,51 @@ void MainWindow::SetupModules()
     }
 
     this->_PopupModule->hide();
-    connect(this->_SettingsButton, &LeftBorderButton::clicked, this, &MainWindow::settingsButtonClicked);
-    connect(this->_AddNewMachineButton, &LeftBorderButton::clicked, this, &MainWindow::addMachineButtonClicked);
+    connect(this->_SettingsButton, &ComputerButton::clicked, this, &MainWindow::settingsButtonClicked);
+    connect(this->_AddNewMachineButton, &ComputerButton::clicked, this, &MainWindow::addMachineButtonClicked);
 }
 
-void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
+void MainWindow::LoadComputers(const QList<Computer*>& list)
+{
+    for (auto it = list.begin(); it != list.end(); it++)
+    {
+        ComputerButton *computerButton = new ComputerButton();
+        computerButton->SetComputerName((*it)->GetName());
+        computerButton->SetComputerIP((*it)->GetIP());
+        computerButton->SetComputerPointer(*it);
+        if ((*it)->IsThisComputer())
+        {
+            computerButton->SetFocused(true);
+            ui->Label_SelectedMachineName->setText(computerButton->GetComputerName());
+            ui->Label_SelectedMachineIP->setText(computerButton->GetComputerIP());
+            this->LoadTasks((*it)->GetTasks());
+        }
+        computerButton->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
+        this->ui->Widget_MachinesList->layout()->addWidget(computerButton);
+        connect(computerButton, &ComputerButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
+        this->_machinesList.push_back(computerButton);
+    }
+}
+
+void MainWindow::LoadTasks(const QList<Task*>& list)
+{
+    if (!this->ui->Widget_TasksList->layout()->isEmpty())
+    {
+        for (auto it = this->_taskButtonsList.begin(); it != this->_taskButtonsList.end(); it++)
+        {
+            this->ui->Widget_TasksList->layout()->removeWidget((*it));
+        }
+    }
+
+    for (auto it = list.begin(); it != list.end(); it++)
+    {
+        TaskButton *taskButton = new TaskButton();
+        this->_taskButtonsList.push_back(taskButton);
+        this->ui->Widget_TasksList->layout()->addWidget(taskButton);
+    }
+}
+
+void MainWindow::machineButtonChangedFocus(ComputerButton *button)
 {
     for (auto it = this->_machinesList.begin(); it != this->_machinesList.end(); it++)
     {
@@ -127,6 +152,13 @@ void MainWindow::machineButtonChangedFocus(LeftBorderButton *button)
             (*it)->SetFocused(false);
         }
     }
+
+    for (auto it = this->_taskButtonsList.begin(); it != this->_taskButtonsList.end(); it++)
+    {
+        this->ui->Widget_TasksList->layout()->removeWidget((*it));
+    }
+
+    this->LoadTasks(COMPUTERS_MANAGER.GetTasksByComputer(button->GetComputerPointer()));
 }
 
 void MainWindow::settingsButtonClicked()
@@ -159,9 +191,9 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 void MainWindow::AddMachineTriger(QString machine_name, QString machine_ip)
 {
-    LeftBorderButton *but = new LeftBorderButton();
+    ComputerButton *but = new ComputerButton();
     this->_machinesList.push_back(but);
     but->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
     this->ui->Widget_MachinesList->layout()->addWidget(but);
-    connect(but, &LeftBorderButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
+    connect(but, &ComputerButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
 }

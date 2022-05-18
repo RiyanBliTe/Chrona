@@ -2,10 +2,7 @@
 #define SETTINGS_H
 
 #include <QString>
-#include <QDomDocument>
-#include <QDomElement>
 #include <QDebug>
-#include <QVector>
 #include <QFontDatabase>
 
 class Settings final
@@ -77,29 +74,6 @@ public:
         this->_sen_extrabold_id = id_extrabold;
     }
 
-    void ParseXmlDocument(QDomDocument &value)
-    {
-        auto root = value.documentElement();
-        if (root.tagName() == "Style")
-        {
-            QDomElement style = root.firstChild().toElement();
-            while (!style.isNull())
-            {
-                if (!style.tagName().isEmpty())
-                {
-                    this->_styles.push_back(style.tagName());
-                }
-
-                style = style.nextSibling().toElement();
-            }
-        }
-    }
-
-    QVector<QString> &GetStyles()
-    {
-        return this->_styles;
-    }
-
 public:
     // Left Panel
     QString _left_panel_background_color;
@@ -129,8 +103,6 @@ public:
     QString _top_panel_menubutton_text_color;
 
 private:
-    QVector<QString> _styles;
-
     int _sen_regular_id;
     int _sen_bold_id;
     int _sen_extrabold_id;

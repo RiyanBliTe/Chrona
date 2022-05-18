@@ -17,9 +17,7 @@ int main(int argc, char *argv[])
     QFont applicationFont(fontFamily, 10);
     a.setFont(applicationFont);
 
-    WelcomeWindow welcomeWindow;
-    MainWindow w;
-    welcomeWindow.SetMainWindow(&w);
-    welcomeWindow.show();
+    WelcomeWindow::Instance().SetMainWindow(&MainWindow::Instance());
+    WelcomeWindow::Instance().show();
     return a.exec();
 }

@@ -1,4 +1,4 @@
-#include "LeftBorderButton.h"
+#include "ComputerButton.h"
 
 // *************************************************************
 // Center Button class
@@ -379,20 +379,23 @@ void BorderRoundedRectungle::paintEvent(QPaintEvent *event)
 // Left Border Button class
 // *************************************************************
 
-LeftBorderButton::LeftBorderButton(QWidget *parent)
+ComputerButton::ComputerButton(QWidget *parent)
     : QWidget(parent)
     , _mainLayout(nullptr)
     , _leftPanel(nullptr)
     , _rightPanel(nullptr)
     , _rightPanelButton(nullptr)
     , _leftPanelRect(nullptr)
+    , _computerName("")
+    , _computerIP("")
+    , _computer(nullptr)
 {
     this->setFixedSize(QSize(this->WIDTH, this->HEIGHT));
     SetMemory();
     SetupModules();
 }
 
-LeftBorderButton::~LeftBorderButton()
+ComputerButton::~ComputerButton()
 {
     if (this->_leftPanelRect != nullptr)
         delete this->_leftPanelRect;
@@ -406,7 +409,7 @@ LeftBorderButton::~LeftBorderButton()
         delete this->_mainLayout;
 }
 
-void LeftBorderButton::SetMemory()
+void ComputerButton::SetMemory()
 {
     if (this->_mainLayout == nullptr)
         this->_mainLayout = new QHBoxLayout();
@@ -420,7 +423,7 @@ void LeftBorderButton::SetMemory()
         this->_leftPanelRect = new BorderRoundedRectungle();
 }
 
-void LeftBorderButton::SetupModules()
+void ComputerButton::SetupModules()
 {
     this->setLayout(this->_mainLayout);
     this->_mainLayout->setContentsMargins(0, 0, 0, 0);
@@ -441,12 +444,12 @@ void LeftBorderButton::SetupModules()
 
     this->_leftPanelRect->SetDrawEnabled(false);
 
-    connect(this->_rightPanelButton, &CenterButton::entered, this, &LeftBorderButton::PanelButtonEntered);
-    connect(this->_rightPanelButton, &CenterButton::leaved, this, &LeftBorderButton::PanelButtonLeaved);
-    connect(this->_rightPanelButton, &CenterButton::clicked, this, &LeftBorderButton::PanelButtonPressed);
+    connect(this->_rightPanelButton, &CenterButton::entered, this, &ComputerButton::PanelButtonEntered);
+    connect(this->_rightPanelButton, &CenterButton::leaved, this, &ComputerButton::PanelButtonLeaved);
+    connect(this->_rightPanelButton, &CenterButton::clicked, this, &ComputerButton::PanelButtonPressed);
 }
 
-void LeftBorderButton::SetFocused(bool value)
+void ComputerButton::SetFocused(bool value)
 {
     if (value)
     {
@@ -456,12 +459,12 @@ void LeftBorderButton::SetFocused(bool value)
     this->_rightPanelButton->SetFocused(value);
 }
 
-bool LeftBorderButton::IsFocused()
+bool ComputerButton::IsFocused()
 {
     return this->_leftPanelRect->IsFocused() && this->_rightPanelButton->IsFocused();
 }
 
-void LeftBorderButton::SetLeftPanelEnabled(bool value)
+void ComputerButton::SetLeftPanelEnabled(bool value)
 {
     if (value)
     {
@@ -475,23 +478,53 @@ void LeftBorderButton::SetLeftPanelEnabled(bool value)
     }
 }
 
-void LeftBorderButton::SetImage(QString value)
+void ComputerButton::SetImage(QString value)
 {
     this->_rightPanelButton->SetImage(value);
 }
 
-void LeftBorderButton::PanelButtonEntered()
+void ComputerButton::SetComputerName(QString value)
+{
+    this->_computerName = value;
+}
+
+void ComputerButton::SetComputerIP(QString value)
+{
+    this->_computerIP = value;
+}
+
+void ComputerButton::SetComputerPointer(Computer *value)
+{
+    this->_computer = value;
+}
+
+QString ComputerButton::GetComputerName()
+{
+    return this->_computerName;
+}
+
+QString ComputerButton::GetComputerIP()
+{
+    return this->_computerIP;
+}
+
+Computer* ComputerButton::GetComputerPointer()
+{
+    return this->_computer;
+}
+
+void ComputerButton::PanelButtonEntered()
 {
     this->_leftPanelRect->SetDrawEnabled(true);
     this->_leftPanelRect->StartEnteredAnimation();
 }
 
-void LeftBorderButton::PanelButtonLeaved()
+void ComputerButton::PanelButtonLeaved()
 {
     this->_leftPanelRect->StartLeavedAnimation();
 }
 
-void LeftBorderButton::PanelButtonPressed()
+void ComputerButton::PanelButtonPressed()
 {
     if (!IsFocused())
     {

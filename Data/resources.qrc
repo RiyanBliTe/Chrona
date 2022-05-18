@@ -14,9 +14,6 @@
         <file>Images/icons_svg/icon_close_bright.svg</file>
         <file>Images/icons_svg/icon_close_dark.svg</file>
     </qresource>
-    <qresource prefix="/files">
-        <file>Files/ProgramStyle.xml</file>
-    </qresource>
     <qresource prefix="/icons_png">
         <file>Images/welcome_logo.png</file>
     </qresource>
