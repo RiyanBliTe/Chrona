@@ -14,7 +14,7 @@
    <string>Chrona ver_0.1b</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Data/resources.qrc">
+   <iconset resource="../../Data/resources.qrc">
     <normaloff>:/icons_svg/Images/icons_svg/icon_logo.svg</normaloff>:/icons_svg/Images/icons_svg/icon_logo.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -952,7 +952,7 @@ background-repeat: no-repeat;</string>
   </widget>
  </widget>
  <resources>
-  <include location="../Data/resources.qrc"/>
+  <include location="../../Data/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -7,6 +7,7 @@ TaskButton::TaskButton(QWidget *parent)
     , _textColor(Settings::GetInstance()._on_center_panel_task_button_text_color)
     , _buttonText("Button")
     , _buttonStatus(TaskStatus::IDLE)
+    , _taskPointer(nullptr)
     , _isPress(false)
     , _isMouseInCloseButton(false)
 {
@@ -32,6 +33,16 @@ void TaskButton::SetText(QString &value)
 QString& TaskButton::GetText()
 {
     return this->_buttonText;
+}
+
+void TaskButton::SetTaskPointer(Task *task)
+{
+    this->_taskPointer = task;
+}
+
+Task* TaskButton::GetTaskPointer()
+{
+    return this->_taskPointer;
 }
 
 void TaskButton::enterEvent(QEvent* event)

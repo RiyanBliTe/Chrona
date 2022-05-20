@@ -8,6 +8,7 @@
 #include <QPainter>
 
 #include "../Settings.h"
+#include "../Model/Task.h"
 
 class TaskButton : public QWidget
 {
@@ -30,6 +31,9 @@ public:
     void SetText(QString&);
     QString& GetText();
 
+    void SetTaskPointer(Task*);
+    Task* GetTaskPointer();
+
 protected:
     virtual void enterEvent(QEvent*) override;
     virtual void leaveEvent(QEvent*) override;
@@ -49,6 +53,8 @@ private:
     QString _buttonText;
 
     TaskStatus _buttonStatus;
+
+    Task *_taskPointer;
 
     bool _isPress;
     bool _isMouseInCloseButton;

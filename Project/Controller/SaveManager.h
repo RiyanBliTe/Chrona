@@ -16,6 +16,7 @@ public:
     static SaveManager& Instance();
 
     void Initialize();
+    void Save();
 
 private:
     QFile *_TaskListFile;

@@ -9,46 +9,46 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Project/Computer.cpp \
-    Project/ComputersManager.cpp \
-    Project/ConnectionManager.cpp \
-    Project/SaveManager.cpp \
-    Project/Task.cpp \
-    Project/TasksManager.cpp \
-    Project/UI_Components/ComputerButton.cpp \
-    Project/UI_Components/Popups/AddMachinePopup.cpp \
-    Project/UI_Components/Popups/Popup.cpp \
-    Project/UI_Components/Popups/PopupModule.cpp \
-    Project/UI_Components/Popups/SettingsPopup.cpp \
-    Project/UI_Components/TaskButton.cpp \
-    Project/UI_Components/ToogleButton.cpp \
-    Project/UI_Components/TopMenuButton.cpp \
-    Project/WelcomeWindow.cpp \
+    Project/Model/Computer.cpp \
+    Project/Controller/ComputersManager.cpp \
+    Project/Controller/ConnectionManager.cpp \
+    Project/Controller/SaveManager.cpp \
+    Project/Model/Task.cpp \
+    Project/View/ComputerButton.cpp \
+    Project/View/Popups/AddMachinePopup.cpp \
+    Project/View/Popups/AddTaskPopup.cpp \
+    Project/View/Popups/Popup.cpp \
+    Project/View/Popups/PopupModule.cpp \
+    Project/View/Popups/SettingsPopup.cpp \
+    Project/View/TaskButton.cpp \
+    Project/View/ToogleButton.cpp \
+    Project/View/TopMenuButton.cpp \
+    Project/View/WelcomeWindow.cpp \
     Project/main.cpp \
-    Project/MainWindow.cpp
+    Project/View/MainWindow.cpp
 
 HEADERS += \
-    Project/Computer.h \
-    Project/ComputersManager.h \
-    Project/ConnectionManager.h \
-    Project/SaveManager.h \
+    Project/Model/Computer.h \
+    Project/Controller/ComputersManager.h \
+    Project/Controller/ConnectionManager.h \
+    Project/Controller/SaveManager.h \
     Project/Settings.h \
-    Project/Task.h \
-    Project/TasksManager.h \
-    Project/UI_Components/ComputerButton.h \
-    Project/UI_Components/Popups/AddMachinePopup.h \
-    Project/UI_Components/Popups/Popup.h \
-    Project/MainWindow.h \
-    Project/UI_Components/Popups/PopupModule.h \
-    Project/UI_Components/Popups/SettingsPopup.h \
-    Project/UI_Components/TaskButton.h \
-    Project/UI_Components/ToogleButton.h \
-    Project/UI_Components/TopMenuButton.h \
-    Project/WelcomeWindow.h
+    Project/Model/Task.h \
+    Project/View/ComputerButton.h \
+    Project/View/Popups/AddMachinePopup.h \
+    Project/View/Popups/AddTaskPopup.h \
+    Project/View/Popups/Popup.h \
+    Project/View/MainWindow.h \
+    Project/View/Popups/PopupModule.h \
+    Project/View/Popups/SettingsPopup.h \
+    Project/View/TaskButton.h \
+    Project/View/ToogleButton.h \
+    Project/View/TopMenuButton.h \
+    Project/View/WelcomeWindow.h
 
 FORMS += \
-    Project/MainWindow.ui \
-    Project/WelcomeWindow.ui
+    Project/View/MainWindow.ui \
+    Project/View/WelcomeWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

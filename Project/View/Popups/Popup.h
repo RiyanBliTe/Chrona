@@ -30,6 +30,7 @@ signals:
     void popupClosed();
     void closeButtonPressed();
     void connectedSucces(QString, QString);
+    void addTask(QString, QString);
 
 protected:
     virtual void paintEvent(QPaintEvent*) override;

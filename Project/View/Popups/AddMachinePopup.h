@@ -14,6 +14,7 @@ public:
 
 private slots:
     void connectButtonPressed();
+    void taskTextChanged();
 
 private:
     void SetMemory();

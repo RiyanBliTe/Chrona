@@ -9,7 +9,7 @@
 #include <QPropertyAnimation>
 
 #include "../Settings.h"
-#include "../Computer.h"
+#include "../Model/Computer.h"
 
 class QPropertyAnimation;
 
@@ -144,11 +144,7 @@ public:
     void SetLeftPanelEnabled(bool);
     void SetImage(QString);
 
-    void SetComputerName(QString);
-    void SetComputerIP(QString);
     void SetComputerPointer(Computer*);
-    QString GetComputerName();
-    QString GetComputerIP();
     Computer* GetComputerPointer();
 
 private:
@@ -172,8 +168,6 @@ private:
     CenterButton *_rightPanelButton;
     BorderRoundedRectungle *_leftPanelRect;
 
-    QString _computerName;
-    QString _computerIP;
     Computer *_computer;
 
     static const int WIDTH = 72;

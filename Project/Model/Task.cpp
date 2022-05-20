@@ -17,12 +17,12 @@ void Task::SetName(QString value)
     this->_name = value;
 }
 
-const QString& Task::GetID()
+QString& Task::GetID()
 {
     return this->_id;
 }
 
-const QString& Task::GetName()
+QString& Task::GetName()
 {
     return this->_name;
 }

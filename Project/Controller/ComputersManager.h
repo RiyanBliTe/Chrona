@@ -3,7 +3,7 @@
 
 #include <QDomDocument>
 
-#include "Computer.h"
+#include "../Model/Computer.h"
 
 class ComputersManager final
 {
@@ -20,11 +20,12 @@ public:
     void LoadComputers();
 
     const QList<Task*> GetTasksByComputer(const Computer*);
+    const QList<Computer*>& GetComputers();
+
+    void AddComputer(Computer*);
 
 private:
     QList<Computer*> _computers;
 };
-
-#define COMPUTERS_MANAGER ComputersManager::Instance()
 
 #endif // COMPUTERSMANAGER_H

@@ -65,6 +65,7 @@ public:
             return QFontDatabase::applicationFontFamilies(_sen_extrabold_id).at(0);
             break;
         }
+        return "";
     }
 
     void SetSenFontIds(int id_regular, int id_bold, int id_extrabold)

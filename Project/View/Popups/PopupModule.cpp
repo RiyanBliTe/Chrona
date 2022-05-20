@@ -46,6 +46,10 @@ void PopupModule::PushPopup(PopupType value)
     case PopupModule::PopupType::ADDMACHINE:
         popup = new AddMachinePopup(this);
         break;
+
+    case PopupModule::PopupType::ADDTASK:
+        popup = new AddTaskPopup(this);
+        break;
     }
 
     if (popup != nullptr)

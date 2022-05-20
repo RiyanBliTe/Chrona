@@ -11,8 +11,8 @@ public:
     void SetID(QString);
     void SetName(QString);
 
-    const QString& GetID();
-    const QString& GetName();
+    QString& GetID();
+    QString& GetName();
 
 private:
     QString _id;

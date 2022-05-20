@@ -3,6 +3,7 @@
 Computer::Computer()
     : _name("")
     , _ip("")
+    , _mac("")
     , _isThisComputer(false)
 {
 
@@ -30,19 +31,29 @@ void Computer::SetIP(QString value)
     this->_ip = value;
 }
 
+void Computer::SetMAC(QString value)
+{
+    this->_mac = value;
+}
+
 void Computer::AddTask(Task *task)
 {
     this->_tasks.append(task);
 }
 
-const QString& Computer::GetName()
+QString& Computer::GetName()
 {
     return this->_name;
 }
 
-const QString& Computer::GetIP()
+QString& Computer::GetIP()
 {
     return this->_ip;
+}
+
+QString& Computer::GetMAC()
+{
+    return this->_mac;
 }
 
 QList<Task*>& Computer::GetTasks()

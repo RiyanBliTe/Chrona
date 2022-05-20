@@ -386,8 +386,6 @@ ComputerButton::ComputerButton(QWidget *parent)
     , _rightPanel(nullptr)
     , _rightPanelButton(nullptr)
     , _leftPanelRect(nullptr)
-    , _computerName("")
-    , _computerIP("")
     , _computer(nullptr)
 {
     this->setFixedSize(QSize(this->WIDTH, this->HEIGHT));
@@ -483,29 +481,9 @@ void ComputerButton::SetImage(QString value)
     this->_rightPanelButton->SetImage(value);
 }
 
-void ComputerButton::SetComputerName(QString value)
-{
-    this->_computerName = value;
-}
-
-void ComputerButton::SetComputerIP(QString value)
-{
-    this->_computerIP = value;
-}
-
 void ComputerButton::SetComputerPointer(Computer *value)
 {
     this->_computer = value;
-}
-
-QString ComputerButton::GetComputerName()
-{
-    return this->_computerName;
-}
-
-QString ComputerButton::GetComputerIP()
-{
-    return this->_computerIP;
 }
 
 Computer* ComputerButton::GetComputerPointer()

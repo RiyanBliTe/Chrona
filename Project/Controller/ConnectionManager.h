@@ -16,6 +16,7 @@ public:
 
     QString GetThisMachineName();
     QString GetThisMachineIP();
+    QString GetThisMachineMAC();
 };
 
 #define CONNECTION_MANAGER ConnectionManager::Instance()

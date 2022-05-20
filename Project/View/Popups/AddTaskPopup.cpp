@@ -1,34 +1,32 @@
-#include "AddMachinePopup.h"
+#include "AddTaskPopup.h"
+#include <time.h>>
 
-AddMachinePopup::AddMachinePopup(QWidget *parent)
+AddTaskPopup::AddTaskPopup(QWidget *parent)
     : Popup{parent}
-    , _machineName(nullptr)
-    , _machineIP(nullptr)
-    , _connectButton(nullptr)
+    , _taskName(nullptr)
+    , _addButton(nullptr)
 {
-    SetMemory();
-    SetupModules();
+    this->SetMemory();
+    this->SetupModules();
 }
 
-AddMachinePopup::~AddMachinePopup()
+AddTaskPopup::~AddTaskPopup()
 {
 
 }
 
-void AddMachinePopup::SetMemory()
+void AddTaskPopup::SetMemory()
 {
-    if (this->_machineName == nullptr)
-        this->_machineName = new QLineEdit();
-    if (this->_machineIP == nullptr)
-        this->_machineIP = new QLineEdit();
-    if (this->_connectButton == nullptr)
-        this->_connectButton = new QPushButton();
+    if (this->_taskName == nullptr)
+        this->_taskName = new QLineEdit();
+    if (this->_addButton == nullptr)
+        this->_addButton = new QPushButton();
 }
 
-void AddMachinePopup::SetupModules()
+void AddTaskPopup::SetupModules()
 {
-    setFixedSize(450, 350);
-    SetTitleText("Add Machine");
+    setFixedSize(350, 250);
+    SetTitleText("Add Task");
 
     _centerWidget->setLayout(new QVBoxLayout());
     _centerWidget->setStyleSheet("QLineEdit\
@@ -60,34 +58,47 @@ void AddMachinePopup::SetupModules()
                                  QPushButton:pressed \
                                  {\
                                     background-color: rgb(88, 158, 133);\
+                                 }\
+                                 QPushButton:disabled \
+                                 {\
+                                    background-color: rgb(17, 17, 17);\
                                  }");
 
-    this->_machineName->setFixedHeight(40);
-    this->_machineIP->setFixedHeight(40);
-    this->_connectButton->setFixedHeight(40);
-    this->_connectButton->setText("Connect");
-    connect(this->_connectButton, &QPushButton::clicked, this, &AddMachinePopup::connectButtonPressed);
+    this->_taskName->setFixedHeight(40);
+    this->_addButton->setFixedHeight(40);
+    this->_addButton->setText("Add Task");
+    connect(this->_addButton, &QPushButton::clicked, this, &AddTaskPopup::addButtonPressed);
 
-    QLabel *machineNameLabel = new QLabel();
-    machineNameLabel->setText("MACHINE NAME");
+    QLabel *taskNameLabel = new QLabel();
+    taskNameLabel->setText("TASK NAME");
     QFont font = QFont(Settings::GetInstance().GetApplicationFont(Settings::Fonts::SEN_REGULAR), 10);
-    machineNameLabel->setFont(font);
-    _centerWidget->layout()->addWidget(machineNameLabel);
-    _centerWidget->layout()->addWidget(this->_machineName);
-    QLabel *machineIPLabel = new QLabel();
-    machineIPLabel->setText("MACHINE IP");
-    machineIPLabel->setFont(font);
+    taskNameLabel->setFont(font);
+    _centerWidget->layout()->addWidget(taskNameLabel);
+    _centerWidget->layout()->addWidget(this->_taskName);
     QFont buttonFont = QFont(font);
     buttonFont.setWeight(QFont::Bold);
-    this->_connectButton->setFont(buttonFont);
-    _centerWidget->layout()->addWidget(machineIPLabel);
-    _centerWidget->layout()->addWidget(this->_machineIP);
+    this->_addButton->setFont(buttonFont);
     _centerWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
-    _centerWidget->layout()->addWidget(this->_connectButton);
+    _centerWidget->layout()->addWidget(this->_addButton);
+
+    this->_addButton->setEnabled(false);
+    connect(this->_taskName, &QLineEdit::textChanged, this, &AddTaskPopup::taskTextChanged);
 }
 
-void AddMachinePopup::connectButtonPressed()
+void AddTaskPopup::addButtonPressed()
 {
-    emit this->connectedSucces(this->_machineName->text(), this->_machineIP->text());
+    emit addTask(std::to_string(time(NULL)).c_str(), this->_taskName->text());
     emit closeButtonPressed();
+}
+
+void AddTaskPopup::taskTextChanged()
+{
+    if (this->_taskName->text() == "" || this->_taskName->text().isEmpty())
+    {
+        this->_addButton->setEnabled(false);
+    }
+    else
+    {
+        this->_addButton->setEnabled(true);
+    }
 }

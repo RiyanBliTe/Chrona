@@ -12,6 +12,7 @@
 #include "Popup.h"
 #include "SettingsPopup.h"
 #include "AddMachinePopup.h"
+#include "AddTaskPopup.h"
 
 class QPropertyAnimation;
 
@@ -27,7 +28,8 @@ public:
     enum class PopupType
     {
         SETTINGS,
-        ADDMACHINE
+        ADDMACHINE,
+        ADDTASK
     };
 
     void PushPopup(PopupType);

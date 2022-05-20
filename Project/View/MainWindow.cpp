@@ -1,10 +1,11 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "ComputersManager.h"
+#include "../Controller/ComputersManager.h"
+#include "../Controller/SaveManager.h"
 
 #include <QFile>
 
-#include "Settings.h"
+#include "../Settings.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -53,20 +54,6 @@ void MainWindow::SetupModules()
     this->_SettingsButton->SetImage(":/icons_svg/Images/icons_svg/icon_settings.svg");
     this->ui->Widget_Settings->layout()->addWidget(this->_SettingsButton);
 
-    /*this->_machinesList.push_back(new ComputerButton()); // [0] this PC
-    this->_machinesList[0]->SetFocused(true);
-    this->_machinesList.push_back(new ComputerButton());
-    this->_machinesList.push_back(new ComputerButton());
-    this->_machinesList.push_back(new ComputerButton());
-    this->_machinesList.push_back(new ComputerButton());
-
-    for (int i = 0; i < this->_machinesList.size(); i++)
-    {
-        this->_machinesList[i]->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
-        this->ui->Widget_MachinesList->layout()->addWidget(this->_machinesList[i]);
-        connect(this->_machinesList[i], &ComputerButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
-    }*/
-
     this->ui->Widget_AddNewMachine->layout()->addWidget(this->_AddNewMachineButton);
 
     this->_topButtons.push_back(new TopMenuButton());
@@ -81,23 +68,6 @@ void MainWindow::SetupModules()
 
     this->ui->Widget_ToogleButton->layout()->addWidget(new ToogleButton());
 
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList.push_back(new TaskButton());
-    this->_taskButtonsList[0]->SetStatus(TaskButton::TaskStatus::FAILED);
-    this->_taskButtonsList[1]->SetStatus(TaskButton::TaskStatus::IDLE);
-    this->_taskButtonsList[2]->SetStatus(TaskButton::TaskStatus::RUNNING);
-    this->_taskButtonsList[3]->SetStatus(TaskButton::TaskStatus::SUCCESS);
-    this->_taskButtonsList[4]->SetStatus(TaskButton::TaskStatus::SUCCESS);
-    this->_taskButtonsList[5]->SetStatus(TaskButton::TaskStatus::FAILED);
-    for (int i = 0; i < this->_taskButtonsList.size(); i++)
-    {
-        this->ui->Widget_TasksList->layout()->addWidget(this->_taskButtonsList[i]);
-    }
-
     this->_PopupModule->hide();
     connect(this->_SettingsButton, &ComputerButton::clicked, this, &MainWindow::settingsButtonClicked);
     connect(this->_AddNewMachineButton, &ComputerButton::clicked, this, &MainWindow::addMachineButtonClicked);
@@ -108,14 +78,12 @@ void MainWindow::LoadComputers(const QList<Computer*>& list)
     for (auto it = list.begin(); it != list.end(); it++)
     {
         ComputerButton *computerButton = new ComputerButton();
-        computerButton->SetComputerName((*it)->GetName());
-        computerButton->SetComputerIP((*it)->GetIP());
         computerButton->SetComputerPointer(*it);
         if ((*it)->IsThisComputer())
         {
             computerButton->SetFocused(true);
-            ui->Label_SelectedMachineName->setText(computerButton->GetComputerName());
-            ui->Label_SelectedMachineIP->setText(computerButton->GetComputerIP());
+            ui->Label_SelectedMachineName->setText((*it)->GetName());
+            ui->Label_SelectedMachineIP->setText((*it)->GetIP());
             this->LoadTasks((*it)->GetTasks());
         }
         computerButton->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
@@ -135,9 +103,13 @@ void MainWindow::LoadTasks(const QList<Task*>& list)
         }
     }
 
+    this->_taskButtonsList.clear();
+
     for (auto it = list.begin(); it != list.end(); it++)
     {
         TaskButton *taskButton = new TaskButton();
+        taskButton->SetTaskPointer(*it);
+        taskButton->SetText((*it)->GetName());
         this->_taskButtonsList.push_back(taskButton);
         this->ui->Widget_TasksList->layout()->addWidget(taskButton);
     }
@@ -145,6 +117,7 @@ void MainWindow::LoadTasks(const QList<Task*>& list)
 
 void MainWindow::machineButtonChangedFocus(ComputerButton *button)
 {
+    // change computer button focus
     for (auto it = this->_machinesList.begin(); it != this->_machinesList.end(); it++)
     {
         if (*it != button)
@@ -153,12 +126,17 @@ void MainWindow::machineButtonChangedFocus(ComputerButton *button)
         }
     }
 
+    // clean tasks list widget
     for (auto it = this->_taskButtonsList.begin(); it != this->_taskButtonsList.end(); it++)
     {
         this->ui->Widget_TasksList->layout()->removeWidget((*it));
     }
+    // load curent tasks
+    this->LoadTasks(ComputersManager::Instance().GetTasksByComputer(button->GetComputerPointer()));
 
-    this->LoadTasks(COMPUTERS_MANAGER.GetTasksByComputer(button->GetComputerPointer()));
+    // computer data
+    this->ui->Label_SelectedMachineName->setText(button->GetComputerPointer()->GetName());
+    this->ui->Label_SelectedMachineIP->setText(button->GetComputerPointer()->GetIP());
 }
 
 void MainWindow::settingsButtonClicked()
@@ -167,6 +145,7 @@ void MainWindow::settingsButtonClicked()
     this->_PopupModule->raise();
     this->_PopupModule->PushPopup(PopupModule::PopupType::SETTINGS);
     this->_PopupModule->show();
+    SaveManager::Instance().Save();
 }
 
 void MainWindow::addMachineButtonClicked()
@@ -196,4 +175,40 @@ void MainWindow::AddMachineTriger(QString machine_name, QString machine_ip)
     but->SetImage(":/icons_svg/Images/icons_svg/icon_machine.svg");
     this->ui->Widget_MachinesList->layout()->addWidget(but);
     connect(but, &ComputerButton::focusChanged, this, &MainWindow::machineButtonChangedFocus);
+    Computer *computer = new Computer();
+    computer->SetIP(machine_ip);
+    computer->SetName(machine_name);
+    ComputersManager::Instance().AddComputer(computer);
+    but->SetComputerPointer(computer);
 }
+
+// add task button
+void MainWindow::on_pushButton_2_clicked()
+{
+    this->_PopupModule->setGeometry(0, 0, width(), height());
+    this->_PopupModule->raise();
+    this->_PopupModule->PushPopup(PopupModule::PopupType::ADDTASK);
+    Popup *popup = this->_PopupModule->TopPopup();
+    if (popup != nullptr)
+    {
+        connect(popup, &AddTaskPopup::addTask, this, &MainWindow::AddTaskTriger);
+    }
+    this->_PopupModule->show();
+}
+
+void MainWindow::AddTaskTriger(QString task_id, QString task_name)
+{
+    Task *task = new Task();
+    task->SetID(task_id);
+    task->SetName(task_name);
+    for (auto it = this->_machinesList.begin(); it != this->_machinesList.end(); it++)
+    {
+        if ((*it)->IsFocused())
+        {
+            (*it)->GetComputerPointer()->AddTask(task);
+            this->LoadTasks((*it)->GetComputerPointer()->GetTasks());
+            break;
+        }
+    }
+}
+

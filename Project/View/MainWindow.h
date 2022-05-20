@@ -5,13 +5,13 @@
 #include <QVector>
 #include <QResizeEvent>
 
-#include "Computer.h"
+#include "../Model/Computer.h"
 
-#include "UI_Components/ComputerButton.h"
-#include "UI_Components/TopMenuButton.h"
-#include "UI_Components/ToogleButton.h"
-#include "UI_Components/TaskButton.h"
-#include "UI_Components/Popups/PopupModule.h"
+#include "ComputerButton.h"
+#include "TopMenuButton.h"
+#include "ToogleButton.h"
+#include "TaskButton.h"
+#include "Popups/PopupModule.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +41,9 @@ private slots:
     void settingsButtonClicked();
     void addMachineButtonClicked();
     void AddMachineTriger(QString, QString);
+    void AddTaskTriger(QString, QString);
+
+    void on_pushButton_2_clicked();
 
 private:
     void SetMemory();

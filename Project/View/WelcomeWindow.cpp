@@ -2,7 +2,7 @@
 #include "ui_WelcomeWindow.h"
 
 #include <thread>
-#include "SaveManager.h"
+#include "../Controller/SaveManager.h"
 
 WelcomeWindow::WelcomeWindow(QWidget *parent) :
     QWidget(parent),

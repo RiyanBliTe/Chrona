@@ -1,7 +1,6 @@
 #include "ComputersManager.h"
-#include "TasksManager.h"
 #include "ConnectionManager.h"
-#include "MainWindow.h"
+#include "../View/MainWindow.h"
 
 #include <QDebug>
 
@@ -34,9 +33,11 @@ void ComputersManager::LoadComputer(QDomElement& document)
     Computer *computer = new Computer();
     computer->SetName(document.attribute("Name", ""));
     computer->SetIP(document.attribute("IP", ""));
+    computer->SetMAC(document.attribute("MAC", ""));
 
-    if (computer->GetIP() == CONNECTION_MANAGER.GetThisMachineIP())
+    if (computer->GetMAC() == ConnectionManager::Instance().GetThisMachineMAC())
     {
+        computer->SetIP(ConnectionManager::Instance().GetThisMachineIP());
         computer->SetIsThisComputer(true);
     }
 
@@ -59,7 +60,25 @@ void ComputersManager::LoadComputer(QDomElement& document)
 
 void ComputersManager::LoadComputers()
 {
-    MAINWINDOW.LoadComputers(this->_computers);
+    bool hasThisComputer = false;
+    for (auto it = this->_computers.begin(); it != this->_computers.end(); it++)
+    {
+        if ((*it)->IsThisComputer())
+        {
+            hasThisComputer = true;
+        }
+    }
+    if (!hasThisComputer)
+    {
+        Computer *thisComuter = new Computer();
+        thisComuter->SetName(ConnectionManager::Instance().GetThisMachineName());
+        thisComuter->SetIP(ConnectionManager::Instance().GetThisMachineIP());
+        thisComuter->SetMAC(ConnectionManager::Instance().GetThisMachineMAC());
+        thisComuter->SetIsThisComputer(true);
+        this->_computers.prepend(thisComuter);
+    }
+
+    MainWindow::Instance().LoadComputers(this->_computers);
 }
 
 const QList<Task*> ComputersManager::GetTasksByComputer(const Computer *value)
@@ -71,4 +90,15 @@ const QList<Task*> ComputersManager::GetTasksByComputer(const Computer *value)
             return (*it)->GetTasks();
         }
     }
+    return QList<Task*>();
+}
+
+const QList<Computer*>& ComputersManager::GetComputers()
+{
+    return this->_computers;
+}
+
+void ComputersManager::AddComputer(Computer *computer)
+{
+    this->_computers.append(computer);
 }
