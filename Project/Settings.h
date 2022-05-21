@@ -26,7 +26,7 @@ private:
         , _on_center_panel_task_button_enter_color("#3C3F45")
         , _on_center_panel_task_button_idle_color("#2F3136")
         , _on_center_panel_task_button_press_color("#3F4248")
-        , _on_center_panel_task_button_text_color("#ffffff")
+        , _on_center_panel_task_button_text_color("#96989D")
         , _on_center_panel_task_button_close_button_enter_color("#151617")
         , _on_center_panel_task_button_close_button_idle_color("#2F3136")
         , _on_center_panel_task_button_close_button_press_color("#76B39D")

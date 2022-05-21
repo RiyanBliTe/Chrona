@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QVector>
 #include <QResizeEvent>
+#include <QCloseEvent>
 
 #include "../Model/Computer.h"
 
@@ -12,6 +13,7 @@
 #include "ToogleButton.h"
 #include "TaskButton.h"
 #include "Popups/PopupModule.h"
+#include "TaskInfoPanel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,13 +33,15 @@ public:
     static MainWindow& Instance();
 
     void LoadComputers(const QList<Computer*>&);
-    void LoadTasks(const QList<Task*>&);
+    void LoadTasks(const QList<Task*>*);
 
 protected:
     virtual void resizeEvent(QResizeEvent*) override;
+    virtual void closeEvent(QCloseEvent*) override;
 
 private slots:
     void machineButtonChangedFocus(ComputerButton*);
+    void changeTaskClicked(TaskButton*);
     void settingsButtonClicked();
     void addMachineButtonClicked();
     void AddMachineTriger(QString, QString);
@@ -48,6 +52,7 @@ private slots:
 private:
     void SetMemory();
     void SetupModules();
+    void ClearLayout(QLayout* layout);
 
 private:
     Ui::MainWindow *ui;
@@ -60,6 +65,8 @@ private:
     QVector<ComputerButton*> _machinesList;
     QVector<TaskButton*> _taskButtonsList;
     QVector<TopMenuButton*> _topButtons;
+
+    TaskInfoPanel *_TaskInfoPanel;
 };
 
 #define MAINWINDOW MainWindow::Instance()

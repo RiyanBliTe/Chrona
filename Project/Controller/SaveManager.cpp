@@ -89,7 +89,7 @@ void SaveManager::Save()
         computerElement.setAttribute("Name", (*computerIterator)->GetName());
         computerElement.setAttribute("IP", (*computerIterator)->GetIP());
         computerElement.setAttribute("MAC", (*computerIterator)->GetMAC());
-        for (auto taskIterator = (*computerIterator)->GetTasks().begin(); taskIterator != (*computerIterator)->GetTasks().end(); taskIterator++)
+        for (auto taskIterator = (*computerIterator)->GetTasks()->begin(); taskIterator != (*computerIterator)->GetTasks()->end(); taskIterator++)
         {
             QDomElement taskElement = document.createElement("Task");
             taskElement.setAttribute("ID", (*taskIterator)->GetID());

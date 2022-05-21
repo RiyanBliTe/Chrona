@@ -19,7 +19,7 @@ public:
     QString& GetName();
     QString& GetIP();
     QString& GetMAC();
-    QList<Task*>& GetTasks();
+    const QList<Task*>* GetTasks();
 
     void SetIsThisComputer(bool);
     bool IsThisComputer();
@@ -28,7 +28,7 @@ private:
     QString _name;
     QString _ip;
     QString _mac;
-    QList<Task*> _tasks;
+    QList<Task*> *_tasks;
 
     bool _isThisComputer;
 };

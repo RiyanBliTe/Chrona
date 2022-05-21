@@ -931,11 +931,11 @@ background-repeat: no-repeat;</string>
        <item>
         <widget class="QStackedWidget" name="StackedWidget_Right_CenterPanel">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="Widget_TaskInfo">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(17, 17, 17);</string>
+           <string notr="true"/>
           </property>
          </widget>
          <widget class="QWidget" name="Widget_TaskControl">

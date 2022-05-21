@@ -6,19 +6,20 @@ Computer::Computer()
     , _mac("")
     , _isThisComputer(false)
 {
-
+    this->_tasks = new QList<Task*>();
 }
 
 Computer::~Computer()
 {
-    for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
+    for (auto it = this->_tasks->begin(); it != this->_tasks->end(); it++)
     {
         if (*it != nullptr)
         {
             delete *it;
         }
     }
-    this->_tasks.clear();
+    this->_tasks->clear();
+    delete this->_tasks;
 }
 
 void Computer::SetName(QString value)
@@ -38,7 +39,7 @@ void Computer::SetMAC(QString value)
 
 void Computer::AddTask(Task *task)
 {
-    this->_tasks.append(task);
+    this->_tasks->append(task);
 }
 
 QString& Computer::GetName()
@@ -56,7 +57,7 @@ QString& Computer::GetMAC()
     return this->_mac;
 }
 
-QList<Task*>& Computer::GetTasks()
+const QList<Task*>* Computer::GetTasks()
 {
     return this->_tasks;
 }

@@ -10,6 +10,7 @@ TaskButton::TaskButton(QWidget *parent)
     , _taskPointer(nullptr)
     , _isPress(false)
     , _isMouseInCloseButton(false)
+    , _isFocused(false)
 {
     setFixedHeight(40);
     setMouseTracking(true);
@@ -27,7 +28,14 @@ TaskButton::TaskStatus TaskButton::GetStatus()
 
 void TaskButton::SetText(QString &value)
 {
-    this->_buttonText = value;
+    if (value.length() >= 24)
+    {
+        QString text = value.mid(0, 23);
+        text.append("...");
+        this->_buttonText = text;
+    }
+    else
+        this->_buttonText = value;
 }
 
 QString& TaskButton::GetText()
@@ -45,11 +53,33 @@ Task* TaskButton::GetTaskPointer()
     return this->_taskPointer;
 }
 
+void TaskButton::SetFocused(bool value)
+{
+    this->_isFocused = value;
+    if (value)
+    {
+        this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_press_color;
+        this->_textColor = "#FFFFFF";
+    }
+    else
+    {
+        this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_idle_color;
+        this->_textColor = Settings::GetInstance()._on_center_panel_task_button_text_color;
+    }
+    update();
+}
+
+bool TaskButton::IsFocused()
+{
+    return this->_isFocused;
+}
+
 void TaskButton::enterEvent(QEvent* event)
 {
     (void)event;
 
-    this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_enter_color;
+    if (!IsFocused())
+        this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_enter_color;
     update();
 }
 
@@ -57,7 +87,8 @@ void TaskButton::leaveEvent(QEvent* event)
 {
     (void)event;
 
-    this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_idle_color;
+    if (!IsFocused())
+        this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_idle_color;
     update();
 }
 
@@ -71,9 +102,14 @@ void TaskButton::mousePressEvent(QMouseEvent* event)
         }
         else
         {
-            this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_press_color;
+            if (!IsFocused())
+                this->_mainBackgroundColor = Settings::GetInstance()._on_center_panel_task_button_press_color;
             this->_isPress = true;
-            emit this->clicked();
+            if (!IsFocused())
+            {
+                this->SetFocused(true);
+                emit this->clicked(this);
+            }
         }
         update();
     }

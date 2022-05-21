@@ -21,6 +21,7 @@ SOURCES += \
     Project/View/Popups/PopupModule.cpp \
     Project/View/Popups/SettingsPopup.cpp \
     Project/View/TaskButton.cpp \
+    Project/View/TaskInfoPanel.cpp \
     Project/View/ToogleButton.cpp \
     Project/View/TopMenuButton.cpp \
     Project/View/WelcomeWindow.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     Project/View/Popups/PopupModule.h \
     Project/View/Popups/SettingsPopup.h \
     Project/View/TaskButton.h \
+    Project/View/TaskInfoPanel.h \
     Project/View/ToogleButton.h \
     Project/View/TopMenuButton.h \
     Project/View/WelcomeWindow.h

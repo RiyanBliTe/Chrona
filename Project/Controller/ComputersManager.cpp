@@ -81,7 +81,7 @@ void ComputersManager::LoadComputers()
     MainWindow::Instance().LoadComputers(this->_computers);
 }
 
-const QList<Task*> ComputersManager::GetTasksByComputer(const Computer *value)
+const QList<Task*>* ComputersManager::GetTasksByComputer(const Computer *value)
 {
     for (auto it = this->_computers.begin(); it != this->_computers.end(); it++)
     {
@@ -90,7 +90,7 @@ const QList<Task*> ComputersManager::GetTasksByComputer(const Computer *value)
             return (*it)->GetTasks();
         }
     }
-    return QList<Task*>();
+    return nullptr;
 }
 
 const QList<Computer*>& ComputersManager::GetComputers()

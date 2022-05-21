@@ -34,6 +34,9 @@ public:
     void SetTaskPointer(Task*);
     Task* GetTaskPointer();
 
+    void SetFocused(bool);
+    bool IsFocused();
+
 protected:
     virtual void enterEvent(QEvent*) override;
     virtual void leaveEvent(QEvent*) override;
@@ -43,7 +46,7 @@ protected:
     virtual void paintEvent(QPaintEvent*) override;
 
 signals:
-    void clicked();
+    void clicked(TaskButton*);
     void closeClicked();
 
 private:
@@ -58,6 +61,7 @@ private:
 
     bool _isPress;
     bool _isMouseInCloseButton;
+    bool _isFocused;
 };
 
 #endif // TASKBUTTON_H

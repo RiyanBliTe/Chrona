@@ -19,7 +19,7 @@ public:
     void LoadComputer(QDomElement& document);
     void LoadComputers();
 
-    const QList<Task*> GetTasksByComputer(const Computer*);
+    const QList<Task*>* GetTasksByComputer(const Computer*);
     const QList<Computer*>& GetComputers();
 
     void AddComputer(Computer*);

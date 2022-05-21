@@ -1,5 +1,5 @@
-#include "MainWindow.h"
-#include "WelcomeWindow.h"
+#include "View/MainWindow.h"
+#include "View/WelcomeWindow.h"
 
 #include <QApplication>
 #include <QFontDatabase>
