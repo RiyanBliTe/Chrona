@@ -30,6 +30,7 @@ void MainWindow::SetMemory()
     this->_AddNewMachineButton = new ComputerButton();
     this->_PopupModule = new PopupModule(this);
     this->_TaskInfoPanel = new TaskInfoPanel();
+    this->_spawner = new InfoSpawner();
 }
 
 void MainWindow::SetupModules()
@@ -58,6 +59,7 @@ void MainWindow::SetupModules()
     this->ui->Widget_TaskInfo->layout()->setContentsMargins(0, 0, 0, 0);
     this->ui->Widget_TaskInfo->layout()->addWidget(this->_TaskInfoPanel);
 
+    this->_spawner->hide();
     this->_PopupModule->hide();
     connect(this->_SettingsButton, &ComputerButton::clicked, this, &MainWindow::settingsButtonClicked);
     connect(this->_AddNewMachineButton, &ComputerButton::clicked, this, &MainWindow::addMachineButtonClicked);

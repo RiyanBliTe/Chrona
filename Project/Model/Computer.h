@@ -14,21 +14,20 @@ public:
     void SetName(QString);
     void SetIP(QString);
     void SetMAC(QString);
-    void AddTask(Task*);
+    void SetUniqueID(QString);
+    void SetIsThisComputer(bool);
 
     QString& GetName();
     QString& GetIP();
     QString& GetMAC();
-    const QList<Task*>* GetTasks();
-
-    void SetIsThisComputer(bool);
+    QString& GetUniqueID();
     bool IsThisComputer();
 
 private:
     QString _name;
     QString _ip;
     QString _mac;
-    QList<Task*> *_tasks;
+    QString _uniqueID;
 
     bool _isThisComputer;
 };

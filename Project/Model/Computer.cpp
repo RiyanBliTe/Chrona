@@ -4,22 +4,13 @@ Computer::Computer()
     : _name("")
     , _ip("")
     , _mac("")
+    , _uniqueID("")
     , _isThisComputer(false)
 {
-    this->_tasks = new QList<Task*>();
 }
 
 Computer::~Computer()
 {
-    for (auto it = this->_tasks->begin(); it != this->_tasks->end(); it++)
-    {
-        if (*it != nullptr)
-        {
-            delete *it;
-        }
-    }
-    this->_tasks->clear();
-    delete this->_tasks;
 }
 
 void Computer::SetName(QString value)
@@ -37,9 +28,14 @@ void Computer::SetMAC(QString value)
     this->_mac = value;
 }
 
-void Computer::AddTask(Task *task)
+void Computer::SetUniqueID(QString value)
 {
-    this->_tasks->append(task);
+    this->_uniqueID = value;
+}
+
+void Computer::SetIsThisComputer(bool value)
+{
+    this->_isThisComputer = value;
 }
 
 QString& Computer::GetName()
@@ -57,14 +53,9 @@ QString& Computer::GetMAC()
     return this->_mac;
 }
 
-const QList<Task*>* Computer::GetTasks()
+QString& Computer::GetUniqueID()
 {
-    return this->_tasks;
-}
-
-void Computer::SetIsThisComputer(bool value)
-{
-    this->_isThisComputer = value;
+    return this->_uniqueID;
 }
 
 bool Computer::IsThisComputer()

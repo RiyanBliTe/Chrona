@@ -74,7 +74,8 @@ void AddMachinePopup::SetupModules()
 
     QLabel *machineNameLabel = new QLabel();
     machineNameLabel->setText("MACHINE NAME");
-    QFont font = QFont(Settings::GetInstance().GetApplicationFont(Settings::Fonts::SEN_REGULAR), 10);
+    QFont font;
+    font.setPointSize(10);
     machineNameLabel->setFont(font);
     _centerWidget->layout()->addWidget(machineNameLabel);
     _centerWidget->layout()->addWidget(this->_machineName);
@@ -109,3 +110,4 @@ void AddMachinePopup::taskTextChanged()
         this->_connectButton->setEnabled(true);
     }
 }
+

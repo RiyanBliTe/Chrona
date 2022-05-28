@@ -15,6 +15,7 @@ SOURCES += \
     Project/Controller/SaveManager.cpp \
     Project/Model/Task.cpp \
     Project/View/ComputerButton.cpp \
+    Project/View/InfoSpawner.cpp \
     Project/View/Popups/AddMachinePopup.cpp \
     Project/View/Popups/AddTaskPopup.cpp \
     Project/View/Popups/Popup.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     Project/Settings.h \
     Project/Model/Task.h \
     Project/View/ComputerButton.h \
+    Project/View/InfoSpawner.h \
     Project/View/Popups/AddMachinePopup.h \
     Project/View/Popups/AddTaskPopup.h \
     Project/View/Popups/Popup.h \

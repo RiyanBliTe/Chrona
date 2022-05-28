@@ -4,6 +4,10 @@ Task::Task()
     : _id("")
     , _name("")
 {
+}
+
+Task::~Task()
+{
 
 }
 

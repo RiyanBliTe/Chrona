@@ -14,6 +14,7 @@
 #include "TaskButton.h"
 #include "Popups/PopupModule.h"
 #include "TaskInfoPanel.h"
+#include "InfoSpawner.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -67,6 +68,8 @@ private:
     QVector<TopMenuButton*> _topButtons;
 
     TaskInfoPanel *_TaskInfoPanel;
+
+    InfoSpawner *_spawner;
 };
 
 #define MAINWINDOW MainWindow::Instance()

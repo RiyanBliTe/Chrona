@@ -85,10 +85,10 @@ void Popup::SetupModules()
                                    outline: none;\
                                    border-radius: 5px;\
                                    text-align: left;\
-                                   background-image: url(:/icons_svg/Images/icons_svg/icon_close_bright.svg);\
+                                   background-image: url(:/images/Images/icon_close_bright.svg);\
                                }\
-                               QPushButton:hover { background-image: url(:/icons_svg/Images/icons_svg/icon_close_dark.svg); }\
-                               QPushButton:pressed { background-image: url(:/icons_svg/Images/icons_svg/icon_close_dark.svg); }");
+                               QPushButton:hover { background-image: url(:/images/Images/icon_close_dark.svg); }\
+                               QPushButton:pressed { background-image: url(:/images/Images/icon_close_dark.svg); }");
     this->layout()->addWidget(this->_topPanel);
 
     this->_separator->setFixedHeight(1);
@@ -96,8 +96,9 @@ void Popup::SetupModules()
     this->layout()->addWidget(this->_separator);
 
     this->_titleLabel->setText("Popup");
-    QFont font = QFont(Settings::GetInstance().GetApplicationFont(Settings::Fonts::SEN_BOLD), 14);
+    QFont font;
     font.setWeight(QFont::Bold);
+    font.setPointSize(14);
     this->_titleLabel->setFont(font);
 
     this->_closeButton->setFixedSize(30, 30);
@@ -135,7 +136,7 @@ void Popup::SetHeightOFFSET(double value)
 
 double Popup::GetHeightOFFSET()
 {
-    return this->_widthOFFSET;
+    return this->_heightOFFSET;
 }
 
 void Popup::SetOpacityOFFSET(int value)

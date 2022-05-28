@@ -12,7 +12,7 @@
 #include <QPushButton>
 #include <QSpacerItem>
 
-#include "../../Settings.h"
+#include "../../Controller/ColorController.h"
 
 class QPropertyAnimation;
 

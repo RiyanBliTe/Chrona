@@ -13,7 +13,7 @@ CenterButton::CenterButton(QWidget *parent)
     , _hasImage(false)
     , _isHiden(false)
     , _isPinned(true)
-    , _selectedColor(Settings::GetInstance()._on_left_panel_idle_color)
+    , _selectedColor(ColorController::Instance().GetComputerButtonColors().idle)
     , _imagePath("")
 {
     SetMemory();
@@ -78,12 +78,12 @@ void CenterButton::SetFocused(bool value)
     this->_isFocused = value;
     if (value)
     {
-        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
+        this->_selectedColor = ColorController::Instance().GetComputerButtonColors().enter;
         this->SetAnimationOFFSET(8);
     }
     else
     {
-        this->_selectedColor = Settings::GetInstance()._on_left_panel_idle_color;
+        this->_selectedColor = ColorController::Instance().GetComputerButtonColors().idle;
         this->SetAnimationOFFSET(0);
     }
     update();
@@ -111,7 +111,7 @@ void CenterButton::enterEvent(QEvent *event)
 
     if (!this->IsFocused())
     {
-        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
+        this->_selectedColor = ColorController::Instance().GetComputerButtonColors().enter;
         emit this->entered();
         this->_resizeAnimation->setDuration(90);
         if (this->_resizeAnimation->state() != QPropertyAnimation::Running)
@@ -134,7 +134,7 @@ void CenterButton::leaveEvent(QEvent *event)
         {
             this->_resizeAnimation->stop();
         }
-        this->_selectedColor = Settings::GetInstance()._on_left_panel_idle_color;
+        this->_selectedColor = ColorController::Instance().GetComputerButtonColors().idle;
         emit this->leaved();
         this->_resizeAnimation->setDuration(90);
         if (this->_resizeAnimation->state() != QPropertyAnimation::Running)
@@ -153,7 +153,7 @@ void CenterButton::mousePressEvent(QMouseEvent *event)
 
     QAbstractButton::mousePressEvent(event);
 
-    this->_selectedColor = Settings::GetInstance()._on_left_panel_press_color;
+    this->_selectedColor = ColorController::Instance().GetComputerButtonColors().press;
     this->_pressShift = 1;
     update();
 }
@@ -165,7 +165,7 @@ void CenterButton::mouseReleaseEvent(QMouseEvent *event)
     QAbstractButton::mouseReleaseEvent(event);
 
     if (this->IsFocused())
-        this->_selectedColor = Settings::GetInstance()._on_left_panel_enter_color;
+        this->_selectedColor = ColorController::Instance().GetComputerButtonColors().enter;
     this->_pressShift = 0;
     update();
 }
@@ -360,8 +360,8 @@ void BorderRoundedRectungle::paintEvent(QPaintEvent *event)
     {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing, true);
-        painter.setPen(QPen(QColor(Settings::GetInstance()._on_left_panel_border_color), 0.1));
-        painter.setBrush(QColor(Settings::GetInstance()._on_left_panel_border_color));
+        painter.setPen(QPen(QColor("#fff"), 0.1));
+        painter.setBrush(QColor("#fff"));
         painter.drawRoundedRect(QRectF(0,
                                        this->height() / 2 - this->LEFT_PANEL_HEIGHT_MIN / 2 - this->_heightOFFSET,
                                        4 - this->_widthOFFSET,
@@ -386,7 +386,6 @@ ComputerButton::ComputerButton(QWidget *parent)
     , _rightPanel(nullptr)
     , _rightPanelButton(nullptr)
     , _leftPanelRect(nullptr)
-    , _computer(nullptr)
 {
     this->setFixedSize(QSize(this->WIDTH, this->HEIGHT));
     SetMemory();
@@ -481,21 +480,10 @@ void ComputerButton::SetImage(QString value)
     this->_rightPanelButton->SetImage(value);
 }
 
-void ComputerButton::SetComputerPointer(Computer *value)
-{
-    this->_computer = value;
-}
-
-Computer* ComputerButton::GetComputerPointer()
-{
-    return this->_computer;
-}
-
 void ComputerButton::PanelButtonEntered()
 {
     this->_leftPanelRect->SetDrawEnabled(true);
     this->_leftPanelRect->StartEnteredAnimation();
-    emit this->entered(this);
 }
 
 void ComputerButton::PanelButtonLeaved()
@@ -508,7 +496,6 @@ void ComputerButton::PanelButtonPressed()
     if (!IsFocused())
     {
         this->SetFocused(true);
-        emit focusChanged(this);
-        emit clicked();
+        emit clicked(this);
     }
 }

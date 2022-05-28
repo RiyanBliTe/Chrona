@@ -8,8 +8,7 @@
 #include <QHBoxLayout>
 #include <QPropertyAnimation>
 
-#include "../Settings.h"
-#include "../Model/Computer.h"
+#include "../../Controller/ColorController.h"
 
 class QPropertyAnimation;
 
@@ -144,9 +143,6 @@ public:
     void SetLeftPanelEnabled(bool);
     void SetImage(QString);
 
-    void SetComputerPointer(Computer*);
-    Computer* GetComputerPointer();
-
 private:
     void SetMemory();
     void SetupModules();
@@ -157,9 +153,7 @@ private slots:
     void PanelButtonPressed();
 
 signals:
-    void focusChanged(ComputerButton*);
-    void clicked();
-    void entered(ComputerButton*);
+    void clicked(ComputerButton*);
 
 private:
     QHBoxLayout *_mainLayout;
@@ -168,8 +162,6 @@ private:
 
     CenterButton *_rightPanelButton;
     BorderRoundedRectungle *_leftPanelRect;
-
-    Computer *_computer;
 
     static const int WIDTH = 72;
     static const int HEIGHT = 50;

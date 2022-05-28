@@ -1,5 +1,6 @@
 #include "AddTaskPopup.h"
-#include <time.h>>
+
+#include <time.h>
 
 AddTaskPopup::AddTaskPopup(QWidget *parent)
     : Popup{parent}
@@ -71,7 +72,8 @@ void AddTaskPopup::SetupModules()
 
     QLabel *taskNameLabel = new QLabel();
     taskNameLabel->setText("TASK NAME");
-    QFont font = QFont(Settings::GetInstance().GetApplicationFont(Settings::Fonts::SEN_REGULAR), 10);
+    QFont font;
+    font.setPointSize(10);
     taskNameLabel->setFont(font);
     _centerWidget->layout()->addWidget(taskNameLabel);
     _centerWidget->layout()->addWidget(this->_taskName);

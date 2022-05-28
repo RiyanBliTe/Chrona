@@ -1,25 +1,21 @@
 <RCC>
-    <qresource prefix="/icons_svg">
-        <file>Images/icons_svg/icon_search.svg</file>
-        <file>Images/icons_svg/icon_settings.svg</file>
-        <file>Images/icons_svg/icon_logo.svg</file>
-        <file>Images/icons_svg/icon_add_machine.svg</file>
-        <file>Images/icons_svg/icon_machine.svg</file>
-        <file>Images/icons_svg/icon_task_close.svg</file>
-        <file>Images/icons_svg/icon_tasks_notification.svg</file>
-        <file>Images/icons_svg/icon_moon.svg</file>
-        <file>Images/icons_svg/icon_sun.svg</file>
-        <file>Images/icons_svg/icon_task_add_bright.svg</file>
-        <file>Images/icons_svg/icon_task_add_dark.svg</file>
-        <file>Images/icons_svg/icon_close_bright.svg</file>
-        <file>Images/icons_svg/icon_close_dark.svg</file>
-    </qresource>
-    <qresource prefix="/icons_png">
+    <qresource prefix="/images">
         <file>Images/welcome_logo.png</file>
+        <file>Images/icon_logo.svg</file>
+        <file>Images/icon_machine.svg</file>
+        <file>Images/icon_task_add_bright.svg</file>
+        <file>Images/icon_task_add_dark.svg</file>
+        <file>Images/icon_tasks_notification.svg</file>
+        <file>Images/icon_add_machine.svg</file>
+        <file>Images/icon_settings.svg</file>
+        <file>Images/icon_close_bright.svg</file>
+        <file>Images/icon_close_dark.svg</file>
+        <file>Images/icon_save.svg</file>
+        <file>Images/icon_back.svg</file>
+        <file>Images/file_idle.png</file>
+        <file>Images/file_type.png</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file>Fonts/Sen/Sen-Bold.ttf</file>
-        <file>Fonts/Sen/Sen-ExtraBold.ttf</file>
         <file>Fonts/Sen/Sen-Regular.ttf</file>
     </qresource>
 </RCC>

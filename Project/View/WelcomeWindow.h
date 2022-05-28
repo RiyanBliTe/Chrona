@@ -1,39 +1,27 @@
 #ifndef WELCOMEWINDOW_H
 #define WELCOMEWINDOW_H
 
-#include <QWidget>
-#include "MainWindow.h"
-#include <QTimer>
+#include <QMainWindow>
 
 namespace Ui {
 class WelcomeWindow;
 }
 
-class WelcomeWindow : public QWidget
+class WelcomeWindow final : public QMainWindow
 {
     Q_OBJECT
 
 private:
     WelcomeWindow(QWidget *parent = nullptr);
+    ~WelcomeWindow();
     WelcomeWindow(const WelcomeWindow&) = delete;
     WelcomeWindow& operator=(const WelcomeWindow&) = delete;
-    ~WelcomeWindow();
-
-private slots:
-    void timerOUT();
 
 public:
-    static WelcomeWindow& Instance();
-
-    void SetMainWindow(MainWindow*);
+    static WelcomeWindow &Instance();
 
 private:
     Ui::WelcomeWindow *ui;
-
-    QTimer *_timer;
-    MainWindow *_mainWindow;
 };
-
-#define WELCOME_WINDOW WelcomeWindow::Instance()
 
 #endif // WELCOMEWINDOW_H
