@@ -50,6 +50,9 @@ void PopupController::PushPopup(PopupType value)
     case PopupController::PopupType::ADDTASK:
         popup = new AddTaskPopup(this);
         break;
+    case PopupController::PopupType::FILEINFO:
+        popup = new FileInfoPopup(this);
+        break;
     }
 
     if (popup != nullptr)
@@ -92,6 +95,15 @@ void PopupController::Update()
                            (*it)->width(),
                            (*it)->height());
     }
+}
+
+void PopupController::SetActiveFileInfo(QString file_name, QString file_path, QString preRun, QString runAttr, int index)
+{
+    this->activeFile.file_name = file_name;
+    this->activeFile.file_path = file_path;
+    this->activeFile.preAttr = preRun;
+    this->activeFile.attr = runAttr;
+    this->activeFile.index = index;
 }
 
 void PopupController::SetShadowOFFSET(int value)

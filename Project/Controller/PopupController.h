@@ -13,6 +13,7 @@
 #include "../View/Popups/SettingsPopup.h"
 #include "../View/Popups/AddMachinePopup.h"
 #include "../View/Popups/AddTaskPopup.h"
+#include "../View/Popups/FileInfoPopup.h"
 
 class QPropertyAnimation;
 
@@ -29,7 +30,8 @@ public:
     {
         SETTINGS,
         ADDMACHINE,
-        ADDTASK
+        ADDTASK,
+        FILEINFO
     };
 
     void PushPopup(PopupType);
@@ -37,6 +39,7 @@ public:
     Popup* TopPopup();
 
     void Update();
+    void SetActiveFileInfo(QString, QString, QString, QString, int);
 
 private slots:
     void shadowAnimationFinished();
@@ -49,6 +52,15 @@ protected:
     virtual void showEvent(QShowEvent*) override;
 
 private:
+    struct FileInfo
+    {
+        QString file_name;
+        QString file_path;
+        QString preAttr;
+        QString attr;
+        int index;
+    };
+
     void SetShadowOFFSET(int);
     int GetShadowOFFSET();
 
@@ -64,6 +76,8 @@ private:
     QStack<Popup*> _popupStack;
 
     bool _needBackground;
+
+    FileInfo activeFile;
 };
 
 #endif // POPUPCONTROLLER_H

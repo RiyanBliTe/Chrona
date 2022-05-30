@@ -47,8 +47,8 @@ ProgramWindow::ProgramWindow(QWidget *parent) :
 
     ui->BackPushButton->setVisible(false);
 
-    this->_CustomGraphicsView = new CustomGraphicsView();
-    ui->TaskEditContructorWidget->layout()->addWidget(this->_CustomGraphicsView);
+    this->_CustomConstructor = new CustomConstructor;
+    ui->scrollAreaWidgetContents->layout()->addWidget(this->_CustomConstructor);
 
     connect(ui->EditModeButton, &QPushButton::clicked, this, &ProgramWindow::GoToTheEditMode);
     connect(ui->BackPushButton, &QPushButton::clicked, this, &ProgramWindow::FromEditModeToInfo);
@@ -60,6 +60,7 @@ ProgramWindow::ProgramWindow(QWidget *parent) :
     ui->CenterScrollAreaPanel->setStyleSheet("#CenterScrollAreaPanel { background-color:" + ColorController::Instance().GetCenterPanelColor() + "; }");
     ui->RightPanel->setStyleSheet("#RightPanel { background-color:" + ColorController::Instance().GetRightPanelColor() + "; }");
     ui->CenterBottomPanel->setStyleSheet("#CenterBottomPanel { background-color:" + ColorController::Instance().GetCenterPanelBottomColor() + "; }");
+    ui->scrollAreaWidgetContents->setStyleSheet("#scrollAreaWidgetContents { background-color:" + ColorController::Instance().GetRightPanelColor() + "; }");
     showMaximized();
 }
 
@@ -164,9 +165,9 @@ void ProgramWindow::ChangeComputerData(QString name, QString ip)
     ui->CenterPanelComputerIP->setText(ip);
 }
 
-CustomGraphicsView* ProgramWindow::GetConstructorGraphicsView()
+PopupController* ProgramWindow::GetPopupController()
 {
-    return this->_CustomGraphicsView;
+    return this->_PopupModule;
 }
 
 void ProgramWindow::ClearLayout(QLayout* layout)

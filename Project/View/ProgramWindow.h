@@ -8,7 +8,7 @@
 #include "../Model/Task.h"
 #include "../Model/Computer.h"
 #include "../Controller/PopupController.h"
-#include "CustomUIDrawing/CustomGraphicsView.h"
+#include "CustomUIDrawing/CustomConstructor.h"
 
 namespace Ui {
 class ProgramWindow;
@@ -31,8 +31,7 @@ public:
     void LoadTasksListToForm(const QList<std::pair<Task*, TaskButton*>>*);
     void AddCompterToTorm(ComputerButton*);
     void ChangeComputerData(QString, QString);
-
-    CustomGraphicsView* GetConstructorGraphicsView();
+    PopupController* GetPopupController();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
@@ -59,7 +58,7 @@ private:
     ComputerButton *_AddNewMachineButton;
     PopupController *_PopupModule;
 
-    CustomGraphicsView *_CustomGraphicsView;
+    CustomConstructor *_CustomConstructor;
 };
 
 #endif // PROGRAMWINDOW_H

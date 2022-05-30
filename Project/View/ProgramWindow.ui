@@ -34,7 +34,8 @@ QMenu::item
 QMenu::item:selected 
 {
 	background-color: #76B39D;
-}</string>
+}
+</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
@@ -821,7 +822,7 @@ QPushButton:pressed { background-color: rgb(118, 179, 157); }</string>
        <item>
         <widget class="QStackedWidget" name="RightStackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="TaskInfoPanel">
           <property name="styleSheet">
@@ -1206,19 +1207,46 @@ QAbstractScrollArea::corner {
     border: none;
 }</string>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_16">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <property name="spacing">
+                <number>9</number>
+               </property>
                <property name="leftMargin">
                 <number>9</number>
                </property>
                <property name="topMargin">
-                <number>9</number>
+                <number>0</number>
                </property>
                <property name="rightMargin">
                 <number>9</number>
                </property>
                <property name="bottomMargin">
-                <number>9</number>
+                <number>0</number>
                </property>
+               <item>
+                <widget class="QScrollArea" name="scrollArea">
+                 <property name="frameShape">
+                  <enum>QFrame::NoFrame</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>0</number>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>765</width>
+                    <height>709</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_3"/>
+                 </widget>
+                </widget>
+               </item>
               </layout>
              </widget>
              <widget class="QWidget" name="TaskEditEditorWidget"/>
