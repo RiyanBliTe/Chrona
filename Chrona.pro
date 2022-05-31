@@ -1,4 +1,4 @@
-QT       += core gui network xml
+QT       += core gui xml network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,50 +9,63 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Project/Model/Computer.cpp \
-    Project/Controller/ComputersManager.cpp \
-    Project/Controller/ConnectionManager.cpp \
-    Project/Controller/SaveManager.cpp \
-    Project/Model/Task.cpp \
-    Project/View/ComputerButton.cpp \
-    Project/View/InfoSpawner.cpp \
-    Project/View/Popups/AddMachinePopup.cpp \
-    Project/View/Popups/AddTaskPopup.cpp \
-    Project/View/Popups/Popup.cpp \
-    Project/View/Popups/PopupModule.cpp \
-    Project/View/Popups/SettingsPopup.cpp \
-    Project/View/TaskButton.cpp \
-    Project/View/TaskInfoPanel.cpp \
-    Project/View/ToogleButton.cpp \
-    Project/View/TopMenuButton.cpp \
-    Project/View/WelcomeWindow.cpp \
-    Project/main.cpp \
-    Project/View/MainWindow.cpp
+    Project/MVC/Controller/ComputerController.cpp \
+    Project/MVC/Controller/FileController.cpp \
+    Project/MVC/Controller/Manager/ColorManager.cpp \
+    Project/MVC/Controller/Manager/NetworkManager.cpp \
+    Project/MVC/Controller/Manager/PopupManager.cpp \
+    Project/MVC/Controller/Manager/SaveManager.cpp \
+    Project/MVC/Controller/PipelineController.cpp \
+    Project/MVC/Controller/TaskController.cpp \
+    Project/MVC/Model/Computer.cpp \
+    Project/MVC/Model/CustomFile.cpp \
+    Project/MVC/Model/Pipeline.cpp \
+    Project/MVC/Model/Task.cpp \
+    Project/MVC/View/Button/ComputerButton.cpp \
+    Project/MVC/View/Button/TaskButton.cpp \
+    Project/MVC/View/Constructor.cpp \
+    Project/MVC/View/Container/FileContainer.cpp \
+    Project/MVC/View/Container/PipelineContainer.cpp \
+    Project/MVC/View/Popup/AddComputerPopup.cpp \
+    Project/MVC/View/Popup/AddTaskPopup.cpp \
+    Project/MVC/View/Popup/FileInfoPopup.cpp \
+    Project/MVC/View/Popup/Popup.cpp \
+    Project/MVC/View/Popup/SettingsPopup.cpp \
+    Project/MVC/View/TaskView.cpp \
+    Project/Window/ProgramWindow.cpp \
+    Project/Window/WelcomeWindow.cpp \
+    Project/main.cpp
 
 HEADERS += \
-    Project/Model/Computer.h \
-    Project/Controller/ComputersManager.h \
-    Project/Controller/ConnectionManager.h \
-    Project/Controller/SaveManager.h \
-    Project/Settings.h \
-    Project/Model/Task.h \
-    Project/View/ComputerButton.h \
-    Project/View/InfoSpawner.h \
-    Project/View/Popups/AddMachinePopup.h \
-    Project/View/Popups/AddTaskPopup.h \
-    Project/View/Popups/Popup.h \
-    Project/View/MainWindow.h \
-    Project/View/Popups/PopupModule.h \
-    Project/View/Popups/SettingsPopup.h \
-    Project/View/TaskButton.h \
-    Project/View/TaskInfoPanel.h \
-    Project/View/ToogleButton.h \
-    Project/View/TopMenuButton.h \
-    Project/View/WelcomeWindow.h
+    Project/MVC/Controller/ComputerController.h \
+    Project/MVC/Controller/FileController.h \
+    Project/MVC/Controller/Manager/ColorManager.h \
+    Project/MVC/Controller/Manager/NetworkManager.h \
+    Project/MVC/Controller/Manager/PopupManager.h \
+    Project/MVC/Controller/Manager/SaveManager.h \
+    Project/MVC/Controller/PipelineController.h \
+    Project/MVC/Controller/TaskController.h \
+    Project/MVC/Model/Computer.h \
+    Project/MVC/Model/CustomFile.h \
+    Project/MVC/Model/Pipeline.h \
+    Project/MVC/Model/Task.h \
+    Project/MVC/View/Button/ComputerButton.h \
+    Project/MVC/View/Button/TaskButton.h \
+    Project/MVC/View/Constructor.h \
+    Project/MVC/View/Container/FileContainer.h \
+    Project/MVC/View/Container/PipelineContainer.h \
+    Project/MVC/View/Popup/AddComputerPopup.h \
+    Project/MVC/View/Popup/AddTaskPopup.h \
+    Project/MVC/View/Popup/FileInfoPopup.h \
+    Project/MVC/View/Popup/Popup.h \
+    Project/MVC/View/Popup/SettingsPopup.h \
+    Project/MVC/View/TaskView.h \
+    Project/Window/ProgramWindow.h \
+    Project/Window/WelcomeWindow.h
 
 FORMS += \
-    Project/View/MainWindow.ui \
-    Project/View/WelcomeWindow.ui
+    Project/Window/ProgramWindow.ui \
+    Project/Window/WelcomeWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
