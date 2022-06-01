@@ -1,5 +1,6 @@
 #include "ComputerButton.h"
 #include "../../Controller/Manager/ColorManager.h"
+#include <QDebug>
 
 // *************************************************************
 // Center Button class
@@ -390,6 +391,7 @@ ComputerButton::ComputerButton(QWidget *parent)
     , _computer(nullptr)
     , _stackedIndex(-1)
 {
+    qDebug() << "[CREATED]" << this;
     this->setFixedSize(QSize(this->WIDTH, this->HEIGHT));
     SetMemory();
     SetupModules();
@@ -397,6 +399,7 @@ ComputerButton::ComputerButton(QWidget *parent)
 
 ComputerButton::~ComputerButton()
 {
+    qDebug() << "[DELETED]" << this;
     if (this->_leftPanelRect != nullptr)
         delete this->_leftPanelRect;
     if (this->_rightPanelButton != nullptr)

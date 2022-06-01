@@ -8,6 +8,7 @@ class SettingsPopup : public Popup
     Q_OBJECT
 public:
     SettingsPopup(QWidget *parent = nullptr);
+    ~SettingsPopup();
 };
 
 #endif // SETTINGSPOPUP_H

@@ -32,6 +32,7 @@ private:
     explicit ColorManager(QObject *parent = nullptr);
     ColorManager(const ColorManager&) = delete;
     ColorManager& operator=(const ColorManager&) = delete;
+    ~ColorManager();
 
 private:
     ButtonColors ComputerButtonColor;

@@ -13,6 +13,7 @@ class TaskView : public QWidget
     Q_OBJECT
 public:
     explicit TaskView(QWidget *parent = nullptr);
+    ~TaskView();
 
 public:
     void GoToManage();

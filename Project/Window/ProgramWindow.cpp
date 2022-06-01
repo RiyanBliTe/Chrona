@@ -5,19 +5,20 @@
 #include "../MVC/Controller/Manager/PopupManager.h"
 #include "../MVC/Controller/ComputerController.h"
 #include "../MVC/Controller/TaskController.h"
+#include "../MVC/Controller/FileController.h"
 
 ProgramWindow::ProgramWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ProgramWindow)
 {
-    hide();
-    setVisible(false);
+    qDebug() << "[CREATED]" << this;
     ui->setupUi(this);
     SetupView();
 }
 
 ProgramWindow::~ProgramWindow()
 {
+    qDebug() << "[DELETED]" << this;
     delete ui;
 }
 
@@ -103,7 +104,8 @@ void ProgramWindow::AddTaskByIndex(int index, TaskButton *button)
         {
             if (index == it->second)
             {
-                //button->SetStackedIndex(GenerateTaskViewWidget());
+                if (button->GetStackedIndex() == -1)
+                    button->SetStackedIndex(GenerateTaskViewWidget());
                 it->first->layout()->addWidget(button);
                 break;
             }
@@ -148,6 +150,12 @@ void ProgramWindow::AddPipelineByIndex(PipelineContainer* container, int index)
     }
 }
 
+void ProgramWindow::SetComputerInfo(QString name, QString ip)
+{
+    ui->ComputerName->setText(name);
+    ui->ComputerIP->setText(ip);
+}
+
 void ProgramWindow::ShowBackButton()
 {
     ui->TopBackButton->show();
@@ -156,6 +164,19 @@ void ProgramWindow::ShowBackButton()
 void ProgramWindow::HideBackButton()
 {
     ui->TopBackButton->hide();
+}
+
+void ProgramWindow::ShowFilePopup(FileContainer *container)
+{
+    CustomFile *file = FileController::Instance().GetFileByView(container);
+    if (file != nullptr)
+    {
+        this->_popupManager->setGeometry(0, 0, width(), height());
+        this->_popupManager->raise();
+        this->_popupManager->UsedFile(file);
+        this->_popupManager->PushPopup(PopupManager::PopupType::FILEINFO);
+        this->_popupManager->show();
+    }
 }
 
 void ProgramWindow::AddTaskButtonClicked()

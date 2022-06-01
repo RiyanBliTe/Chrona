@@ -16,11 +16,13 @@ public:
 
     std::pair<CustomFile*, FileContainer*> LoadFile(QDomElement&);
     std::pair<CustomFile*, FileContainer*> CreateNewFile();
+    CustomFile* GetFileByView(FileContainer*);
 
 private:
     explicit FileController(QObject *parent = nullptr);
     FileController(const FileController&) = delete;
     FileController& operator=(const FileController&) = delete;
+    ~FileController();
 
 private:
     QList<std::pair<CustomFile*, FileContainer*>> _files;

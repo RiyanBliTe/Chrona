@@ -10,6 +10,7 @@ class Computer : public QObject
     Q_OBJECT
 public:
     explicit Computer(QObject *parent = nullptr);
+    ~Computer();
 
 public:
     void SetName(QString);

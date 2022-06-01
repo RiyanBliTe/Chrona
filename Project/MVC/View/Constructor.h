@@ -11,6 +11,7 @@ class Constructor : public QWidget
     Q_OBJECT
 public:
     explicit Constructor(QWidget *parent = nullptr);
+    ~Constructor();
 
 public:
     void AddPipeline(PipelineContainer*);
@@ -19,7 +20,7 @@ private:
     void paintEvent(QPaintEvent*) override;
     void contextMenuEvent(QContextMenuEvent*) override;
 
-private slots:
+public slots:
     void AddNewPipeline();
     void RemovePipeline(PipelineContainer*);
 

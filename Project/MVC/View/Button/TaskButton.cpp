@@ -1,5 +1,6 @@
 #include "TaskButton.h"
 #include "../../Controller/Manager/ColorManager.h"
+#include <QDebug>
 
 TaskButton::TaskButton(QWidget *parent)
     : QWidget{parent}
@@ -14,12 +15,14 @@ TaskButton::TaskButton(QWidget *parent)
     , _task(nullptr)
     , _stackedIndex(-1)
 {
+    qDebug() << "[CREATED]" << this;
     setFixedHeight(40);
     setMouseTracking(true);
 }
 
 TaskButton::~TaskButton()
 {
+    qDebug() << "[DELETED]" << this;
 }
 
 void TaskButton::SetStatus(TaskStatus value)

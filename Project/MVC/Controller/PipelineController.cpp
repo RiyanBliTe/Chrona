@@ -1,10 +1,16 @@
 #include "PipelineController.h"
 #include "FileController.h"
+#include <QDebug>
 
 PipelineController::PipelineController(QObject *parent)
     : QObject{parent}
 {
+    qDebug() << "[CREATED]" << this;
+}
 
+PipelineController::~PipelineController()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 PipelineController& PipelineController::Instance()
@@ -55,4 +61,16 @@ void PipelineController::AddFileToPipeline(PipelineContainer *container, CustomF
             it->first->AddFile(file);
         }
     }
+}
+
+Pipeline* PipelineController::GetPipelineByView(PipelineContainer *view)
+{
+    for (auto it = this->_pipelines.begin(); it != this->_pipelines.end(); it++)
+    {
+        if (it->second == view)
+        {
+            return it->first;
+        }
+    }
+    return nullptr;
 }

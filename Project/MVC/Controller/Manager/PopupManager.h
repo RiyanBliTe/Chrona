@@ -7,6 +7,8 @@
 #include "../../View/Popup/AddTaskPopup.h"
 #include "../../View/Popup/FileInfoPopup.h"
 
+#include "../../Model/CustomFile.h"
+
 #include <QWidget>
 #include <QStack>
 #include <QPropertyAnimation>
@@ -35,6 +37,7 @@ public:
     Popup* TopPopup();
 
     void Update();
+    void UsedFile(CustomFile*);
 
 private slots:
     void shadowAnimationFinished();
@@ -62,6 +65,8 @@ private:
     QStack<Popup*> _popupStack;
 
     bool _needBackground;
+
+    CustomFile *_file;
 };
 
 #endif // POPUPMANAGER_H

@@ -16,6 +16,7 @@ private:
     explicit SaveManager(QObject *parent = nullptr);
     SaveManager(const SaveManager&) = delete;
     SaveManager& operator=(const SaveManager&) = delete;
+    ~SaveManager();
 };
 
 #endif // SAVEMANAGER_H

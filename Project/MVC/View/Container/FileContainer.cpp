@@ -1,13 +1,20 @@
 #include "FileContainer.h"
-
+#include "../../../Window/ProgramWindow.h"
 #include <QPainter>
+#include <QDebug>
 
 FileContainer::FileContainer(QWidget *parent)
     : QWidget{parent}
     , _image(":/Image/file_idle.png")
     , _file(nullptr)
 {
+    qDebug() << "[CREATED]" << this;
     setFixedSize(_image.size());
+}
+
+FileContainer::~FileContainer()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 void FileContainer::GenerateImage(QString value)
@@ -55,6 +62,7 @@ CustomFile* FileContainer::GetCustomFile()
 
 void FileContainer::mouseDoubleClickEvent(QMouseEvent*)
 {
+    ProgramWindow::Instance().ShowFilePopup(this);
     /*ProgramWindow::Instance().GetPopupController();
     ProgramWindow::Instance().GetPopupController()->setGeometry(0, 0, ProgramWindow::Instance().width(), ProgramWindow::Instance().height());
     ProgramWindow::Instance().GetPopupController()->raise();

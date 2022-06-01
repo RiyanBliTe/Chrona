@@ -10,6 +10,7 @@ class AddTaskPopup : public Popup
     Q_OBJECT
 public:
     AddTaskPopup(QWidget *parent = nullptr);
+    ~AddTaskPopup();
 
 private slots:
     void addButtonPressed();

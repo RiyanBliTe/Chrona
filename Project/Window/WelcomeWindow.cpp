@@ -6,24 +6,24 @@
 #include "ProgramWindow.h"
 
 #include <QDebug>
-
+QTimer *timer;
 WelcomeWindow::WelcomeWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::WelcomeWindow)
 {
+    qDebug() << "[CREATED]" << this;
     ui->setupUi(this);
-    SaveManager::Instance().LoadProgramData();
-    ProgramWindow::Instance().hide();
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlag(Qt::FramelessWindowHint);
 
-    QTimer *timer = new QTimer();
+    timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &WelcomeWindow::timerTime);
     timer->start(4000);
 }
 
 WelcomeWindow::~WelcomeWindow()
 {
+    qDebug() << "[DELETED]" << this;
     delete ui;
 }
 
@@ -37,4 +37,6 @@ void WelcomeWindow::timerTime()
 {
     this->hide();
     ProgramWindow::Instance().show();
+    SaveManager::Instance().LoadProgramData();
+    timer->stop();
 }

@@ -2,8 +2,9 @@
 
 #include <QVBoxLayout>
 #include <QFileDialog>
+#include <QDebug>
 
-FileInfoPopup::FileInfoPopup(QWidget *parent)
+FileInfoPopup::FileInfoPopup(QWidget *parent, CustomFile *file)
     : Popup{parent}
     , _filename(nullptr)
     , _filePath(nullptr)
@@ -13,9 +14,16 @@ FileInfoPopup::FileInfoPopup(QWidget *parent)
     , _browse(nullptr)
     , _save(nullptr)
     , _cancel(nullptr)
+    , _file(file)
 {
+    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
+}
+
+FileInfoPopup::~FileInfoPopup()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 void FileInfoPopup::SetMemory()
@@ -29,7 +37,7 @@ void FileInfoPopup::SetMemory()
     if (this->_runArguments == nullptr)
         this->_runArguments = new QLineEdit;
     if (this->_runCodition == nullptr)
-        this->_runCodition = new QComboBox;
+        this->_runCodition = new SectionButton;
     if (this->_browse == nullptr)
         this->_browse = new QPushButton;
     if (this->_save == nullptr)
@@ -40,6 +48,8 @@ void FileInfoPopup::SetMemory()
 
 void FileInfoPopup::SetupModules()
 {
+    setFixedSize(450, 550);
+    SetTitleText("Edit File Info");
     _centerWidget->setLayout(new QVBoxLayout);
 
     QLabel *namelabel = new QLabel("FILE NAME");
@@ -49,6 +59,7 @@ void FileInfoPopup::SetupModules()
     _centerWidget->layout()->addWidget(namelabel);
     this->_filename->setFixedHeight(40);
     this->_filename->setEnabled(false);
+    this->_filename->setText(this->_file != nullptr ? this->_file->GetName() : "");
     _centerWidget->layout()->addWidget(this->_filename);
 
     QLabel *pathlabel = new QLabel("FILE PATH");
@@ -59,6 +70,7 @@ void FileInfoPopup::SetupModules()
     group->layout()->setContentsMargins(0, 0, 0, 0);
     group->setFixedHeight(40);
     this->_filePath->setFixedHeight(40);
+    this->_filePath->setText(this->_file != nullptr ? this->_file->GetPath() : "");
     group->layout()->addWidget(this->_filePath);
     this->_browse->setFixedHeight(40);
     this->_browse->setText("Browse");
@@ -70,12 +82,14 @@ void FileInfoPopup::SetupModules()
     preRunLabel->setFont(font);
     _centerWidget->layout()->addWidget(preRunLabel);
     this->_preRunArguments->setFixedHeight(40);
+    this->_preRunArguments->setText(this->_file != nullptr ? this->_file->GetPreRunArguments() : "");
     _centerWidget->layout()->addWidget(this->_preRunArguments);
 
     QLabel *runLabel = new QLabel("RUN ARGIMENTS");
     runLabel->setFont(font);
     _centerWidget->layout()->addWidget(runLabel);
     this->_runArguments->setFixedHeight(40);
+    this->_runArguments->setText(this->_file != nullptr ? this->_file->GetRunArguments() : "");
     _centerWidget->layout()->addWidget(this->_runArguments);
 
     QLabel *conditionLabel = new QLabel("RUN CONDITION");
@@ -85,7 +99,10 @@ void FileInfoPopup::SetupModules()
     _centerWidget->layout()->addWidget(this->_runCodition);
 
     this->_runCodition->setFixedHeight(40);
-    this->_runCodition->addItems({"After previous", "If previous success", "If previous failed"});
+    this->_runCodition->createSection("After previous");
+    this->_runCodition->createSection("If previous success");
+    this->_runCodition->createSection("If previous failed");
+    this->_runCodition->setSelected(this->_file->GetIndexType());
     _centerWidget->layout()->addWidget(this->_runCodition);
 
     QWidget *group2 = new QWidget;
@@ -103,10 +120,9 @@ void FileInfoPopup::SetupModules()
     _centerWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
     _centerWidget->layout()->addWidget(group2);
 
-    //_filename->setText(_fileInfo.file_name);
-    //_filePath->setText(_fileInfo.file_path);
-    //_preRunArguments->setText(_fileInfo.preAttr);
-    //_runArguments->setText(_fileInfo.attr);
+    connect(this->_save, &QPushButton::clicked, this, &FileInfoPopup::SaveClicked);
+    connect(this->_cancel, &QPushButton::clicked, this, &FileInfoPopup::CancelClicked);
+    connect(this->_browse, &QPushButton::clicked, this, &FileInfoPopup::BrowseClicked);
 
     _centerWidget->setStyleSheet("\
     QLineEdit\
@@ -157,11 +173,16 @@ void FileInfoPopup::SetupModules()
 
 void FileInfoPopup::CancelClicked()
 {
-
+    emit closeButtonPressed();
 }
 
 void FileInfoPopup::SaveClicked()
 {
+    this->_file->SetName(this->_filename->text());
+    this->_file->SetPath(this->_filePath->text());
+    this->_file->SetPreRunArguments(this->_preRunArguments->text());
+    this->_file->SetRunArguments(this->_runArguments->text());
+    this->_file->SetIndexType(this->_runCodition->GetActiveSection());
     emit closeButtonPressed();
 }
 
@@ -170,6 +191,8 @@ void FileInfoPopup::BrowseClicked()
     QString filePath = QFileDialog::getOpenFileName(0, "Open File", "", "");
     if (filePath != "")
     {
-
+        QFileInfo fileInfo(filePath);
+        this->_filePath->setText(filePath);
+        this->_filename->setText(fileInfo.fileName());
     }
 }

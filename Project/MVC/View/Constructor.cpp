@@ -8,13 +8,20 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QContextMenuEvent>
+#include <QDebug>
 
 Constructor::Constructor(QWidget *parent)
     : QWidget{parent}
 {
+    qDebug() << "[CREATED]" << this;
     setLayout(new QVBoxLayout);
     layout()->setContentsMargins(80, 10, 80, 10);
     layout()->setSpacing(35);
+}
+
+Constructor::~Constructor()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 void Constructor::AddNewPipeline()
@@ -25,15 +32,16 @@ void Constructor::AddNewPipeline()
 
     this->_panels.append(pipeline);
     layout()->addWidget(pipeline);
-    //connect(container, &PipelineContainer::removeEmited, this, &Constructor::RemovePipeline);
+    connect(pipeline, &PipelineContainer::removeEmited, this, &Constructor::RemovePipeline);
     update();
 }
 
 void Constructor::RemovePipeline(PipelineContainer *container)
 {
-    //container->hide();
-    //this->_panels.removeOne(container);
-    //update();
+    container->hide();
+    this->_panels.removeOne(container);
+    TaskController::Instance().RemovePipeline(PipelineController::Instance().GetPipelineByView(container));
+    update();
 }
 
 void Constructor::contextMenuEvent(QContextMenuEvent *event)
@@ -61,7 +69,7 @@ void Constructor::AddPipeline(PipelineContainer *container)
 {
     this->_panels.append(container);
     layout()->addWidget(container);
-    //connect(container, &PipelineContainer::removeEmited, this, &Constructor::RemovePipeline);
+    connect(container, &PipelineContainer::removeEmited, this, &Constructor::RemovePipeline);
     update();
 }
 

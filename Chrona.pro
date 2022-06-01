@@ -22,6 +22,7 @@ SOURCES += \
     Project/MVC/Model/Pipeline.cpp \
     Project/MVC/Model/Task.cpp \
     Project/MVC/View/Button/ComputerButton.cpp \
+    Project/MVC/View/Button/SectionButton.cpp \
     Project/MVC/View/Button/TaskButton.cpp \
     Project/MVC/View/Constructor.cpp \
     Project/MVC/View/Container/FileContainer.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     Project/MVC/Model/Pipeline.h \
     Project/MVC/Model/Task.h \
     Project/MVC/View/Button/ComputerButton.h \
+    Project/MVC/View/Button/SectionButton.h \
     Project/MVC/View/Button/TaskButton.h \
     Project/MVC/View/Constructor.h \
     Project/MVC/View/Container/FileContainer.h \

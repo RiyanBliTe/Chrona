@@ -1,8 +1,10 @@
 #include "ColorManager.h"
+#include <QDebug>
 
 ColorManager::ColorManager(QObject *parent)
     : QObject{parent}
 {
+    qDebug() << "[CREATED]" << this;
     this->ComputerButtonColor.idle = "#36393F";
     this->ComputerButtonColor.enter = "#76B39D";
     this->ComputerButtonColor.press = "#589E85";
@@ -21,6 +23,11 @@ ColorManager::ColorManager(QObject *parent)
     this->RightPanelColor = "#36393F";
     this->TopPanelColor = "#36393F";
     this->CenterPanelBottomColor = "#292B2F";
+}
+
+ColorManager::~ColorManager()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 ColorManager& ColorManager::Instance()

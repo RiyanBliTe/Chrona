@@ -10,6 +10,7 @@ class FileContainer : public QWidget
     Q_OBJECT
 public:
     explicit FileContainer(QWidget *parent = nullptr);
+    ~FileContainer();
 
 public:
     void GenerateImage(QString);

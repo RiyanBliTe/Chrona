@@ -16,6 +16,7 @@ PipelineContainer::PipelineContainer(QWidget *parent)
     , _buttonRadius(9)
     , _pipeline(nullptr)
 {
+    qDebug() << "[CREATED]" << this;
     setFixedHeight(120);
     setLayout(new QHBoxLayout);
     layout()->setContentsMargins(0, 0, 0, 0);
@@ -25,6 +26,11 @@ PipelineContainer::PipelineContainer(QWidget *parent)
     contentWidget->setLayout(new QHBoxLayout);
     contentWidget->layout()->setContentsMargins(25, 9, 25, 9);
     contentWidget->layout()->setSpacing(35);
+}
+
+PipelineContainer::~PipelineContainer()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 void PipelineContainer::AddFile(FileContainer *item)
@@ -93,7 +99,7 @@ void PipelineContainer::OpenFiles()
 
 void PipelineContainer::RemovePipeline()
 {
-    //emit removeEmited(this);
+    emit removeEmited(this);
 }
 
 void PipelineContainer::contextMenuEvent(QContextMenuEvent *event)

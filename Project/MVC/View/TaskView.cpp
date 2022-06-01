@@ -3,10 +3,12 @@
 #include "../Controller/Manager/ColorManager.h"
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QDebug>
 
 TaskView::TaskView(QWidget *parent)
     : QWidget{parent}
 {
+    qDebug() << "[CREATED]" << this;
     this->_stacked = new QStackedWidget;
 
     this->_taskManage = new QWidget;
@@ -64,6 +66,11 @@ TaskView::TaskView(QWidget *parent)
     this->setLayout(new QVBoxLayout);
     this->layout()->setContentsMargins(9, 9, 9, 9);
     this->layout()->addWidget(this->_stacked);
+}
+
+TaskView::~TaskView()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 void TaskView::GoToManage()

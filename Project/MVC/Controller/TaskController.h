@@ -18,11 +18,13 @@ public:
     TaskButton* AddTask(Task*);
     TaskButton* GetActiveTaskButton();
     void AddPipelineToActiveTask(Pipeline*);
+    void RemovePipeline(Pipeline*);
 
 private:
     explicit TaskController(QObject *parent = nullptr);
     TaskController(const TaskController&) = delete;
     TaskController& operator=(const TaskController&) = delete;
+    ~TaskController();
 
 private slots:
     void TaskButtonClicked(TaskButton*);

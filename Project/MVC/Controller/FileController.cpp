@@ -1,11 +1,17 @@
 #include "FileController.h"
 
 #include <QFileInfo>
+#include <QDebug>
 
 FileController::FileController(QObject *parent)
     : QObject{parent}
 {
+    qDebug() << "[CREATED]" << this;
+}
 
+FileController::~FileController()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 FileController& FileController::Instance()
@@ -41,4 +47,14 @@ std::pair<CustomFile*, FileContainer*> FileController::CreateNewFile()
     container->SetCustomFile(file);
     this->_files.append(std::make_pair(file, container));
     return std::make_pair(file, container);
+}
+
+CustomFile* FileController::GetFileByView(FileContainer *container)
+{
+    for (auto it = this->_files.begin(); it != this->_files.end(); it++)
+    {
+        if (it->second == container)
+            return it->first;
+    }
+    return nullptr;
 }

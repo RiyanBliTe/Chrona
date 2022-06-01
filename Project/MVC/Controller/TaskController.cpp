@@ -6,7 +6,12 @@
 TaskController::TaskController(QObject *parent)
     : QObject{parent}
 {
+    qDebug() << "[CREATED]" << this;
+}
 
+TaskController::~TaskController()
+{
+    qDebug() << "[DELETED]" << this;
 }
 
 TaskController& TaskController::Instance()
@@ -101,6 +106,17 @@ void TaskController::AddPipelineToActiveTask(Pipeline *pipeline)
         if (it->second->IsFocused())
         {
             it->first->AddPipeline(pipeline);
+        }
+    }
+}
+
+void TaskController::RemovePipeline(Pipeline *pipeline)
+{
+    for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
+    {
+        if (it->first->HasPipeline(pipeline))
+        {
+            it->first->RemovePipeline(pipeline);
         }
     }
 }

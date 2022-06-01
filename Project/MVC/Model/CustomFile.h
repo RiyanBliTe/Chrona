@@ -8,6 +8,7 @@ class CustomFile : public QObject
     Q_OBJECT
 public:
     explicit CustomFile(QObject *parent = nullptr);
+    ~CustomFile();
 
     void SetName(QString);
     void SetPath(QString);

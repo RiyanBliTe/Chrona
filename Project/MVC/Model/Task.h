@@ -11,6 +11,7 @@ class Task : public QObject
     Q_OBJECT
 public:
     explicit Task(QObject *parent = nullptr);
+    ~Task();
 
 public:
     void SetID(QString);
@@ -20,6 +21,9 @@ public:
     QString& GetID();
     QString& GetName();
     QList<Pipeline*>& GetPipelines();
+
+    bool HasPipeline(Pipeline*);
+    void RemovePipeline(Pipeline*);
 
 private:
     QString _id;

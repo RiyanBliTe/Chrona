@@ -1,4 +1,5 @@
 #include "CustomFile.h"
+#include <QDebug>
 
 CustomFile::CustomFile(QObject *parent)
     : QObject{parent}
@@ -7,7 +8,14 @@ CustomFile::CustomFile(QObject *parent)
     , _preRunArguments("")
     , _runArguments("")
     , indexType(0)
-{}
+{
+    qDebug() << "[CREATED]" << this;
+}
+
+CustomFile::~CustomFile()
+{
+    qDebug() << "[DELETED]" << this;
+}
 
 void CustomFile::SetName(QString value)
 {

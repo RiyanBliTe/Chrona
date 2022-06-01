@@ -3,6 +3,9 @@
 
 #include "Popup.h"
 
+#include "../../Model/CustomFile.h"
+#include "../Button/SectionButton.h"
+
 #include <QLineEdit>
 #include <QComboBox>
 
@@ -10,7 +13,8 @@ class FileInfoPopup : public Popup
 {
     Q_OBJECT
 public:
-    FileInfoPopup(QWidget *parent = nullptr);
+    FileInfoPopup(QWidget *parent = nullptr, CustomFile *_file = nullptr);
+    ~FileInfoPopup();
 
 private slots:
     void CancelClicked();
@@ -25,11 +29,13 @@ private:
     QLineEdit *_filePath;
     QLineEdit *_preRunArguments;
     QLineEdit *_runArguments;
-    QComboBox *_runCodition;
+    SectionButton *_runCodition;
 
     QPushButton *_browse;
     QPushButton *_save;
     QPushButton *_cancel;
+
+    CustomFile *_file;
 };
 
 #endif // FILEINFOPOPUP_H

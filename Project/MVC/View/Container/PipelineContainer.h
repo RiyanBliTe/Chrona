@@ -11,6 +11,7 @@ class PipelineContainer : public QWidget
     Q_OBJECT
 public:
     explicit PipelineContainer(QWidget *parent = nullptr);
+    ~PipelineContainer();
 
 public:
     void AddFile(FileContainer*);

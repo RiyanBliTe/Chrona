@@ -10,6 +10,7 @@ class Pipeline : public QObject
     Q_OBJECT
 public:
     explicit Pipeline(QObject *parent = nullptr);
+    ~Pipeline();
 
 public:
     void AddFile(CustomFile*);

@@ -6,10 +6,18 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QDomDocument>
+#include <QDebug>
 
 SaveManager::SaveManager(QObject *parent)
     : QObject{parent}
-{}
+{
+    qDebug() << "[CREATED]" << this;
+}
+
+SaveManager::~SaveManager()
+{
+    qDebug() << "[DELETED]" << this;
+}
 
 SaveManager& SaveManager::Instance()
 {

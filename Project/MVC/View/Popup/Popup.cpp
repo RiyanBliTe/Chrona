@@ -2,6 +2,7 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QDebug>
 
 Popup::Popup(QWidget *parent)
     : QWidget{parent}
@@ -17,12 +18,14 @@ Popup::Popup(QWidget *parent)
     , _separator(nullptr)
     , _centerWidget(nullptr)
 {
+    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
 }
 
 Popup::~Popup()
 {
+    qDebug() << "[DELETED]" << this;
     if (this->_widthAnimation != nullptr)
         delete this->_widthAnimation;
     if (this->_heightAnimation != nullptr)
@@ -168,6 +171,10 @@ void Popup::closePopup()
 void Popup::showEvent(QShowEvent *event)
 {
     (void)event;
+
+    this->_topPanel->hide();
+    this->_centerWidget->hide();
+    this->_separator->hide();
 
     if (this->_widthAnimation->state() == QPropertyAnimation::Running)
     {

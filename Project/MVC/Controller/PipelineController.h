@@ -17,11 +17,13 @@ public:
     std::pair<Pipeline*, PipelineContainer*> LoadPipeline(QDomElement&);
     std::pair<Pipeline*, PipelineContainer*> CreateNewPipeline();
     void AddFileToPipeline(PipelineContainer*, CustomFile*);
+    Pipeline* GetPipelineByView(PipelineContainer*);
 
 private:
     explicit PipelineController(QObject *parent = nullptr);
     PipelineController(const PipelineController&) = delete;
     PipelineController& operator=(const PipelineController&) = delete;
+    ~PipelineController();
 
 private:
     QList<std::pair<Pipeline*, PipelineContainer*>> _pipelines;

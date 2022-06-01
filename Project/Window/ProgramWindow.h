@@ -26,9 +26,11 @@ public:
     void SetActiveTaskViewWidget(int);
     void GenerateTaskConstructor(TaskButton*);
     void AddPipelineByIndex(PipelineContainer*, int);
+    void SetComputerInfo(QString, QString);
 
     void ShowBackButton();
     void HideBackButton();
+    void ShowFilePopup(FileContainer*);
 
 protected:
     void resizeEvent(QResizeEvent*);

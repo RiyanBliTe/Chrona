@@ -18,6 +18,7 @@ private:
     explicit NetworkManager(QObject *parent = nullptr);
     NetworkManager(const NetworkManager&) = delete;
     NetworkManager& operator=(const NetworkManager&) = delete;
+    ~NetworkManager();
 };
 
 #endif // NETWORKMANAGER_H

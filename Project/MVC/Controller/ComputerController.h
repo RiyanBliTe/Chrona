@@ -26,6 +26,7 @@ private:
     explicit ComputerController(QObject *parent = nullptr);
     ComputerController(const ComputerController&) = delete;
     ComputerController& operator=(const ComputerController&) = delete;
+    ~ComputerController();
 
 private slots:
     void ComputerButtonClicked(ComputerButton*);

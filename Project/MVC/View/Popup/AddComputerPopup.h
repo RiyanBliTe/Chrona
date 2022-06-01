@@ -10,6 +10,7 @@ class AddComputerPopup : public Popup
     Q_OBJECT
 public:
     AddComputerPopup(QWidget *parent = nullptr);
+    ~AddComputerPopup();
 
 private slots:
     void connectButtonPressed();
