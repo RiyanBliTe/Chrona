@@ -19,6 +19,10 @@ public:
     Popup(QWidget *parent = nullptr);
     virtual ~Popup();
 
+public:
+    void SetHeightOFFSET(double);
+    double GetHeightOFFSET();
+
 signals:
     void popupClosed();
     void closeButtonPressed();
@@ -38,9 +42,6 @@ protected slots:
 private:
     void SetWidthOFFSET(double);
     double GetWidthOFFSET();
-
-    void SetHeightOFFSET(double);
-    double GetHeightOFFSET();
 
     void SetOpacityOFFSET(int);
     int GetOpacityOFFSET();

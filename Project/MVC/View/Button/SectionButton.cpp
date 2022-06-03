@@ -86,8 +86,8 @@ void SectionButton::mouseReleaseEvent(QMouseEvent* event)
                     this->_animation->setStartValue(this->_selectedOffset);
                     this->_animation->setEndValue(this->_sections[i].x);
                     this->_animation->start();
-                    emit selectionChanged(this->_sections[i].id);
                     this->_activeSection = this->_sections[i].id;
+                    emit selectionChanged(this->_sections[i].id);
                     repaint();
                 }
                 break;

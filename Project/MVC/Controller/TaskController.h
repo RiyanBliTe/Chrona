@@ -15,10 +15,14 @@ public:
     static TaskController& Instance();
 
     std::pair<Task*, TaskButton*> LoadTask(QDomElement&);
+    void AfterLoad();
     TaskButton* AddTask(Task*);
     TaskButton* GetActiveTaskButton();
     void AddPipelineToActiveTask(Pipeline*);
     void RemovePipeline(Pipeline*);
+    void Update();
+    TaskButton* GetTaskButtonByTask(Task*);
+    QList<std::pair<Task*, TaskButton*>> &GetTaskList();
 
 private:
     explicit TaskController(QObject *parent = nullptr);

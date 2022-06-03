@@ -1,21 +1,17 @@
 #include "FileContainer.h"
 #include "../../../Window/ProgramWindow.h"
 #include <QPainter>
-#include <QDebug>
 
 FileContainer::FileContainer(QWidget *parent)
     : QWidget{parent}
     , _image(":/Image/file_idle.png")
     , _file(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     setFixedSize(_image.size());
 }
 
 FileContainer::~FileContainer()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void FileContainer::GenerateImage(QString value)
 {

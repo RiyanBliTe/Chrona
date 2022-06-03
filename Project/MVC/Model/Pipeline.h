@@ -14,11 +14,15 @@ public:
 
 public:
     void AddFile(CustomFile*);
+    void SetFinished(bool);
 
     QList<CustomFile*>& GetFiles();
+    bool IsFinished();
+    void Reset();
 
 private:
     QList<CustomFile*> _files;
+    bool isFinished;
 };
 
 #endif // PIPELINE_H

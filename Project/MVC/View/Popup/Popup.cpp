@@ -18,14 +18,12 @@ Popup::Popup(QWidget *parent)
     , _separator(nullptr)
     , _centerWidget(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
 }
 
 Popup::~Popup()
 {
-    qDebug() << "[DELETED]" << this;
     if (this->_widthAnimation != nullptr)
         delete this->_widthAnimation;
     if (this->_heightAnimation != nullptr)

@@ -16,5 +16,10 @@
         <file>Image/welcome_logo.png</file>
         <file>Font/Sen/Sen-Regular.ttf</file>
         <file>Image/icon_search.svg</file>
+        <file>Image/status_failed.png</file>
+        <file>Image/status_idle.png</file>
+        <file>Image/status_success.png</file>
+        <file>Image/status_waitwork.png</file>
+        <file>Image/status_working.png</file>
     </qresource>
 </RCC>

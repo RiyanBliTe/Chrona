@@ -6,14 +6,10 @@
 
 NetworkManager::NetworkManager(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 NetworkManager::~NetworkManager()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 NetworkManager& NetworkManager::Instance()
 {

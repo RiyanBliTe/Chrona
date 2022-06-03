@@ -1,6 +1,5 @@
 #include "TaskButton.h"
 #include "../../Controller/Manager/ColorManager.h"
-#include <QDebug>
 
 TaskButton::TaskButton(QWidget *parent)
     : QWidget{parent}
@@ -8,29 +7,26 @@ TaskButton::TaskButton(QWidget *parent)
     , _mainButtonColor(ColorManager::Instance().GetTaskButtonCloseButtonColors().idle)
     , _textColor(ColorManager::Instance().GetTaskButtonColors().color)
     , _buttonText("Button")
-    , _buttonStatus(TaskStatus::IDLE)
+    , _buttonStatus(Task::TaskStatus::IDLE)
     , _isPress(false)
     , _isMouseInCloseButton(false)
     , _isFocused(false)
     , _task(nullptr)
     , _stackedIndex(-1)
 {
-    qDebug() << "[CREATED]" << this;
     setFixedHeight(40);
     setMouseTracking(true);
 }
 
 TaskButton::~TaskButton()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
-void TaskButton::SetStatus(TaskStatus value)
+void TaskButton::SetStatus(Task::TaskStatus value)
 {
     this->_buttonStatus = value;
 }
 
-TaskButton::TaskStatus TaskButton::GetStatus()
+Task::TaskStatus TaskButton::GetStatus()
 {
     return this->_buttonStatus;
 }
@@ -181,17 +177,20 @@ void TaskButton::paintEvent(QPaintEvent* event)
     // draw status idicator
     switch (this->GetStatus())
     {
-    case TaskButton::TaskStatus::IDLE:
+    case Task::TaskStatus::IDLE:
         painter.setBrush(QColor("#7C7C7C"));
         break;
-    case TaskButton::TaskStatus::RUNNING:
+    case Task::TaskStatus::RUNNING:
         painter.setBrush(QColor("#FBBE20"));
         break;
-    case TaskButton::TaskStatus::SUCCESS:
+    case Task::TaskStatus::SUCCESS:
         painter.setBrush(QColor("#189C3D"));
         break;
-    case TaskButton::TaskStatus::FAILED:
+    case Task::TaskStatus::FAILED:
         painter.setBrush(QColor("#E11E1E"));
+        break;
+    case Task::TaskStatus::STARTWAIT:
+        painter.setBrush(QColor("#00B2FF"));
         break;
     }
     painter.drawEllipse(QRect(10,

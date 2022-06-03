@@ -1,22 +1,18 @@
 #include "AddTaskPopup.h"
 
 #include <QVBoxLayout>
-#include <QDebug>
 
 AddTaskPopup::AddTaskPopup(QWidget *parent)
     : Popup{parent}
     , _taskName(nullptr)
     , _addButton(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
 }
 
 AddTaskPopup::~AddTaskPopup()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void AddTaskPopup::SetMemory()
 {

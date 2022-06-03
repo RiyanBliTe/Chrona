@@ -1,24 +1,23 @@
 #include "ProgramWindow.h"
 #include "ui_ProgramWindow.h"
-#include <QDebug>
 #include "../MVC/Controller/Manager/SaveManager.h"
 #include "../MVC/Controller/Manager/PopupManager.h"
 #include "../MVC/Controller/ComputerController.h"
 #include "../MVC/Controller/TaskController.h"
 #include "../MVC/Controller/FileController.h"
+#include <QMenu>
 
 ProgramWindow::ProgramWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::ProgramWindow)
+    ui(new Ui::ProgramWindow),
+    _needToClose(false)
 {
-    qDebug() << "[CREATED]" << this;
     ui->setupUi(this);
     SetupView();
 }
 
 ProgramWindow::~ProgramWindow()
 {
-    qDebug() << "[DELETED]" << this;
     delete ui;
 }
 
@@ -30,14 +29,57 @@ ProgramWindow& ProgramWindow::Instance()
 
 void ProgramWindow::SetupView()
 {
+    this->_trayMenu = new QMenu();
+    this->_trayMenu->setStyleSheet("QMenu\
+                                   {\
+                                       background-color: rgb(40, 40, 40);\
+                                       border-radius: 4px;\
+                                       padding: 5px 1px;\
+                                   }\
+                                   QMenu::item \
+                                   {\
+                                       background-color: transparent;\
+                                       padding: 5px 10px;\
+                                       margin: 2px 0px;\
+                                       color: white;\
+                                   }\
+                                   QMenu::item:selected \
+                                   {\
+                                       background-color: #76B39D;\
+                                   }");
+    this->_trayMenu->addAction("Exit", this, &ProgramWindow::TrayMenuClose);
+    this->_systemTrayIcon = new QSystemTrayIcon(this);
+    this->_systemTrayIcon->setIcon(QIcon(":/Image/icon_logo.svg"));
+    this->_systemTrayIcon->setVisible(true);
+    this->_systemTrayIcon->setToolTip("Chrona");
+    this->_systemTrayIcon->setContextMenu(this->_trayMenu);
+    connect(this->_systemTrayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason)
+    {
+        if (reason == QSystemTrayIcon::DoubleClick)
+        {
+            if (!this->isVisible())
+            {
+                this->show();
+            }
+            else
+            {
+                this->showMaximized();
+            }
+        }
+
+    });
+
     this->_taskStackedWidget = new QStackedWidget;
     ui->TasksWidget->layout()->addWidget(this->_taskStackedWidget);
 
     this->_taskViewStackedWidget = new QStackedWidget;
     ui->TaskViewWidget->layout()->addWidget(this->_taskViewStackedWidget);
+    ui->TopNotificationButton->hide();
 
     ui->TopBackButton->hide();
     connect(ui->TopBackButton, &QPushButton::clicked, this, &ProgramWindow::BackButtonClicked);
+    ui->DeployButton->hide();
+    connect(ui->DeployButton, &QPushButton::clicked, this, &ProgramWindow::DeployButtonClicked);
 
     this->_settingsButton = new ComputerButton;
     this->_settingsButton->SetLeftPanelEnabled(false);
@@ -130,6 +172,49 @@ void ProgramWindow::SetActiveTaskViewWidget(int index)
     }
 }
 
+void ProgramWindow::AddHistoryToTaskButton(TaskButton* taskButton, Task::StatisticLineData *data)
+{
+    for (auto it = this->_tasksViewList.begin(); it != this->_tasksViewList.end(); it++)
+    {
+        if (it->second == taskButton->GetStackedIndex())
+        {
+            it->first->AddHistory(data);
+        }
+    }
+}
+
+void ProgramWindow::ChangeStatus(TaskButton* taskButton)
+{
+    for (auto it = this->_tasksViewList.begin(); it != this->_tasksViewList.end(); it++)
+    {
+        if (it->second == taskButton->GetStackedIndex())
+        {
+            QString status = "Idle";
+            if (taskButton->GetTask()->GetStatus() == Task::TaskStatus::IDLE)
+            {
+                status = "Idle";
+            }
+            else if (taskButton->GetTask()->GetStatus() == Task::TaskStatus::STARTWAIT)
+            {
+                status = "Wait";
+            }
+            else if (taskButton->GetTask()->GetStatus() == Task::TaskStatus::RUNNING)
+            {
+                status = "Working";
+            }
+            else if (taskButton->GetTask()->GetStatus() == Task::TaskStatus::SUCCESS)
+            {
+                status = "Success";
+            }
+            else if (taskButton->GetTask()->GetStatus() == Task::TaskStatus::FAILED)
+            {
+                status = "Failed";
+            }
+            it->first->ChangeStatus(status);
+        }
+    }
+}
+
 void ProgramWindow::GenerateTaskConstructor(TaskButton *button)
 {
     button->SetStackedIndex(GenerateTaskViewWidget());
@@ -159,11 +244,15 @@ void ProgramWindow::SetComputerInfo(QString name, QString ip)
 void ProgramWindow::ShowBackButton()
 {
     ui->TopBackButton->show();
+    ui->DeployButton->show();
+    ui->TopTitle->setText("Edit Task");
 }
 
 void ProgramWindow::HideBackButton()
 {
     ui->TopBackButton->hide();
+    ui->DeployButton->hide();
+    ui->TopTitle->setText("Manage Task");
 }
 
 void ProgramWindow::ShowFilePopup(FileContainer *container)
@@ -177,6 +266,16 @@ void ProgramWindow::ShowFilePopup(FileContainer *container)
         this->_popupManager->PushPopup(PopupManager::PopupType::FILEINFO);
         this->_popupManager->show();
     }
+}
+
+PopupManager* ProgramWindow::GetPopupManager()
+{
+    return this->_popupManager;
+}
+
+void ProgramWindow::ShowSystemTrayMessage(QString title, QString message, bool style)
+{
+    this->_systemTrayIcon->showMessage("Chrona", title + "\n" + message, style ? QSystemTrayIcon::Information : QSystemTrayIcon::Warning, 2000);
 }
 
 void ProgramWindow::AddTaskButtonClicked()
@@ -223,6 +322,7 @@ void ProgramWindow::SaveButtonClicked()
 void ProgramWindow::BackButtonClicked()
 {
     ui->TopBackButton->hide();
+    ui->DeployButton->hide();
     int index = TaskController::Instance().GetActiveTaskButton()->GetStackedIndex();
     for (auto it = this->_tasksViewList.begin(); it != this->_tasksViewList.end(); it++)
     {
@@ -232,6 +332,20 @@ void ProgramWindow::BackButtonClicked()
             break;
         }
     }
+}
+
+void ProgramWindow::DeployButtonClicked()
+{
+    this->_popupManager->setGeometry(0, 0, width(), height());
+    this->_popupManager->raise();
+    this->_popupManager->PushPopup(PopupManager::PopupType::DEPLOY);
+    this->_popupManager->show();
+}
+
+void ProgramWindow::TrayMenuClose()
+{
+    this->_needToClose = true;
+    close();
 }
 
 void ProgramWindow::AddTaskTriger(QString id, QString name)
@@ -249,4 +363,15 @@ void ProgramWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
     this->_popupManager->setGeometry(0, 0, width(), height());
     this->_popupManager->Update();
+}
+
+void ProgramWindow::closeEvent(QCloseEvent *event)
+{
+    if(this->isVisible() && !this->_needToClose)
+    {
+        event->ignore();
+        this->hide();
+
+        this->_systemTrayIcon->showMessage("Chrona", "Application minimized to system tray", QSystemTrayIcon::Information, 2000);
+     }
 }

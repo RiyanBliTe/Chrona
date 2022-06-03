@@ -2,17 +2,13 @@
 #include "Manager/NetworkManager.h"
 #include "TaskController.h"
 #include "../../Window/ProgramWindow.h"
-#include <QDebug>
 
 ComputerController::ComputerController(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 ComputerController::~ComputerController()
 {
-    qDebug() << "[DELETED]" << this;
     for (auto it = this->_computers.begin(); it != this->_computers.end(); it++)
     {
         delete it->first;

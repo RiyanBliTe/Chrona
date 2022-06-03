@@ -1,7 +1,6 @@
 #include "PopupManager.h"
 
 #include <QMouseEvent>
-#include <QDebug>
 
 PopupManager::PopupManager(QWidget *parent)
     : QWidget{parent}
@@ -10,7 +9,6 @@ PopupManager::PopupManager(QWidget *parent)
     , _needBackground(true)
     , _file(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
     hide();
@@ -18,7 +16,6 @@ PopupManager::PopupManager(QWidget *parent)
 
 PopupManager::~PopupManager()
 {
-    qDebug() << "[DELETED]" << this;
     while (!this->_popupStack.empty())
     {
         Popup *popup = this->_popupStack.pop();
@@ -59,6 +56,9 @@ void PopupManager::PushPopup(PopupType value)
         break;
     case PopupManager::PopupType::FILEINFO:
         popup = new FileInfoPopup(this, this->_file);
+        break;
+    case PopupManager::PopupType::DEPLOY:
+        popup = new DeployTaskPopup(this);
         break;
     }
 

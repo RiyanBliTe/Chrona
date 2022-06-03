@@ -17,16 +17,8 @@ public:
     ~TaskButton();
 
 public:
-    enum class TaskStatus
-    {
-        IDLE,
-        RUNNING,
-        SUCCESS,
-        FAILED
-    };
-
-    void SetStatus(TaskStatus);
-    TaskStatus GetStatus();
+    void SetStatus(Task::TaskStatus);
+    Task::TaskStatus GetStatus();
 
     void SetText(QString&);
     QString& GetText();
@@ -58,7 +50,7 @@ private:
     QString _textColor;
     QString _buttonText;
 
-    TaskStatus _buttonStatus;
+    Task::TaskStatus _buttonStatus;
 
     bool _isPress;
     bool _isMouseInCloseButton;

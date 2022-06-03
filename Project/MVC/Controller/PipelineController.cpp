@@ -1,17 +1,12 @@
 #include "PipelineController.h"
 #include "FileController.h"
-#include <QDebug>
 
 PipelineController::PipelineController(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 PipelineController::~PipelineController()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 PipelineController& PipelineController::Instance()
 {
@@ -23,6 +18,8 @@ std::pair<Pipeline*, PipelineContainer*> PipelineController::LoadPipeline(QDomEl
 {
     // attributes
     Pipeline *pipeline = new Pipeline;
+    bool isF = element.attribute("RunStatus", 0).toInt();
+    pipeline->SetFinished(isF);
 
     // pipeline container
     PipelineContainer *pipelineContainer = new PipelineContainer;
@@ -73,4 +70,12 @@ Pipeline* PipelineController::GetPipelineByView(PipelineContainer *view)
         }
     }
     return nullptr;
+}
+
+void PipelineController::Update()
+{
+    for (auto it = this->_pipelines.begin(); it != this->_pipelines.end(); it++)
+    {
+        it->second->update();
+    }
 }

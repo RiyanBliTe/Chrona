@@ -6,8 +6,10 @@
 #include "../MVC/Controller/Manager/PopupManager.h"
 #include "../MVC/View/TaskView.h"
 
+#include <QMenu>
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QSystemTrayIcon>
 
 namespace Ui {
 class ProgramWindow;
@@ -24,6 +26,8 @@ public:
     void AddTaskByIndex(int, TaskButton*);
     void SetActiveTaskWidget(int);
     void SetActiveTaskViewWidget(int);
+    void AddHistoryToTaskButton(TaskButton*, Task::StatisticLineData*);
+    void ChangeStatus(TaskButton*);
     void GenerateTaskConstructor(TaskButton*);
     void AddPipelineByIndex(PipelineContainer*, int);
     void SetComputerInfo(QString, QString);
@@ -31,9 +35,12 @@ public:
     void ShowBackButton();
     void HideBackButton();
     void ShowFilePopup(FileContainer*);
+    PopupManager* GetPopupManager();
+    void ShowSystemTrayMessage(QString, QString, bool);
 
 protected:
     void resizeEvent(QResizeEvent*);
+    void closeEvent(QCloseEvent*);
 
 private:
     explicit ProgramWindow(QWidget *parent = nullptr);
@@ -54,6 +61,8 @@ private slots:
     void AddComputerTriger(QString, QString);
     void SaveButtonClicked();
     void BackButtonClicked();
+    void DeployButtonClicked();
+    void TrayMenuClose();
 
 private:
     Ui::ProgramWindow *ui;
@@ -67,6 +76,10 @@ private:
     ComputerButton *_addComputerButton;
 
     PopupManager *_popupManager;
+
+    QSystemTrayIcon *_systemTrayIcon;
+    QMenu *_trayMenu;
+    bool _needToClose;
 };
 
 #endif // PROGRAMWINDOW_H

@@ -1,18 +1,13 @@
 #include "FileController.h"
 
 #include <QFileInfo>
-#include <QDebug>
 
 FileController::FileController(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 FileController::~FileController()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 FileController& FileController::Instance()
 {
@@ -29,6 +24,7 @@ std::pair<CustomFile*, FileContainer*> FileController::LoadFile(QDomElement &ele
     file->SetPreRunArguments(element.attribute("PreRun", ""));
     file->SetRunArguments(element.attribute("Run", ""));
     file->SetIndexType(std::atoi(element.attribute("Type", "0").toStdString().c_str()));
+    file->SetStatus(element.attribute("RunStatus", 0).toInt());
 
     // file widget
     FileContainer *container = new FileContainer;

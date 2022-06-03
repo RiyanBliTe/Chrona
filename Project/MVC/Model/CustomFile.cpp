@@ -1,5 +1,4 @@
 #include "CustomFile.h"
-#include <QDebug>
 
 CustomFile::CustomFile(QObject *parent)
     : QObject{parent}
@@ -8,14 +7,11 @@ CustomFile::CustomFile(QObject *parent)
     , _preRunArguments("")
     , _runArguments("")
     , indexType(0)
-{
-    qDebug() << "[CREATED]" << this;
-}
+    , _status(true)
+{}
 
 CustomFile::~CustomFile()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void CustomFile::SetName(QString value)
 {
@@ -42,6 +38,11 @@ void CustomFile::SetIndexType(int value)
     this->indexType = value;
 }
 
+void CustomFile::SetStatus(bool value)
+{
+    this->_status = value;
+}
+
 QString& CustomFile::GetName()
 {
     return this->_name;
@@ -65,4 +66,14 @@ QString& CustomFile::GetRunArguments()
 int CustomFile::GetIndexType()
 {
     return this->indexType;
+}
+
+bool CustomFile::GetStatus()
+{
+    return this->_status;
+}
+
+void CustomFile::Reset()
+{
+    this->_status = true;
 }

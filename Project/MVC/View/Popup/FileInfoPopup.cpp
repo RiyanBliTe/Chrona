@@ -2,7 +2,6 @@
 
 #include <QVBoxLayout>
 #include <QFileDialog>
-#include <QDebug>
 
 FileInfoPopup::FileInfoPopup(QWidget *parent, CustomFile *file)
     : Popup{parent}
@@ -16,15 +15,12 @@ FileInfoPopup::FileInfoPopup(QWidget *parent, CustomFile *file)
     , _cancel(nullptr)
     , _file(file)
 {
-    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
 }
 
 FileInfoPopup::~FileInfoPopup()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void FileInfoPopup::SetMemory()
 {

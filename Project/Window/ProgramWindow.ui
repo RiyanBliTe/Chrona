@@ -674,8 +674,11 @@ background-repeat: no-repeat;</string>
           </font>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>15</number>
+          </property>
           <property name="leftMargin">
-           <number>14</number>
+           <number>10</number>
           </property>
           <item>
            <widget class="QPushButton" name="TopBackButton">
@@ -724,6 +727,45 @@ QPushButton:pressed { background-color: rgb(118, 179, 157); }</string>
             </property>
             <property name="text">
              <string>Manage Task</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="DeployButton">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>28</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton 
+{	
+	color: rgb(248, 248, 248);
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	text-align: center;
+	background-color: rgb(64, 67, 73);
+}
+
+QPushButton:hover { background-color: rgb(30, 32, 35); }
+QPushButton:pressed { background-color: rgb(118, 179, 157); }</string>
+            </property>
+            <property name="text">
+             <string>Deploy</string>
             </property>
            </widget>
           </item>

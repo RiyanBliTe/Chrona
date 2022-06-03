@@ -9,15 +9,12 @@ AddComputerPopup::AddComputerPopup(QWidget *parent)
     , _machineIP(nullptr)
     , _connectButton(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     SetMemory();
     SetupModules();
 }
 
 AddComputerPopup::~AddComputerPopup()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void AddComputerPopup::SetMemory()
 {

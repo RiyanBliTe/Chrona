@@ -10,14 +10,10 @@
 
 SaveManager::SaveManager(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 SaveManager::~SaveManager()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 SaveManager& SaveManager::Instance()
 {
@@ -99,11 +95,26 @@ void SaveManager::Save()
             QDomElement taskElement = document.createElement("Task");
             taskElement.setAttribute("ID", (*taskIterator)->GetID());
             taskElement.setAttribute("Name", (*taskIterator)->GetName());
+            taskElement.setAttribute("RunStatus", (*taskIterator)->GetStatus() == Task::TaskStatus::IDLE ? 0 : 1);
+
+            const QList<std::pair<bool, Task::StatisticLineData*>> &history = (*taskIterator)->GetHistoryLine();
+            for (auto historyOne = history.begin(); historyOne != history.end(); historyOne++)
+            {
+                QDomElement historyElement = document.createElement("HistoryResult");
+                historyElement.setAttribute("LaunchedBy", historyOne->second->who_launched);
+                historyElement.setAttribute("Status", historyOne->second->indicatorLabel);
+                historyElement.setAttribute("Creator", historyOne->second->who_created);
+                historyElement.setAttribute("DelpoyTime", historyOne->second->post_time);
+                historyElement.setAttribute("StartTime", historyOne->second->start_time);
+
+                taskElement.appendChild(historyElement);
+            }
 
             const QList<Pipeline*> &pipelines = (*taskIterator)->GetPipelines();
             for (auto pipelineIterator = pipelines.begin(); pipelineIterator != pipelines.end(); pipelineIterator++)
             {
                 QDomElement pipelineElement = document.createElement("Pipeline");
+                pipelineElement.setAttribute("RunStatus", (*pipelineIterator)->IsFinished());
 
                 const QList<CustomFile*> &files = (*pipelineIterator)->GetFiles();
                 for (auto fileIterator = files.begin(); fileIterator != files.end(); fileIterator++)
@@ -114,6 +125,7 @@ void SaveManager::Save()
                     fileElement.setAttribute("PreRun", (*fileIterator)->GetPreRunArguments());
                     fileElement.setAttribute("Run", (*fileIterator)->GetRunArguments());
                     fileElement.setAttribute("Type", (*fileIterator)->GetIndexType());
+                    fileElement.setAttribute("RunStatus", (*fileIterator)->GetStatus());
 
                     pipelineElement.appendChild(fileElement);
                 }

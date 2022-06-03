@@ -1,5 +1,4 @@
 #include "Computer.h"
-#include <QDebug>
 
 Computer::Computer(QObject *parent)
     : QObject{parent}
@@ -8,13 +7,10 @@ Computer::Computer(QObject *parent)
     , _mac("")
     , _uniqueID("")
     , _isThisComputer(false)
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 Computer::~Computer()
 {
-    qDebug() << "[DELETED]" << this;
     for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
     {
         delete *it;

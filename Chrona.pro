@@ -15,11 +15,14 @@ SOURCES += \
     Project/MVC/Controller/Manager/NetworkManager.cpp \
     Project/MVC/Controller/Manager/PopupManager.cpp \
     Project/MVC/Controller/Manager/SaveManager.cpp \
+    Project/MVC/Controller/Manager/StartupManager.cpp \
     Project/MVC/Controller/PipelineController.cpp \
     Project/MVC/Controller/TaskController.cpp \
     Project/MVC/Model/Computer.cpp \
     Project/MVC/Model/CustomFile.cpp \
+    Project/MVC/Model/CustomTimer.cpp \
     Project/MVC/Model/Pipeline.cpp \
+    Project/MVC/Model/Starter.cpp \
     Project/MVC/Model/Task.cpp \
     Project/MVC/View/Button/ComputerButton.cpp \
     Project/MVC/View/Button/SectionButton.cpp \
@@ -27,8 +30,10 @@ SOURCES += \
     Project/MVC/View/Constructor.cpp \
     Project/MVC/View/Container/FileContainer.cpp \
     Project/MVC/View/Container/PipelineContainer.cpp \
+    Project/MVC/View/CustomTabel.cpp \
     Project/MVC/View/Popup/AddComputerPopup.cpp \
     Project/MVC/View/Popup/AddTaskPopup.cpp \
+    Project/MVC/View/Popup/DeployTaskPopup.cpp \
     Project/MVC/View/Popup/FileInfoPopup.cpp \
     Project/MVC/View/Popup/Popup.cpp \
     Project/MVC/View/Popup/SettingsPopup.cpp \
@@ -44,11 +49,14 @@ HEADERS += \
     Project/MVC/Controller/Manager/NetworkManager.h \
     Project/MVC/Controller/Manager/PopupManager.h \
     Project/MVC/Controller/Manager/SaveManager.h \
+    Project/MVC/Controller/Manager/StartupManager.h \
     Project/MVC/Controller/PipelineController.h \
     Project/MVC/Controller/TaskController.h \
     Project/MVC/Model/Computer.h \
     Project/MVC/Model/CustomFile.h \
+    Project/MVC/Model/CustomTimer.h \
     Project/MVC/Model/Pipeline.h \
+    Project/MVC/Model/Starter.h \
     Project/MVC/Model/Task.h \
     Project/MVC/View/Button/ComputerButton.h \
     Project/MVC/View/Button/SectionButton.h \
@@ -56,8 +64,10 @@ HEADERS += \
     Project/MVC/View/Constructor.h \
     Project/MVC/View/Container/FileContainer.h \
     Project/MVC/View/Container/PipelineContainer.h \
+    Project/MVC/View/CustomTabel.h \
     Project/MVC/View/Popup/AddComputerPopup.h \
     Project/MVC/View/Popup/AddTaskPopup.h \
+    Project/MVC/View/Popup/DeployTaskPopup.h \
     Project/MVC/View/Popup/FileInfoPopup.h \
     Project/MVC/View/Popup/Popup.h \
     Project/MVC/View/Popup/SettingsPopup.h \
@@ -76,3 +86,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Data/resources.qrc
+
+RC_ICONS = myappicon.ico

@@ -6,6 +6,7 @@
 #include "../../View/Popup/AddComputerPopup.h"
 #include "../../View/Popup/AddTaskPopup.h"
 #include "../../View/Popup/FileInfoPopup.h"
+#include "../../View/Popup/DeployTaskPopup.h"
 
 #include "../../Model/CustomFile.h"
 
@@ -29,7 +30,8 @@ public:
         SETTINGS,
         ADDMACHINE,
         ADDTASK,
-        FILEINFO
+        FILEINFO,
+        DEPLOY
     };
 
     void PushPopup(PopupType);

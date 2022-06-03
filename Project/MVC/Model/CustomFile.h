@@ -15,12 +15,16 @@ public:
     void SetPreRunArguments(QString);
     void SetRunArguments(QString);
     void SetIndexType(int);
+    void SetStatus(bool);
 
     QString& GetName();
     QString& GetPath();
     QString& GetPreRunArguments();
     QString& GetRunArguments();
     int GetIndexType();
+    bool GetStatus();
+
+    void Reset();
 
 private:
     QString _name;
@@ -28,6 +32,8 @@ private:
     QString _preRunArguments;
     QString _runArguments;
     int indexType;
+
+    bool _status;
 };
 
 #endif // CUSTOMFILE_H

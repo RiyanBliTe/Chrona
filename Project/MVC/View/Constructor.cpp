@@ -8,21 +8,17 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QContextMenuEvent>
-#include <QDebug>
 
 Constructor::Constructor(QWidget *parent)
     : QWidget{parent}
 {
-    qDebug() << "[CREATED]" << this;
     setLayout(new QVBoxLayout);
     layout()->setContentsMargins(80, 10, 80, 10);
     layout()->setSpacing(35);
 }
 
 Constructor::~Constructor()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void Constructor::AddNewPipeline()
 {
@@ -99,6 +95,7 @@ void Constructor::paintEvent(QPaintEvent*)
         // top
         if ((*it)->y() + (*it)->height() / 2 < leftSphereCenterRight.y() - widthToItem)
         {
+            painter.setPen(QPen(QColor("#589E85"), 2));
             // left side
             painter.drawLine(leftSphereCenterRight,
                              QPoint(leftSphereCenterRight.x() + fourthWidth, leftSphereCenterRight.y()));
@@ -123,6 +120,9 @@ void Constructor::paintEvent(QPaintEvent*)
                              itemLeftCenter.x(),
                              itemLeftCenter.y());
 
+            if (!(*it)->GetPipeline()->IsFinished())
+                painter.setPen(QPen(QColor("#E11E1E"), 2));
+            else painter.setPen(QPen(QColor("#589E85"), 2));
             // right side
             painter.drawLine(itemRightCenter,
                              QPoint(itemRightCenter.x() + fourthWidth, itemRightCenter.y()));
@@ -150,6 +150,7 @@ void Constructor::paintEvent(QPaintEvent*)
         // bottom
         else if ((*it)->y() + (*it)->height() / 2 > leftSphereCenterRight.y() + widthToItem)
         {
+            painter.setPen(QPen(QColor("#589E85"), 2));
             // left side
             painter.drawLine(leftSphereCenterRight,
                              QPoint(leftSphereCenterRight.x() + fourthWidth, leftSphereCenterRight.y()));
@@ -174,6 +175,9 @@ void Constructor::paintEvent(QPaintEvent*)
                              itemLeftCenter.x(),
                              itemLeftCenter.y());
 
+            if (!(*it)->GetPipeline()->IsFinished())
+                painter.setPen(QPen(QColor("#E11E1E"), 2));
+            else painter.setPen(QPen(QColor("#589E85"), 2));
             // right side
             painter.drawLine(itemRightCenter,
                              QPoint(itemRightCenter.x() + fourthWidth, itemRightCenter.y()));
@@ -201,7 +205,11 @@ void Constructor::paintEvent(QPaintEvent*)
         // center
         else
         {
+            painter.setPen(QPen(QColor("#589E85"), 2));
             painter.drawLine(leftSphereCenterRight, itemLeftCenter);
+            if (!(*it)->GetPipeline()->IsFinished())
+                painter.setPen(QPen(QColor("#E11E1E"), 2));
+            else painter.setPen(QPen(QColor("#589E85"), 2));
             painter.drawLine(itemRightCenter, rightSphereCenterLeft);
         }
     }
@@ -209,6 +217,7 @@ void Constructor::paintEvent(QPaintEvent*)
     painter.setPen(this->_panels.isEmpty() ? Qt::NoPen : QPen(QColor("#589E85"), 2));
     painter.setBrush(QColor("#202225"));
     painter.drawEllipse(QRect(3, height() / 2 - sphereRadius, sphereRadius * 2, sphereRadius * 2));
+
     painter.drawEllipse(QRect(width() - sphereRadius * 2 - 1, height() / 2 - sphereRadius, sphereRadius * 2, sphereRadius * 2));
     painter.setPen(QPen(QColor("#F9F8EB"), 1));
     painter.drawText(QPoint(0, height() / 2 - sphereRadius - 10), "Begin");

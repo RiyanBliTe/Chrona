@@ -18,6 +18,7 @@ public:
     std::pair<Pipeline*, PipelineContainer*> CreateNewPipeline();
     void AddFileToPipeline(PipelineContainer*, CustomFile*);
     Pipeline* GetPipelineByView(PipelineContainer*);
+    void Update();
 
 private:
     explicit PipelineController(QObject *parent = nullptr);

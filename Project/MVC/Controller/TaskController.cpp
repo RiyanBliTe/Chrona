@@ -5,19 +5,38 @@
 
 TaskController::TaskController(QObject *parent)
     : QObject{parent}
-{
-    qDebug() << "[CREATED]" << this;
-}
+{}
 
 TaskController::~TaskController()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 TaskController& TaskController::Instance()
 {
     static TaskController instance;
     return instance;
+}
+
+void TaskController::Update()
+{
+    for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
+    {
+        it->second->SetStatus(it->first->GetStatus());
+        it->second->update();
+    }
+}
+
+TaskButton* TaskController::GetTaskButtonByTask(Task *task)
+{
+    for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
+    {
+        if (it->first == task)
+            return it->second;
+    }
+}
+
+QList<std::pair<Task*, TaskButton*>> &TaskController::GetTaskList()
+{
+    return this->_tasks;
 }
 
 std::pair<Task*, TaskButton*> TaskController::LoadTask(QDomElement &element)
@@ -26,11 +45,14 @@ std::pair<Task*, TaskButton*> TaskController::LoadTask(QDomElement &element)
     Task *task = new Task;
     task->SetName(element.attribute("Name", ""));
     task->SetID(element.attribute("ID", ""));
+    bool runStat = element.attribute("RunStatus", 0).toInt();
+    task->SetStatus(!runStat ? Task::TaskStatus::FAILED : Task::TaskStatus::SUCCESS);
 
     // task button
     TaskButton *taskButton = new TaskButton;
     taskButton->SetText(task->GetName());
     taskButton->SetTask(task);
+    taskButton->SetStatus(task->GetStatus());
     static bool isFirst = true;
     if (isFirst)
     {
@@ -43,14 +65,40 @@ std::pair<Task*, TaskButton*> TaskController::LoadTask(QDomElement &element)
     QDomElement pipelineElement = element.firstChild().toElement();
     while (!pipelineElement.isNull())
     {
-        std::pair<Pipeline*, PipelineContainer*> pair = PipelineController::Instance().LoadPipeline(pipelineElement);
-        task->AddPipeline(pair.first);
-        ProgramWindow::Instance().AddPipelineByIndex(pair.second, taskButton->GetStackedIndex());
-        pipelineElement = pipelineElement.nextSibling().toElement();
+        if (pipelineElement.tagName() == "Pipeline")
+        {
+            std::pair<Pipeline*, PipelineContainer*> pair = PipelineController::Instance().LoadPipeline(pipelineElement);
+            task->AddPipeline(pair.first);
+            ProgramWindow::Instance().AddPipelineByIndex(pair.second, taskButton->GetStackedIndex());
+            pipelineElement = pipelineElement.nextSibling().toElement();
+        }
+        else if (pipelineElement.tagName() == "HistoryResult")
+        {
+            Task::StatisticLineData* data = new Task::StatisticLineData;
+            data->who_launched = pipelineElement.attribute("LaunchedBy", "");
+            data->indicatorLabel = pipelineElement.attribute("Status", "Success");
+            data->who_created = pipelineElement.attribute("Creator", "");
+            data->post_time = pipelineElement.attribute("DelpoyTime", "");
+            data->start_time = pipelineElement.attribute("StartTime", "");
+            task->AddHistoryLine(data);
+            //ProgramWindow::Instance().AddHistoryToTaskButton(taskButton, data);
+            pipelineElement = pipelineElement.nextSibling().toElement();
+        }
     }
 
     this->_tasks.append(std::make_pair(task, taskButton));
     return std::make_pair(task, taskButton);
+}
+
+void TaskController::AfterLoad()
+{
+    for (auto it = this->_tasks.begin(); it != this->_tasks.end(); it++)
+    {
+        for (auto it2 = it->first->GetHistoryLine().cbegin(); it2 != it->first->GetHistoryLine().cend(); it2++)
+        {
+            ProgramWindow::Instance().AddHistoryToTaskButton(it->second, it2->second);
+        }
+    }
 }
 
 TaskButton* TaskController::AddTask(Task *task)

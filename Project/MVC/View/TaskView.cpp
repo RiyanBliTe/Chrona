@@ -3,12 +3,12 @@
 #include "../Controller/Manager/ColorManager.h"
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QSpacerItem>
 #include <QDebug>
 
 TaskView::TaskView(QWidget *parent)
     : QWidget{parent}
 {
-    qDebug() << "[CREATED]" << this;
     this->_stacked = new QStackedWidget;
 
     this->_taskManage = new QWidget;
@@ -43,8 +43,14 @@ TaskView::TaskView(QWidget *parent)
     topWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
     topWidget->layout()->addWidget(this->_goToEditButton);
     QWidget *centerWidget = new QWidget;
+    this->_tabel = new CustomTabel;
+    centerWidget->setLayout(new QVBoxLayout);
+    centerWidget->layout()->addWidget(this->_tabel);
+    centerWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+
     this->_taskManage->layout()->addWidget(topWidget);
     this->_taskManage->layout()->addWidget(centerWidget);
+    this->_taskManage->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
     this->_stacked->setCurrentIndex(0);
 
     this->_goToEditButton->setStyleSheet("QPushButton\
@@ -69,9 +75,7 @@ TaskView::TaskView(QWidget *parent)
 }
 
 TaskView::~TaskView()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void TaskView::GoToManage()
 {
@@ -106,4 +110,18 @@ void TaskView::CheckButtonState()
     {
         ProgramWindow::Instance().ShowBackButton();
     }
+}
+
+void TaskView::AddHistory(Task::StatisticLineData *task)
+{
+    this->_tabel->AddLine(task->who_launched,
+                          task->indicatorLabel,
+                          task->who_created,
+                          task->post_time,
+                          task->start_time);
+}
+
+void TaskView::ChangeStatus(QString status)
+{
+    this->_tabel->ChangeStatusOnTop(status);
 }

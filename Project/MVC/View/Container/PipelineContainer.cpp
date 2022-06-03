@@ -3,8 +3,8 @@
 #include "../../Controller/Manager/ColorManager.h"
 #include "../../Controller/FileController.h"
 #include "../../Controller/PipelineController.h"
+#include "../../Controller/TaskController.h"
 
-#include <QDebug>
 #include <QMenu>
 #include <QPainter>
 #include <QFileDialog>
@@ -16,7 +16,6 @@ PipelineContainer::PipelineContainer(QWidget *parent)
     , _buttonRadius(9)
     , _pipeline(nullptr)
 {
-    qDebug() << "[CREATED]" << this;
     setFixedHeight(120);
     setLayout(new QHBoxLayout);
     layout()->setContentsMargins(0, 0, 0, 0);
@@ -29,9 +28,7 @@ PipelineContainer::PipelineContainer(QWidget *parent)
 }
 
 PipelineContainer::~PipelineContainer()
-{
-    qDebug() << "[DELETED]" << this;
-}
+{}
 
 void PipelineContainer::AddFile(FileContainer *item)
 {
@@ -132,7 +129,27 @@ void PipelineContainer::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setPen(QPen(QColor(this->_files.isEmpty() ? "#111111" : "#589E85"), 1));
+    painter.setPen(QPen(QColor(this->_files.isEmpty() ? "#111111" : this->GetPipeline()->IsFinished() ? "#589E85" : "#E11E1E"), 1));
+    if (TaskController::Instance().GetActiveTaskButton()->GetTask()->GetStatus() == Task::TaskStatus::IDLE)
+    {
+        painter.setPen(QPen(QColor("#9DA0A6"), 1));
+    }
+    else if (TaskController::Instance().GetActiveTaskButton()->GetTask()->GetStatus() == Task::TaskStatus::SUCCESS)
+    {
+        painter.setPen(QPen(QColor("#589E85"), 1));
+    }
+    else if (TaskController::Instance().GetActiveTaskButton()->GetTask()->GetStatus() == Task::TaskStatus::STARTWAIT)
+    {
+        painter.setPen(QPen(QColor("#00B2FF"), 1));
+    }
+    else if (TaskController::Instance().GetActiveTaskButton()->GetTask()->GetStatus() == Task::TaskStatus::RUNNING)
+    {
+        painter.setPen(QPen(QColor("#FBBE20"), 1));
+    }
+    else if (TaskController::Instance().GetActiveTaskButton()->GetTask()->GetStatus() == Task::TaskStatus::FAILED && !this->GetPipeline()->IsFinished())
+    {
+        painter.setPen(QPen(QColor("#E11E1E"), 1));
+    }
     painter.setBrush(QColor(ColorManager::Instance().GetCenterPanelColor()));
     painter.drawRoundedRect(QRectF(4, 0, width() - 8, height()), 9, 9);
 
@@ -145,6 +162,21 @@ void PipelineContainer::paintEvent(QPaintEvent*)
     {
         painter.drawLine(prevPoint, QPoint((*it)->x() - 4, (*it)->y() + (*it)->height() / 2));
         painter.drawEllipse(QRect((*it)->x() - 4, (*it)->y() + (*it)->height() / 2 - 4, 8, 8));
+        if (!(*it)->GetCustomFile()->GetStatus())
+        {
+            painter.setPen(QPen(QColor("#E11E1E"), 1));
+            painter.setBrush(QColor("#E11E1E"));
+        }
+        else
+        {
+            painter.setPen(QPen(QColor("#589E85"), 1));
+            painter.setBrush(QColor("#589E85"));
+        }
+        if (it == this->_files.end() - 1 && !this->GetPipeline()->IsFinished())
+        {
+            painter.setPen(QPen(QColor("#E11E1E"), 1));
+            painter.setBrush(QColor("#E11E1E"));
+        }
         painter.drawEllipse(QRect((*it)->x() + (*it)->width() - 4, (*it)->y() + (*it)->height() / 2 - 4, 8, 8));
         prevPoint.setX((*it)->x() + (*it)->width() + 4);
         prevPoint.setY((*it)->y() + (*it)->height() / 2);
